@@ -11,7 +11,6 @@
 NutriFitsta is an app that give anyone interested in health & fitness a platform to keep track of their journey and share their progress with friends and other users. Users can log their lifestyle (i.e. videos or pictures of exercise and meals) into their profile with customizable privacy settings and engage with other users' content. The features for log posts will be detailed to contain information such as calories, recipes, media, etc.
 
 ### App Evaluation
-[Evaluation of your app across the following attributes]
 - **Category:** Health & Fitness, Social Networking 
 - **Mobile:** This product is uniquely mobile due to its featuress for instant logging of workouts and food upon completion. Uses the camera to take pictures of food or at the exercise facility (gym or even home setup!) and can tag locations for each event. Also utilizes notifications for reminders/motivation and when others engage with your profile.
 - **Story:** Introducing a community and social aspect to promoting health lifestyles. Motivates users to stay on track with their fitness/diet journey by adding in external encouragement from friends and helps users find new improvements to their lifestyle by giving them access to other user's content (i.e. a new recipe or workout video) and filtering their feed for relevant material.

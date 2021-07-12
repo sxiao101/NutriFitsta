@@ -97,7 +97,7 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 
 
 ## Wireframes
-<img src="https://github.com/sxiao101/NutriFitsta/blob/main/wireframe_sketches.jpg" width=600>
+<img src="https://github.com/sxiao101/NutriFitsta/blob/master/wireframe_sketches.jpg" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 

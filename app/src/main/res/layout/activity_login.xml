@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="101dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center_horizontal"
+            android:text="Welcome Back!"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="60sp" />
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvWelcome"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:hint="Username/Email"
+            android:inputType="textPersonName"
+            android:paddingStart="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="43dp" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/etUsername"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingStart="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="43dp" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etPassword"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentEnd="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#3F51B5"
+            android:text="log in"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:text="Make New Account"
+            android:textColor="#009688"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvRegisterMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvSignUp"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentEnd="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="New User?"
+            android:textSize="20sp" />
+
+
+</RelativeLayout>

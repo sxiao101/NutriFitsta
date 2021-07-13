@@ -54,13 +54,14 @@
 
         <Button
             android:id="@+id/btnLogin"
-            android:layout_width="350dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etPassword"
             android:layout_alignParentStart="false"
             android:layout_alignParentEnd="false"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:background="@drawable/roundedbutton"
             android:backgroundTint="#3F51B5"
             android:text="log in"
             android:textColor="#FFFFFF" />

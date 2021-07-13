@@ -52,15 +52,31 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="43dp" />
 
+    <EditText
+        android:id="@+id/etPassword2"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/etPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Retype Password"
+        android:inputType="textPassword"
+        android:paddingStart="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="43dp" />
+
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="350dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etPassword"
+        android:layout_below="@+id/etPassword2"
         android:layout_alignParentStart="false"
         android:layout_alignParentEnd="false"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:background="@drawable/roundedbutton"
         android:backgroundTint="#009688"
         android:text="register"
         android:textColor="#FFFFFF" />

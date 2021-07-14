@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
 public class StartActivity extends AppCompatActivity {
     private TextView tvAppName;
     private Button btEnter;
@@ -16,6 +18,10 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        if (ParseUser.getCurrentUser() != null){
+            goMainActivity();
+        }
 
         tvAppName = findViewById(R.id.tvAppName);
         btEnter = findViewById(R.id.btEnter);
@@ -26,5 +32,11 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void goMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }

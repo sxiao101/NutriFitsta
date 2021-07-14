@@ -80,6 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void startMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        finish();
     }
 
     @Override

@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codepath.nutrifitsta.fragments.PostsFragment;
 import com.codepath.nutrifitsta.fragments.ProfileFragment;
 import com.codepath.nutrifitsta.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,5 +52,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchContent(int id, Fragment fragment) {
         fragmentManager.beginTransaction().replace(id, fragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            Log.i(TAG, "logout clicked");
+            ParseUser.logOut();
+            ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+            goLoginActivity();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void goLoginActivity() {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 }

@@ -118,9 +118,8 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 | objectId  | String  | unique id for the post (default field) |
 | createdAt  | Date  | time for when the post was created (default field) |
 | type  | Boolean  | "food" for a food type; "fitness" for a fitness post |
-| foodpost  | Pointer to a FoodPost  | post details |
-| fitnesspost  | Pointer to a FitnessPost  | post details |
-
+| foodpost  | String  | objectId of the detailed food post |
+| fitnesspost  | String  | objectId of the detailed fitness post |
 
 #### FoodPost
 | Property | Type | Description |
@@ -138,7 +137,6 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 | description  | String  | description of the post by creator |
 | video  | String  | YouTube link that creator can add |
 
-
 #### FitnessPost
 | Property | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -153,6 +151,17 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 | image | File  | image the creator posts |
 | description  | String  | description of the post by creator |
 | video  | String  | YouTube link that creator can add |
+
+#### PostActions
+| Property | Type | Description |
+| ------------- | ------------- | ------------- |
+| objectId  | String  | unique id for the post (default field) |
+| postId  | String  | objectId for a post |
+| user  | Pointer to User  | the person who executed actions on the post |
+| saved  | Boolean  | "true" if the user saved the post |
+| liked  | Boolean  | "true" if the user liked the post |
+
+
 
 ### Networking
 * Home Timeline Screen

@@ -11,7 +11,6 @@ import org.json.JSONArray;
 public class FoodPost extends ParseObject {
 
     public static final String KEY_USER = "user";
-    public static final String KEY_TITLE = "title";
     public static final String KEY_CATEGORY = "category";
 
     public FoodPost(){}
@@ -22,14 +21,6 @@ public class FoodPost extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
-    }
-
-    public String getTitle() {
-        return getString(KEY_TITLE);
-    }
-
-    public void setTitle(String title) {
-        put(KEY_TITLE, title);
     }
 
     public String getCategory() {

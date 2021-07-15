@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">NutriFitsta</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="category">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Snack</item>
+    </string-array>
+
+    <string-array name="workout_type">
+        <item>Endurance</item>
+        <item>Strength</item>
+        <item>Balance</item>
+        <item>Flexibility</item>
+    </string-array>
 </resources>

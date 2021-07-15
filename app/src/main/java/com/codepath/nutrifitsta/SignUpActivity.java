@@ -1,6 +1,7 @@
 package com.codepath.nutrifitsta;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -32,7 +33,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Create Account");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvCreate = findViewById(R.id.tvCreate);
         etUsername = findViewById(R.id.etUsername);

@@ -1,6 +1,7 @@
 package com.codepath.nutrifitsta;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Paint;

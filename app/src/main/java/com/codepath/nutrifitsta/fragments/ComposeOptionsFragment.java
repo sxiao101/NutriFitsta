@@ -34,6 +34,8 @@ public class ComposeOptionsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ((ComposeActivity)getContext()).getSupportActionBar().setTitle("Make New Post");
+
         btnFood = view.findViewById(R.id.btnFood);
         btnFitness = view.findViewById(R.id.btnFitness);
 

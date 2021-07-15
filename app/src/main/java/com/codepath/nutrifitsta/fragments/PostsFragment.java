@@ -97,8 +97,7 @@ public class PostsFragment extends Fragment {
         query.getFirstInBackground(new GetCallback<FoodPost>() {
             @Override
             public void done(FoodPost object, ParseException e) {
-                Log.i(TAG, "FoodPost: " + object.getTitle() + ", username: " + object.getUser().getUsername());
-
+                Log.i(TAG, "FoodPost: " + object.getDescription() + ", username: " + object.getUser().getUsername());
             }
         });
     }
@@ -110,7 +109,7 @@ public class PostsFragment extends Fragment {
         query.getFirstInBackground(new GetCallback<FitnessPost>() {
             @Override
             public void done(FitnessPost object, ParseException e) {
-                Log.i(TAG, "FitnessPost: " + object.getTitle() + ", username: " + object.getUser().getUsername());
+                Log.i(TAG, "FitnessPost: " + object.getDescription() + ", username: " + object.getUser().getUsername());
 
             }
         });

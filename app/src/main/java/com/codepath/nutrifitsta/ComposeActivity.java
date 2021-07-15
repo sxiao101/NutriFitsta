@@ -2,6 +2,7 @@ package com.codepath.nutrifitsta;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -26,6 +27,9 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Compose");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Fragment fragment = new ComposeOptionsFragment();

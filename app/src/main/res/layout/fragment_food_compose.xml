@@ -1,14 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.FoodComposeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Make Food Post" />
+        android:id="@+id/tvPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="30dp"
+        android:text="Take picture"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/ibCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@+id/tvPicture"
+        android:src="@drawable/ic_baseline_camera_alt_24" />
+
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPicture"
+        android:layout_alignEnd="@id/tvPicture"
+        android:layout_alignParentStart="false"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="40dp"
+        android:text="Category"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignStart="@id/ibCamera"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="95dp"
+        android:layout_toEndOf="@+id/tvCategory" />
+
+    <EditText
+        android:id="@+id/etLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCategory"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="Add Location"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/etNutrition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etLocation"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="Add Nutrition (cal)"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/etVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etNutrition"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="Link to Recipe" />
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etVideo"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Add Description"
+        android:inputType="textMultiLine"
+        android:minHeight="150dp" />
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:backgroundTint="@color/purple_500"
+        android:text="post"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

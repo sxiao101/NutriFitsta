@@ -32,12 +32,20 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.75dp"
+        android:layout_below="@+id/tvUser"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPics"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ivProfile"
+        android:layout_below="@+id/line"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="2dp"/>
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package com.codepath.nutrifitsta;
 
+
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -18,16 +20,18 @@ import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.fragments.DetailsFragment;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
 import java.util.Date;
 import java.util.List;
 
-public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder>{
+
     private Context context;
     private List<Post> posts;
 
-    public PostsAdapter(Context context, List<Post> posts) {
+    public ProfileAdapter(Context context, List<Post> posts) {
         this.context = context;
         this.posts = posts;
     }
@@ -35,12 +39,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_timeline, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_profile, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProfileAdapter.ViewHolder holder, int position) {
         Post post = posts.get(position);
         holder.bind(post);
     }
@@ -50,40 +54,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         return posts.size();
     }
 
-    // Clean all elements of the recycler
-    public void clear() {
-        posts.clear();
-        notifyDataSetChanged();
-    }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvType;
-        private ImageView ivImage;
-        private TextView tvDescription;
-        private TextView tvUsername;
         private TextView tvCategory;
         private TextView tvDetails;
-        private TextView tvLocation;
-        private TextView tvVideo;
-        private ImageView ivProfile;
-        private ImageView locPointer;
-        private String loc;
-        private String time;
+        private TextView tvTime;
+        private ImageView ivImage;
         private String imageUrl;
+        private String video;
+        private String description;
+        private String loc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvType = itemView.findViewById(R.id.tvType);
-            ivImage = itemView.findViewById(R.id.ivImage);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
-            tvUsername = itemView.findViewById(R.id.tvUsername);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvDetails = itemView.findViewById(R.id.tvDetails);
-            tvLocation = itemView.findViewById(R.id.tvLocation);
-            tvVideo = itemView.findViewById(R.id.tvVideo);
-            locPointer = itemView.findViewById(R.id.locPointer);
-            ivProfile = itemView.findViewById(R.id.ivProfile);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            ivImage = itemView.findViewById(R.id.ivImage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -92,17 +81,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     int position = getAdapterPosition();
                     Post post = posts.get(position);
                     bundle.putString("type", post.getType());
-
                     bundle.putString("postId", post.getPostId());
                     bundle.putString("user", post.getUser().getUsername());
-                    bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
                     bundle.putString("category", tvCategory.getText().toString());
                     bundle.putString("details", tvDetails.getText().toString());
-                    bundle.putString("description", tvDescription.getText().toString());
-                    bundle.putString("video", tvVideo.getText().toString());
-                    bundle.putString("loc", tvLocation.getText().toString());
-                    bundle.putString("time", time);
+                    bundle.putString("time", tvTime.getText().toString());
                     bundle.putString("image", imageUrl);
+                    bundle.putString("video", video);
+                    bundle.putString("description", description);
+                    bundle.putString("loc", loc);
+                    bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
 
                     DetailsFragment details = new DetailsFragment();
                     details.setArguments(bundle);
@@ -111,37 +99,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
                 }
             });
-
-            /*
-            ivProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    int position = getAdapterPosition();
-                    Post post = posts.get(position);
-                    bundle.putString("user", post.getUser().getObjectId());
-                    ProfileFragment profile = new ProfileFragment();
-                    profile.setArguments(bundle);
-
-                    ((MainActivity)context).switchContent(R.id.flContainer, profile);
-
-                }
-            });
-
-            tvUsername.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    int position = getAdapterPosition();
-                    Post post = posts.get(position);
-                    bundle.putString("user", post.getUser().getObjectId());
-                    ProfileFragment profile = new ProfileFragment();
-                    profile.setArguments(bundle);
-
-                    ((MainActivity)context).switchContent(R.id.flContainer, profile);
-
-                }
-            });*/
         }
 
         public void bind(Post post) {
@@ -153,6 +110,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             } else {
                 bindFitness(id);
             }
+
         }
 
         public void bindFood(String postId) {
@@ -168,29 +126,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     }
                     tvType.setText("FOOD");
                     tvType.setTextColor(Color.parseColor("#8BC34A"));
-                    tvUsername.setText(post.getUser().getUsername());
-                    tvDescription.setText(post.getDescription());
                     tvCategory.setText(post.getCategory());
-                    if (post.getLoc() != null) {
-                        locPointer.setVisibility(View.VISIBLE);
-                        tvLocation.setText(post.getLoc());
-                    } else {
-                        tvLocation.setText("");
-                        locPointer.setVisibility(View.GONE);
-                    }
                     tvDetails.setText(post.getNutrition() + " cal");
-                    if (post.getVideo() != null) {
-                        tvVideo.setText(post.getVideo());
+                    tvTime.setText(calculateTimeAgo(post.getCreatedAt()));
+
+                    if (post.getImage() != null) {
+                        ivImage.setVisibility(View.VISIBLE);
+                        imageUrl = post.getImage().getUrl();
+                        Glide.with(context)
+                                .load(imageUrl)
+                                .into(ivImage);
+                    } else {
+                        ivImage.setVisibility(View.GONE);
                     }
-                    Glide.with(context)
-                            .load(post.getUser().getParseFile("pfp").getUrl())
-                            .circleCrop()
-                            .into(ivProfile);
-                    Glide.with(context)
-                            .load(post.getImage().getUrl())
-                            .into(ivImage);
-                    imageUrl = post.getImage().getUrl();
-                    time = calculateTimeAgo(post.getCreatedAt());
+                    video = post.getVideo();
+                    description = post.getDescription();
+                    loc = post.getLoc();
                 }
             });
         }
@@ -203,26 +154,24 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 public void done(FitnessPost post, ParseException e) {
                     tvType.setText("FITNESS");
                     tvType.setTextColor(Color.parseColor("#3F51B5"));
-                    tvUsername.setText(post.getUser().getUsername());
-                    tvDescription.setText(post.getDescription());
                     tvCategory.setText(post.getType());
-                    tvLocation.setText(post.getLoc());
                     tvDetails.setText(post.getDuration() + " min");
-                    tvVideo.setText(post.getVideo());
-                    Glide.with(context)
-                            .load(post.getUser().getParseFile("pfp").getUrl())
-                            .circleCrop()
-                            .into(ivProfile);
-                    Glide.with(context)
-                            .load(post.getImage().getUrl())
-                            .into(ivImage);
-
-                    imageUrl = post.getImage().getUrl();
-                    time = calculateTimeAgo(post.getCreatedAt());
+                    tvTime.setText(calculateTimeAgo(post.getCreatedAt()));
+                    if (post.getImage() != null) {
+                        ivImage.setVisibility(View.VISIBLE);
+                        imageUrl = post.getImage().getUrl();
+                        Glide.with(context)
+                                .load(post.getImage().getUrl())
+                                .into(ivImage);
+                    } else {
+                        ivImage.setVisibility(View.GONE);
+                    }
+                    video = post.getVideo();
+                    description = post.getDescription();
+                    loc = post.getLoc();
                 }
             });
         }
-
     }
 
     public static String calculateTimeAgo(Date createdAt) {

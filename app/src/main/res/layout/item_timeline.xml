@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="FOOD"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -25,7 +25,7 @@
         android:layout_below="@id/tvType"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:adjustViewBounds="true"
         android:padding="8dp"
         android:scaleType="centerInside"
@@ -54,7 +54,7 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/allerta_stencil"
-        android:gravity="bottom|center_horizontal"
+        android:gravity="center_horizontal|center_vertical"
         android:text="Lunch"
         android:textColor="@color/black"
         android:textSize="30dp"
@@ -71,14 +71,15 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
             <ImageView
                 android:id="@+id/locPointer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="0dp"
                 app:srcCompat="@drawable/ic_baseline_location_on_24" />
 
             <TextView
@@ -126,7 +127,7 @@
         android:layout_height="150dp"
         android:layout_below="@+id/tvCategory"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/linearLayout"
         android:maxHeight="100dp"
         tools:srcCompat="@tools:sample/avatars" />

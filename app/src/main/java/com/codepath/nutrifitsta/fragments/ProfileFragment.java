@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.Post;
 import com.codepath.nutrifitsta.PostsAdapter;
+import com.codepath.nutrifitsta.ProfileAdapter;
 import com.codepath.nutrifitsta.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -51,7 +52,7 @@ public class ProfileFragment extends Fragment {
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
 
     private RecyclerView rvPics;
-    private PostsAdapter adapter;
+    private ProfileAdapter adapter;
     private List<Post> allPosts;
     private ImageView ivProfile;
     private TextView tvUser;
@@ -78,7 +79,7 @@ public class ProfileFragment extends Fragment {
 
         rvPics = view.findViewById(R.id.rvPics);
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new ProfileAdapter(getContext(), allPosts);
 
         rvPics.setAdapter(adapter);
         rvPics.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -184,6 +185,7 @@ public class ProfileFragment extends Fragment {
     private void queryPosts(ParseUser user) {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
         // limit query to latest 20 items
         query.setLimit(20);
         // order posts by creation date (newest first)

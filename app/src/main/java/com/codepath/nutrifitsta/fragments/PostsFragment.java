@@ -76,6 +76,7 @@ public class PostsFragment extends Fragment {
     private void queryPosts() {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
         // limit query to latest 20 items
         query.setLimit(20);
         // order posts by creation date (newest first)

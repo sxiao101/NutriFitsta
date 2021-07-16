@@ -74,4 +74,12 @@ public class FoodPost extends ParseObject {
     public void setLikesCount(int likes) {
         put("likesCount", likes);
     }
+
+    public String getLoc() {
+        return getString("location");
+    }
+
+    public void setLoc(String loc) {
+        put("location", loc);
+    }
 }

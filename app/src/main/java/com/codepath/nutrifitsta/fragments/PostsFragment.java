@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.FitnessPost;
 import com.codepath.nutrifitsta.FoodPost;
 import com.codepath.nutrifitsta.Post;
+import com.codepath.nutrifitsta.PostsAdapter;
 import com.codepath.nutrifitsta.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
@@ -25,6 +28,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostsFragment extends Fragment {
@@ -33,6 +37,10 @@ public class PostsFragment extends Fragment {
     public final int REQUEST_CODE = 20;
 
     private FloatingActionButton compose;
+
+    private RecyclerView rvPosts;
+    private PostsAdapter adapter;
+    private List<Post> allPosts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +63,18 @@ public class PostsFragment extends Fragment {
             }
         });
 
-    // Specify which class to query
+        rvPosts = view.findViewById(R.id.rvPosts);
+        allPosts = new ArrayList<>();
+        adapter = new PostsAdapter(getContext(), allPosts);
+
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        queryPosts();
+    }
+
+    private void queryPosts() {
+        // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // limit query to latest 20 items
         query.setLimit(20);
@@ -68,19 +87,13 @@ public class PostsFragment extends Fragment {
                     return;
                 }
                 for (Post post : posts){
-                    String type = post.getType();
-                    String id = post.getPostId();
-                    if (type.equals("food")) {
-                        getFoodPost(id);
-                    } else {
-                        getFitnessPost(id);
-                    }
+                    Log.i(TAG, "Post: " + post.getPostId());
                 }
 //                if (refresh) {
 //                    adapter.clear();
 //                }
-//                allPosts.addAll(posts);
-//                adapter.notifyDataSetChanged();
+                allPosts.addAll(posts);
+                adapter.notifyDataSetChanged();
 //                if (refresh) {
 //                    // Now we call setRefreshing(false) to signal refresh has finished
 //                    swipeContainer.setRefreshing(false);
@@ -88,30 +101,5 @@ public class PostsFragment extends Fragment {
             }
         });
 
-    }
-
-    private void getFoodPost(String postId) {
-        ParseQuery<FoodPost> query = ParseQuery.getQuery(FoodPost.class);
-        query.whereEqualTo("objectId", postId);
-        query.include(FoodPost.KEY_USER);
-        query.getFirstInBackground(new GetCallback<FoodPost>() {
-            @Override
-            public void done(FoodPost object, ParseException e) {
-                Log.i(TAG, "FoodPost: " + object.getDescription() + ", username: " + object.getUser().getUsername());
-            }
-        });
-    }
-    
-    private void getFitnessPost(String postId) {
-        ParseQuery<FitnessPost> query = ParseQuery.getQuery(FitnessPost.class);
-        query.whereEqualTo("objectId", postId);
-        query.include(FitnessPost.KEY_USER);
-        query.getFirstInBackground(new GetCallback<FitnessPost>() {
-            @Override
-            public void done(FitnessPost object, ParseException e) {
-                Log.i(TAG, "FitnessPost: " + object.getDescription() + ", username: " + object.getUser().getUsername());
-
-            }
-        });
     }
 }

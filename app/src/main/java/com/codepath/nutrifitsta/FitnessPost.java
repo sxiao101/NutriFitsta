@@ -65,4 +65,20 @@ public class FitnessPost extends ParseObject {
     public void setLikesCount(int likes) {
         put("likesCount", likes);
     }
+
+    public String getLoc() {
+        return getString("location");
+    }
+
+    public void setLoc(String loc) {
+        put("location", loc);
+    }
+
+    public String getType() {
+        return getString("type");
+    }
+
+    public void setType(String type) {
+        put("type", type);
+    }
 }

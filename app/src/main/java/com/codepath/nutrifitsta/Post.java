@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
+    public static final String KEY_USER = "user";
     public static final String KEY_TYPE = "type";
     public static final String KEY_POST = "postId";
 
@@ -27,6 +28,14 @@ public class Post extends ParseObject {
 
     public void setPostId(String id) {
         put(KEY_POST, id);
+    }
+
+    public ParseUser getUser() {
+        return getParseUser(KEY_USER);
+    }
+
+    public void setUser(ParseUser user) {
+        put(KEY_USER, user);
     }
 
 }

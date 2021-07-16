@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -72,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "logout clicked");
             ParseUser.logOut();
             ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+            if (currentUser == null) {
+                Log.i(TAG, "logged out");
+            }
             goLoginActivity();
             return true;
         }

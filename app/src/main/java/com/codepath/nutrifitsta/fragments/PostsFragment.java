@@ -15,18 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.nutrifitsta.ComposeActivity;
-import com.codepath.nutrifitsta.FitnessPost;
-import com.codepath.nutrifitsta.FoodPost;
-import com.codepath.nutrifitsta.Post;
-import com.codepath.nutrifitsta.PostsAdapter;
+import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.Post;
+import com.codepath.nutrifitsta.adapters.PostsAdapter;
 import com.codepath.nutrifitsta.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +48,8 @@ public class PostsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable  Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ((MainActivity)getContext()).getSupportActionBar().setTitle("NutriFitsta");
 
         compose = view.findViewById(R.id.compose);
         compose.setOnClickListener(new View.OnClickListener() {

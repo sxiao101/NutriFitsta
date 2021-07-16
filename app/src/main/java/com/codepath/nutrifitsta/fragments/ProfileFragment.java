@@ -8,8 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,20 +15,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.codepath.nutrifitsta.Post;
-import com.codepath.nutrifitsta.PostsAdapter;
-import com.codepath.nutrifitsta.ProfileAdapter;
+import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.Post;
+import com.codepath.nutrifitsta.adapters.ProfileAdapter;
 import com.codepath.nutrifitsta.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -71,7 +65,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        super.onViewCreated(view, savedInstanceState);
+        ((MainActivity)getContext()).getSupportActionBar().setTitle("Profile");
         view.setVisibility(View.GONE);
 
         ivProfile = view.findViewById(R.id.ivProfile);

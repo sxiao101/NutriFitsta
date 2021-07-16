@@ -1,9 +1,8 @@
-package com.codepath.nutrifitsta;
+package com.codepath.nutrifitsta.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.nutrifitsta.classes.FitnessPost;
+import com.codepath.nutrifitsta.classes.FoodPost;
+import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.Post;
+import com.codepath.nutrifitsta.R;
 import com.codepath.nutrifitsta.fragments.DetailsFragment;
+import com.codepath.nutrifitsta.fragments.ProfileFragment;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -103,7 +108,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     bundle.putString("loc", tvLocation.getText().toString());
                     bundle.putString("time", time);
                     bundle.putString("image", imageUrl);
-
+                    bundle.putString("userId", post.getUser().getObjectId());
+Log.i("USERID from Adapter", post.getUser().getObjectId());
                     DetailsFragment details = new DetailsFragment();
                     details.setArguments(bundle);
 
@@ -112,21 +118,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 }
             });
 
-            /*
-            ivProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    int position = getAdapterPosition();
-                    Post post = posts.get(position);
-                    bundle.putString("user", post.getUser().getObjectId());
-                    ProfileFragment profile = new ProfileFragment();
-                    profile.setArguments(bundle);
-
-                    ((MainActivity)context).switchContent(R.id.flContainer, profile);
-
-                }
-            });
 
             tvUsername.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,7 +132,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     ((MainActivity)context).switchContent(R.id.flContainer, profile);
 
                 }
-            });*/
+            });
         }
 
         public void bind(Post post) {

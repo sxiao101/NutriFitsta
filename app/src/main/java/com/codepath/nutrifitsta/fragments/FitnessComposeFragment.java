@@ -29,10 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.nutrifitsta.ComposeActivity;
-import com.codepath.nutrifitsta.FitnessPost;
-import com.codepath.nutrifitsta.FoodPost;
+import com.codepath.nutrifitsta.classes.FitnessPost;
 import com.codepath.nutrifitsta.MainActivity;
-import com.codepath.nutrifitsta.Post;
+import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -78,7 +77,6 @@ public class FitnessComposeFragment extends Fragment {
 
         ((ComposeActivity)getContext()).getSupportActionBar().setTitle("Add Workout... ");
         ((ComposeActivity)getContext()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3F51B5")));
-
 
         tvPicture = view.findViewById(R.id.tvPicture);
         tvType = view.findViewById(R.id.tvType);

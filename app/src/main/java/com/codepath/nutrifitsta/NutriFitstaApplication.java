@@ -2,6 +2,9 @@ package com.codepath.nutrifitsta;
 
 import android.app.Application;
 
+import com.codepath.nutrifitsta.classes.FitnessPost;
+import com.codepath.nutrifitsta.classes.FoodPost;
+import com.codepath.nutrifitsta.classes.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

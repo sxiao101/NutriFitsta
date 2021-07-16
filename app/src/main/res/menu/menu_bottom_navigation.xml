@@ -7,9 +7,16 @@
         android:title="Home"
         android:icon="@drawable/ic_baseline_home_24"
         app:showAsAction="always" />
+
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_users"
         android:icon="@drawable/ic_baseline_search_24"
+        android:title="Users"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_saved"
+        android:icon="@drawable/ic_baseline_favorite_24"
         android:title="Saved"
         app:showAsAction="always" />
     <item
@@ -17,5 +24,6 @@
         android:icon="@drawable/ic_baseline_offline_bolt_24"
         android:title="Profile"
         app:showAsAction="always" />
+
 
 </menu>

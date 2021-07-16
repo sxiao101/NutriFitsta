@@ -1,4 +1,4 @@
-package com.codepath.nutrifitsta;
+package com.codepath.nutrifitsta.classes;
 
 import com.parse.Parse;
 import com.parse.ParseClassName;

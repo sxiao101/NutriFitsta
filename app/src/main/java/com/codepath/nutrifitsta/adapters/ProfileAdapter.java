@@ -1,11 +1,9 @@
-package com.codepath.nutrifitsta;
+package com.codepath.nutrifitsta.adapters;
 
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.nutrifitsta.classes.FitnessPost;
+import com.codepath.nutrifitsta.classes.FoodPost;
+import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.Post;
+import com.codepath.nutrifitsta.R;
 import com.codepath.nutrifitsta.fragments.DetailsFragment;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
 import java.util.Date;
@@ -91,6 +93,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     bundle.putString("description", description);
                     bundle.putString("loc", loc);
                     bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
+                    bundle.putString("userId", post.getUser().getObjectId());
 
                     DetailsFragment details = new DetailsFragment();
                     details.setArguments(bundle);

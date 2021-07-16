@@ -24,15 +24,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.nutrifitsta.ComposeActivity;
-import com.codepath.nutrifitsta.FoodPost;
+import com.codepath.nutrifitsta.classes.FoodPost;
 import com.codepath.nutrifitsta.MainActivity;
-import com.codepath.nutrifitsta.Post;
+import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;

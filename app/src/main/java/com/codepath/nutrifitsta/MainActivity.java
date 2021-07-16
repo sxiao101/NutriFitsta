@@ -11,10 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.codepath.nutrifitsta.fragments.PostsFragment;
 import com.codepath.nutrifitsta.fragments.ProfileFragment;
+import com.codepath.nutrifitsta.fragments.SavedFragment;
 import com.codepath.nutrifitsta.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.action_home: fragment = new PostsFragment();
                         break;
-                    case R.id.action_search: fragment = new SearchFragment();
+                    case R.id.action_users: fragment = new SearchFragment();
+                        break;
+                    case R.id.action_saved: fragment = new SavedFragment();
                         break;
                     case R.id.action_profile:fragment = new ProfileFragment();
                         break;

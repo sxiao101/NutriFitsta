@@ -93,9 +93,8 @@
         android:id="@+id/locPointer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/tvDetails"
-        android:layout_alignBottom="@id/tvDetails"
-        android:layout_marginStart="25dp"
+        android:layout_alignTop="@id/tvLocation"
+        android:layout_alignBottom="@id/locPointer"
         android:layout_toLeftOf="@id/tvLocation"
         app:srcCompat="@drawable/ic_baseline_location_on_24" />
 
@@ -103,8 +102,8 @@
         android:id="@+id/tvLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/locPointer"
-        android:layout_alignBottom="@id/locPointer"
+        android:layout_below="@id/ivImage"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="35dp"
         android:layout_toStartOf="@+id/tvDetails"
         android:gravity="center_vertical"
@@ -122,7 +121,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:gravity="center_horizontal|center_vertical"
+        android:gravity="center_horizontal"
         android:text="450 cal"
         android:textColor="@color/black"
         android:textSize="20sp" />

@@ -109,7 +109,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     bundle.putString("time", time);
                     bundle.putString("image", imageUrl);
                     bundle.putString("userId", post.getUser().getObjectId());
-Log.i("USERID from Adapter", post.getUser().getObjectId());
                     DetailsFragment details = new DetailsFragment();
                     details.setArguments(bundle);
 

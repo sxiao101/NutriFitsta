@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.R;
 public class DetailsFragment extends Fragment {
 

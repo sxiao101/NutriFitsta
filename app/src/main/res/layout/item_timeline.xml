@@ -79,6 +79,8 @@
                 android:id="@+id/locPointer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@id/tvLocation"
+                android:layout_alignBottom="@id/tvLocation"
                 android:layout_marginStart="0dp"
                 app:srcCompat="@drawable/ic_baseline_location_on_24" />
 
@@ -86,8 +88,6 @@
                 android:id="@+id/tvLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/locPointer"
-                android:layout_alignBottom="@id/locPointer"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/locPointer"
                 android:text="Chipotle"

@@ -182,7 +182,6 @@ public class ProfileFragment extends Fragment {
         query.include(Post.KEY_USER);
         // limit query to latest 20 items
         query.setLimit(20);
-        // order posts by creation date (newest first)
         query.whereEqualTo(Post.KEY_USER, user);
         query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Post>() {

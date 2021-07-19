@@ -29,7 +29,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener{
+public class SearchFragment extends Fragment {
 
     public static final String TAG = "SearchFragment";
     public final int REQUEST_CODE = 20;
@@ -120,7 +120,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         });
     }
 
-    @Override
+ /*   @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
         return true;
     }
@@ -137,11 +137,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.d(TAG, "Text: " + newText);
-        Log.d(TAG, "Filter: " + adapter.getFilter().toString());
         adapter.getFilter().filter(newText);
         adapter.notifyDataSetChanged();
-        Log.d(TAG, "Filter: " + adapter.getFilter().toString());
         return true;
-    }
+    }*/
 }

@@ -37,6 +37,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private RecyclerView rvUsers;
     private UsersAdapter adapter;
     private List<ParseUser> allUsers;
+    private List<ParseUser> users;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +48,30 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_menu_items, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d(TAG, "Text: " + newText);
+                Log.d(TAG, "Filter: " + adapter.getFilter().toString());
+                adapter.getFilter().filter(newText);
+                adapter.notifyDataSetChanged();
+                Log.d(TAG, "Filter: " + adapter.getFilter().toString());
+                return true;
+            }
+        });
     }
 
     @Override
@@ -64,7 +89,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         rvUsers = view.findViewById(R.id.rvUser);
         allUsers = new ArrayList<>();
-        adapter = new UsersAdapter(getContext(), allUsers);
+        users = new ArrayList<>();
+        adapter = new UsersAdapter(getContext(), users, allUsers);
 
         rvUsers.setAdapter(adapter);
         rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -88,6 +114,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 }
 
                 allUsers.addAll(objects);
+                users.addAll(objects);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -113,7 +140,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         Log.d(TAG, "Text: " + newText);
         Log.d(TAG, "Filter: " + adapter.getFilter().toString());
         adapter.getFilter().filter(newText);
+        adapter.notifyDataSetChanged();
         Log.d(TAG, "Filter: " + adapter.getFilter().toString());
-        return false;
+        return true;
     }
 }

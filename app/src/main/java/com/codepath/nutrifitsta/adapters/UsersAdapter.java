@@ -26,10 +26,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private List<ParseUser> users;
     private List<ParseUser> usersAll;
 
-    public UsersAdapter(Context context, List<ParseUser> users) {
+    public UsersAdapter(Context context, List<ParseUser> users, List<ParseUser> usersAll) {
         this.context = context;
         this.users = users;
-        this.usersAll = new ArrayList<>(users);
+        this.usersAll = usersAll;
+        Log.d("Adapter", "Size " + this.usersAll.size());
     }
 
     @NonNull
@@ -65,8 +66,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         // runs on background thread
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<ParseUser> filteredUsers = new ArrayList<>();
 
+            List<ParseUser> filteredUsers = new ArrayList<>();
             if (constraint.toString().isEmpty()) {
                 filteredUsers.addAll(usersAll);
             } else {

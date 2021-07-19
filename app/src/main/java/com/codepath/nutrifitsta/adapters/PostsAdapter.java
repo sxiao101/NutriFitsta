@@ -139,6 +139,80 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             String id = post.getPostId();
             Log.i("Adapter", ("binding" + id));
             if (type.equals("food")) {
+                bindFood(post.getFood());
+            } else {
+                bindFitness(post.getFitness());
+            }
+        }
+
+        public void bindFood(FoodPost fp) {
+                    tvType.setText("FOOD");
+                    tvType.setTextColor(Color.parseColor("#8BC34A"));
+            try {
+                tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            tvDescription.setText(fp.getDescription());
+                    tvCategory.setText(fp.getCategory());
+                    if (fp.getLoc() != null) {
+                        locPointer.setVisibility(View.VISIBLE);
+                        tvLocation.setText(fp.getLoc());
+                    } else {
+                        tvLocation.setText("");
+                        locPointer.setVisibility(View.GONE);
+                    }
+                    tvDetails.setText(fp.getNutrition() + " cal");
+                    if (fp.getVideo() != null) {
+                        tvVideo.setText(fp.getVideo());
+                    }
+                    Glide.with(context)
+                            .load(fp.getUser().getParseFile("pfp").getUrl())
+                            .circleCrop()
+                            .into(ivProfile);
+                    Glide.with(context)
+                            .load(fp.getImage().getUrl())
+                            .into(ivImage);
+                    imageUrl = fp.getImage().getUrl();
+                    time = calculateTimeAgo(fp.getCreatedAt());
+        }
+        public void bindFitness(FitnessPost fp) {
+            tvType.setText("FITNESS");
+            tvType.setTextColor(Color.parseColor("#3F51B5"));
+            try {
+                tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            tvDescription.setText(fp.getDescription());
+            tvCategory.setText(fp.getCategory());
+            if (fp.getLoc() != null) {
+                locPointer.setVisibility(View.VISIBLE);
+                tvLocation.setText(fp.getLoc());
+            } else {
+                tvLocation.setText("");
+                locPointer.setVisibility(View.GONE);
+            }
+            tvDetails.setText(fp.getDuration() + " min");
+            if (fp.getVideo() != null) {
+                tvVideo.setText(fp.getVideo());
+            }
+            Glide.with(context)
+                    .load(fp.getUser().getParseFile("pfp").getUrl())
+                    .circleCrop()
+                    .into(ivProfile);
+            Glide.with(context)
+                    .load(fp.getImage().getUrl())
+                    .into(ivImage);
+            imageUrl = fp.getImage().getUrl();
+            time = calculateTimeAgo(fp.getCreatedAt());
+        }
+
+    /*    public void bind(Post post) {
+            String type = post.getType();
+            String id = post.getPostId();
+            Log.i("Adapter", ("binding" + id));
+            if (type.equals("food")) {
                 bindFood(id);
             } else {
                 bindFitness(id);
@@ -195,7 +269,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     tvType.setTextColor(Color.parseColor("#3F51B5"));
                     tvUsername.setText(post.getUser().getUsername());
                     tvDescription.setText(post.getDescription());
-                    tvCategory.setText(post.getType());
+                    tvCategory.setText(post.getCategory());
                     tvLocation.setText(post.getLoc());
                     tvDetails.setText(post.getDuration() + " min");
                     tvVideo.setText(post.getVideo());
@@ -211,7 +285,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     time = calculateTimeAgo(post.getCreatedAt());
                 }
             });
-        }
+        }*/
 
     }
 

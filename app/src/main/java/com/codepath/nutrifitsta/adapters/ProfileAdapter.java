@@ -84,7 +84,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     Post post = posts.get(position);
                     bundle.putString("type", post.getType());
                     bundle.putString("postId", post.getPostId());
-                    bundle.putString("user", post.getUser().getUsername());
+                    try {
+                        bundle.putString("user", post.getUser().fetchIfNeeded().getUsername());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     bundle.putString("category", tvCategory.getText().toString());
                     bundle.putString("details", tvDetails.getText().toString());
                     bundle.putString("time", tvTime.getText().toString());
@@ -107,7 +111,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         public void bind(Post post) {
             String type = post.getType();
             String id = post.getPostId();
-            Log.i("Adapter", ("binding" + id));
             if (type.equals("food")) {
                 bindFood(id);
             } else {
@@ -157,7 +160,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 public void done(FitnessPost post, ParseException e) {
                     tvType.setText("FITNESS");
                     tvType.setTextColor(Color.parseColor("#3F51B5"));
-                    tvCategory.setText(post.getType());
+                    tvCategory.setText(post.getCategory());
                     tvDetails.setText(post.getDuration() + " min");
                     tvTime.setText(calculateTimeAgo(post.getCreatedAt()));
                     if (post.getImage() != null) {

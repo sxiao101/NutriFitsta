@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,7 @@ public class DetailsFragment extends Fragment {
     private TextView tvTime;
 
     private ImageButton ibLike;
-    private ImageButton ibComment;
-    private ImageButton ibDirect;
+    private ImageButton ibSave;
 
 
     public DetailsFragment() {
@@ -63,6 +63,15 @@ public class DetailsFragment extends Fragment {
         tvVideo = view.findViewById(R.id.tvVideo);
         tvDescription = view.findViewById(R.id.tvDescription);
         tvTime = view.findViewById(R.id.tvTime);
+        ibLike = view.findViewById(R.id.ibLike);
+        ibSave = view.findViewById(R.id.ibSave);
+
+        ibLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("LikeButton", "clicked");
+            }
+        });
 
         Bundle bundle = this.getArguments();
         String type = bundle.getString("type");

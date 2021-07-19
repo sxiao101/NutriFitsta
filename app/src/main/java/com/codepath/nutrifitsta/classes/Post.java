@@ -11,6 +11,8 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_TYPE = "type";
     public static final String KEY_POST = "postId";
+    public static final String KEY_FOOD = "foodPost";
+    public static final String KEY_FIT = "fitnessPost";
 
     public Post(){}
 
@@ -36,6 +38,22 @@ public class Post extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public FoodPost getFood() {
+        return ((FoodPost)getParseObject(KEY_FOOD));
+    }
+
+    public void setFood(FoodPost fp) {
+        put(KEY_FOOD, fp);
+    }
+
+    public FitnessPost getFitness() {
+        return ((FitnessPost)getParseObject(KEY_FIT));
+    }
+
+    public void setFitness(FitnessPost fp) {
+        put(KEY_FIT, fp);
     }
 
 }

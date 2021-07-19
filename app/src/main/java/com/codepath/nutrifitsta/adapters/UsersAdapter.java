@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.R;
-import com.parse.Parse;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;

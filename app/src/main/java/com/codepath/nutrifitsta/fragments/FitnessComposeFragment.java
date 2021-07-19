@@ -184,7 +184,7 @@ public class FitnessComposeFragment extends Fragment {
         if (hasPic) {
             fp.setImage(new ParseFile(photoFile));
         }
-        fp.setType(spinner.getSelectedItem().toString());
+        fp.setCategory(spinner.getSelectedItem().toString());
         fp.setDuration(Integer.parseInt(etDuration.getText().toString()));
         fp.setVideo(etVideo.getText().toString());
         fp.setLoc(etLocation.getText().toString());

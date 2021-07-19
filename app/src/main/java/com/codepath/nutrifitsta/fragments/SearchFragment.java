@@ -110,7 +110,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        Log.d(TAG, "Text: " + newText);
+        Log.d(TAG, "Filter: " + adapter.getFilter().toString());
         adapter.getFilter().filter(newText);
+        Log.d(TAG, "Filter: " + adapter.getFilter().toString());
         return false;
     }
 }

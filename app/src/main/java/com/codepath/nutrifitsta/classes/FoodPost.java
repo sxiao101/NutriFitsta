@@ -82,4 +82,6 @@ public class FoodPost extends ParseObject {
     public void setLoc(String loc) {
         put("location", loc);
     }
+
+
 }

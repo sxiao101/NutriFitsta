@@ -74,11 +74,11 @@ public class FitnessPost extends ParseObject{
         put("location", loc);
     }
 
-    public String getType() {
+    public String getCategory() {
         return getString("type");
     }
 
-    public void setType(String type) {
+    public void setCategory(String type) {
         put("type", type);
     }
 }

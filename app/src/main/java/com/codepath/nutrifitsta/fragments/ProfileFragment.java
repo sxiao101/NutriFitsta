@@ -1,9 +1,16 @@
 package com.codepath.nutrifitsta.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
@@ -15,14 +22,17 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.adapters.ProfileAdapter;
 import com.codepath.nutrifitsta.R;
@@ -50,9 +60,10 @@ public class ProfileFragment extends Fragment {
     private List<Post> allPosts;
     private ImageView ivProfile;
     private TextView tvUser;
-
+    private Button btnEditProfile;
     private File photoFile;
     private String photoFileName= "photo.jpg";
+    ActivityResultLauncher<Intent> someActivityResultLauncher;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +81,7 @@ public class ProfileFragment extends Fragment {
 
         ivProfile = view.findViewById(R.id.ivProfile);
         tvUser = view.findViewById(R.id.tvUser);
-
+        btnEditProfile = view.findViewById(R.id.btnEditProfile);
         rvPics = view.findViewById(R.id.rvPics);
         allPosts = new ArrayList<>();
         adapter = new ProfileAdapter(getContext(), allPosts);
@@ -80,6 +91,9 @@ public class ProfileFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
+            ((MainActivity)getContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); //not working
+            btnEditProfile.setVisibility(View.GONE);
+
             String userId = bundle.getString("user");
             Log.i("ProfileFragment", userId);
 
@@ -92,6 +106,7 @@ public class ProfileFragment extends Fragment {
                 }
             });
         } else {
+            btnEditProfile.setVisibility(View.VISIBLE);
             load(ParseUser.getCurrentUser());
             ivProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,65 +117,40 @@ public class ProfileFragment extends Fragment {
         }
 
         getView().setVisibility(View.VISIBLE);
-    }
-
-
-    // Returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
-        }
-
-        // Return the file target for the photo based on filename
-        return new File(mediaStorageDir.getPath() + File.separator + fileName);
-    }
-
-    private void launchCamera() {
-        // create Intent to take a picture and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
-        photoFile = getPhotoFileUri(photoFileName);
-
-        // wrap File object into a content provider
-        // required for API >= 24
-        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.NUTRIFITSTA", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            // Start the image capture intent to take photo
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                ParseUser.getCurrentUser().put("pfp", new ParseFile(photoFile));
-                ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+        someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
                     @Override
-                    public void done(ParseException e) {
-                        Glide.with(getContext())
-                                .load(ParseUser.getCurrentUser().getParseFile("pfp").getUrl())
-                                .circleCrop()
-                                .into(ivProfile);
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            ParseUser.getCurrentUser().put("pfp", new ParseFile(photoFile));
+                            ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Glide.with(getContext())
+                                            .load(ParseUser.getCurrentUser().getParseFile("pfp").getUrl())
+                                            .circleCrop()
+                                            .into(ivProfile);
+                                }
+                            });
+                        } else { // Result was a failure
+                            Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
+    }
 
 
-            } else { // Result was a failure
-                Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
+    private void launchCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Create a File reference for future access
+        photoFile = Methods.getPhotoFileUri(getContext(), photoFileName, TAG);
+        // wrap File object into a content provider
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.NUTRIFITSTA", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Start the image capture intent to take photo
+            someActivityResultLauncher.launch(intent);
         }
     }
 
@@ -199,6 +189,14 @@ public class ProfileFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                ((MainActivity)getContext()).switchContent(R.id.flContainer, new SearchFragment());
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

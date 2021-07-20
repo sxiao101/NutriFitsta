@@ -50,9 +50,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class FitnessComposeFragment extends Fragment {
     public static final String TAG = "FitnessCompose";
-
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
-
     private TextView tvPicture;
     private TextView tvType;
     private EditText etLocation;

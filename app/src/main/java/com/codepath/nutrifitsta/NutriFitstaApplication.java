@@ -5,6 +5,7 @@ import android.app.Application;
 import com.codepath.nutrifitsta.classes.FitnessPost;
 import com.codepath.nutrifitsta.classes.FoodPost;
 import com.codepath.nutrifitsta.classes.Post;
+import com.codepath.nutrifitsta.classes.PostActions;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -18,6 +19,7 @@ public class NutriFitstaApplication extends Application {
         ParseObject.registerSubclass(Post.class);
         ParseObject.registerSubclass(FoodPost.class);
         ParseObject.registerSubclass(FitnessPost.class);
+        ParseObject.registerSubclass(PostActions.class);
 
 
         Parse.initialize(new Parse.Configuration.Builder(this)

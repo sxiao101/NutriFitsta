@@ -16,9 +16,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.R;
+import com.codepath.nutrifitsta.classes.Post;
+import com.codepath.nutrifitsta.classes.PostActions;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.List;
+
 public class DetailsFragment extends Fragment {
+    public static final String TAG = "DetailsCompose";
 
     private TextView tvType;
     private TextView tvUsername;
@@ -31,10 +45,11 @@ public class DetailsFragment extends Fragment {
     private TextView tvVideo;
     private TextView tvDescription;
     private TextView tvTime;
-
     private ImageButton ibLike;
     private ImageButton ibSave;
-
+    private String postId;
+    private PostActions like;
+    private PostActions save;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -66,14 +81,10 @@ public class DetailsFragment extends Fragment {
         ibLike = view.findViewById(R.id.ibLike);
         ibSave = view.findViewById(R.id.ibSave);
 
-        ibLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("LikeButton", "clicked");
-            }
-        });
-
         Bundle bundle = this.getArguments();
+        postId = bundle.getString("postId");
+        setButtons();
+
         String type = bundle.getString("type");
         if (type.equals("food")) {
             tvType.setText("FOOD");
@@ -100,5 +111,94 @@ public class DetailsFragment extends Fragment {
                 .into(ivImage);
         tvTime.setText(bundle.getString("time"));
 
+
+        ibLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!ibLike.isSelected()) { //save it and make post
+                    PostActions p = new PostActions();
+                    p.setUser(ParseUser.getCurrentUser());
+                    p.setPostId(postId);
+                    p.setAction(1);
+                    like = p;
+                    p.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            ibLike.setImageResource(R.drawable.liked_bolt);
+                            ibLike.setSelected(true);
+                        }
+                    });
+                } else {
+                    like.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            like = null;
+                            ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
+                            ibLike.setSelected(false);
+                        }
+                    });
+                }
+            }
+        });
+
+        ibSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!ibSave.isSelected()) { //save it and make post
+                    PostActions p = new PostActions();
+                    p.setUser(ParseUser.getCurrentUser());
+                    p.setPostId(postId);
+                    p.setAction(2);
+                    save = p;
+                    p.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            ibSave.setImageResource(R.drawable.ic_baseline_favorite_24);
+                            ibSave.setSelected(true);
+                        }
+                    });
+                } else {
+                    save.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            save = null;
+                            ibSave.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                            ibSave.setSelected(false);
+                        }
+                    });
+                }
+            }
+        });
     }
+
+    private void setButtons() {
+        ParseQuery<PostActions> query = ParseQuery.getQuery(PostActions.class);
+        query.include(Post.KEY_USER);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.whereEqualTo("postId", postId);
+        query.findInBackground(new FindCallback<PostActions>() {
+            @Override
+            public void done(List<PostActions> objects, ParseException e) {
+                if (e != null) { // no actions on post
+                    ibSave.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                    ibSave.setSelected(false);
+                    ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
+                    ibLike.setSelected(false);
+                } else {
+                    for (PostActions pa: objects) {
+                        if (pa.getAction() == 1) {
+                            like = pa;
+                            ibLike.setImageResource(R.drawable.liked_bolt);
+                            ibLike.setSelected(true);
+                        } else if (pa.getAction() == 2) {
+                            save = pa;
+                            ibSave.setImageResource(R.drawable.ic_baseline_favorite_24);
+                            ibSave.setSelected(true);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 }

@@ -111,25 +111,4 @@ public class SearchFragment extends Fragment {
         });
     }
 
- /*   @Override
-    public boolean onMenuItemActionExpand(MenuItem item) {
-        return true;
-    }
-
-    @Override
-    public boolean onMenuItemActionCollapse(MenuItem item) {
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        adapter.getFilter().filter(newText);
-        adapter.notifyDataSetChanged();
-        return true;
-    }*/
 }

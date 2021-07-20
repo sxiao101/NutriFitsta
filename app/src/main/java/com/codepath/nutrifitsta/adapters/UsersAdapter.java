@@ -1,6 +1,7 @@
 package com.codepath.nutrifitsta.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.R;
+import com.codepath.nutrifitsta.fragments.ProfileFragment;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -91,7 +94,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         }
     };
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvUsername;
         private ImageView ivProfile;
@@ -102,20 +104,19 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivProfile = itemView.findViewById(R.id.ivProfile);
 
-            /*itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     int position = getAdapterPosition();
-                    Post post = posts.get(position);
-                    bundle.putString("user", post.getUser().getObjectId());
+                    ParseUser user = users.get(position);
+                    bundle.putString("user", user.getObjectId());
                     ProfileFragment profile = new ProfileFragment();
                     profile.setArguments(bundle);
 
                     ((MainActivity) context).switchContent(R.id.flContainer, profile);
                 }
-            });*/
-
+            });
         }
 
         public void bind(ParseUser user) {

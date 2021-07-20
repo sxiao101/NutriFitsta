@@ -32,7 +32,6 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     public static final String TAG = "SearchFragment";
-    public final int REQUEST_CODE = 20;
 
     private RecyclerView rvUsers;
     private UsersAdapter adapter;
@@ -49,26 +48,18 @@ public class SearchFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_menu_items, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // perform query here
-
-                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
-                // see https://code.google.com/p/android/issues/detail?id=24599
                 searchView.clearFocus();
-
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d(TAG, "Text: " + newText);
-                Log.d(TAG, "Filter: " + adapter.getFilter().toString());
                 adapter.getFilter().filter(newText);
                 adapter.notifyDataSetChanged();
-                Log.d(TAG, "Filter: " + adapter.getFilter().toString());
                 return true;
             }
         });

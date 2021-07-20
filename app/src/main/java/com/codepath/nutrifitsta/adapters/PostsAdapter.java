@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.classes.FitnessPost;
 import com.codepath.nutrifitsta.classes.FoodPost;
 import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.R;
 import com.codepath.nutrifitsta.fragments.DetailsFragment;
@@ -97,7 +98,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     int position = getAdapterPosition();
                     Post post = posts.get(position);
                     bundle.putString("type", post.getType());
-
                     bundle.putString("postId", post.getPostId());
                     bundle.putString("user", post.getUser().getUsername());
                     bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
@@ -137,7 +137,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         public void bind(Post post) {
             String type = post.getType();
             String id = post.getPostId();
-            Log.i("Adapter", ("binding" + id));
             if (type.equals("food")) {
                 bindFood(post.getFood());
             } else {
@@ -146,35 +145,35 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         }
 
         public void bindFood(FoodPost fp) {
-                    tvType.setText("FOOD");
-                    tvType.setTextColor(Color.parseColor("#8BC34A"));
+            tvType.setText("FOOD");
+            tvType.setTextColor(Color.parseColor("#8BC34A"));
             try {
                 tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             tvDescription.setText(fp.getDescription());
-                    tvCategory.setText(fp.getCategory());
-                    if (fp.getLoc() != null) {
-                        locPointer.setVisibility(View.VISIBLE);
-                        tvLocation.setText(fp.getLoc());
-                    } else {
-                        tvLocation.setText("");
-                        locPointer.setVisibility(View.GONE);
-                    }
-                    tvDetails.setText(fp.getNutrition() + " cal");
-                    if (fp.getVideo() != null) {
-                        tvVideo.setText(fp.getVideo());
-                    }
-                    Glide.with(context)
-                            .load(fp.getUser().getParseFile("pfp").getUrl())
-                            .circleCrop()
-                            .into(ivProfile);
-                    Glide.with(context)
-                            .load(fp.getImage().getUrl())
-                            .into(ivImage);
-                    imageUrl = fp.getImage().getUrl();
-                    time = calculateTimeAgo(fp.getCreatedAt());
+            tvCategory.setText(fp.getCategory());
+            if (fp.getLoc() != null) {
+                locPointer.setVisibility(View.VISIBLE);
+                tvLocation.setText(fp.getLoc());
+            } else {
+                tvLocation.setText("");
+                locPointer.setVisibility(View.GONE);
+            }
+            tvDetails.setText(fp.getNutrition() + " cal");
+            if (fp.getVideo() != null) {
+                tvVideo.setText(fp.getVideo());
+            }
+            Glide.with(context)
+                    .load(fp.getUser().getParseFile("pfp").getUrl())
+                    .circleCrop()
+                    .into(ivProfile);
+            Glide.with(context)
+                    .load(fp.getImage().getUrl())
+                    .into(ivImage);
+            imageUrl = fp.getImage().getUrl();
+            time = Methods.calculateTimeAgo(fp.getCreatedAt());
         }
         public void bindFitness(FitnessPost fp) {
             tvType.setText("FITNESS");
@@ -205,123 +204,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     .load(fp.getImage().getUrl())
                     .into(ivImage);
             imageUrl = fp.getImage().getUrl();
-            time = calculateTimeAgo(fp.getCreatedAt());
+            time = Methods.calculateTimeAgo(fp.getCreatedAt());
         }
-
-    /*    public void bind(Post post) {
-            String type = post.getType();
-            String id = post.getPostId();
-            Log.i("Adapter", ("binding" + id));
-            if (type.equals("food")) {
-                bindFood(id);
-            } else {
-                bindFitness(id);
-            }
-        }
-
-        public void bindFood(String postId) {
-            ParseQuery<FoodPost> query = ParseQuery.getQuery(FoodPost.class);
-            query.whereEqualTo("objectId", postId);
-            query.include(FoodPost.KEY_USER);
-            query.getFirstInBackground(new GetCallback<FoodPost>() {
-                @Override
-                public void done(FoodPost post, ParseException e) {
-                    if (e != null) {
-                        Log.e("PostsAdapter", "error", e);
-                        return;
-                    }
-                    tvType.setText("FOOD");
-                    tvType.setTextColor(Color.parseColor("#8BC34A"));
-                    tvUsername.setText(post.getUser().getUsername());
-                    tvDescription.setText(post.getDescription());
-                    tvCategory.setText(post.getCategory());
-                    if (post.getLoc() != null) {
-                        locPointer.setVisibility(View.VISIBLE);
-                        tvLocation.setText(post.getLoc());
-                    } else {
-                        tvLocation.setText("");
-                        locPointer.setVisibility(View.GONE);
-                    }
-                    tvDetails.setText(post.getNutrition() + " cal");
-                    if (post.getVideo() != null) {
-                        tvVideo.setText(post.getVideo());
-                    }
-                    Glide.with(context)
-                            .load(post.getUser().getParseFile("pfp").getUrl())
-                            .circleCrop()
-                            .into(ivProfile);
-                    Glide.with(context)
-                            .load(post.getImage().getUrl())
-                            .into(ivImage);
-                    imageUrl = post.getImage().getUrl();
-                    time = calculateTimeAgo(post.getCreatedAt());
-                }
-            });
-        }
-        public void bindFitness(String postId) {
-            ParseQuery<FitnessPost> query = ParseQuery.getQuery(FitnessPost.class);
-            query.whereEqualTo("objectId", postId);
-            query.include(FitnessPost.KEY_USER);
-            query.getFirstInBackground(new GetCallback<FitnessPost>() {
-                @Override
-                public void done(FitnessPost post, ParseException e) {
-                    tvType.setText("FITNESS");
-                    tvType.setTextColor(Color.parseColor("#3F51B5"));
-                    tvUsername.setText(post.getUser().getUsername());
-                    tvDescription.setText(post.getDescription());
-                    tvCategory.setText(post.getCategory());
-                    tvLocation.setText(post.getLoc());
-                    tvDetails.setText(post.getDuration() + " min");
-                    tvVideo.setText(post.getVideo());
-                    Glide.with(context)
-                            .load(post.getUser().getParseFile("pfp").getUrl())
-                            .circleCrop()
-                            .into(ivProfile);
-                    Glide.with(context)
-                            .load(post.getImage().getUrl())
-                            .into(ivImage);
-
-                    imageUrl = post.getImage().getUrl();
-                    time = calculateTimeAgo(post.getCreatedAt());
-                }
-            });
-        }*/
-
-    }
-
-    public static String calculateTimeAgo(Date createdAt) {
-
-        int SECOND_MILLIS = 1000;
-        int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-        int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-        int DAY_MILLIS = 24 * HOUR_MILLIS;
-
-        try {
-            createdAt.getTime();
-            long time = createdAt.getTime();
-            long now = System.currentTimeMillis();
-
-            final long diff = now - time;
-            if (diff < MINUTE_MILLIS) {
-                return "just now";
-            } else if (diff < 2 * MINUTE_MILLIS) {
-                return "a minute ago";
-            } else if (diff < 50 * MINUTE_MILLIS) {
-                return diff / MINUTE_MILLIS + " m";
-            } else if (diff < 90 * MINUTE_MILLIS) {
-                return "an hour ago";
-            } else if (diff < 24 * HOUR_MILLIS) {
-                return diff / HOUR_MILLIS + " h";
-            } else if (diff < 48 * HOUR_MILLIS) {
-                return "yesterday";
-            } else {
-                return diff / DAY_MILLIS + " d";
-            }
-        } catch (Exception e) {
-            Log.i("Error:", "getRelativeTimeAgo failed", e);
-            e.printStackTrace();
-        }
-
-        return "";
     }
 }

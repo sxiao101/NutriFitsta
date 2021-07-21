@@ -5,7 +5,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +16,24 @@ import android.view.ViewGroup;
 import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.R;
+import com.codepath.nutrifitsta.adapters.PostsAdapter;
+import com.codepath.nutrifitsta.adapters.SavedAdapter;
+import com.codepath.nutrifitsta.classes.Post;
+import com.codepath.nutrifitsta.classes.PostActions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SavedFragment extends Fragment {
+    public static final String TAG = "PostsFragment";
+    private RecyclerView rvSaved;
+    private SavedAdapter adapter;
+    private List<Post> savedPosts;
 
     public SavedFragment() {
         // Required empty public constructor
@@ -31,7 +50,36 @@ public class SavedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         ((MainActivity)getContext()).getSupportActionBar().setTitle("Saved");
+
+        rvSaved = view.findViewById(R.id.rvSaved);
+        savedPosts = new ArrayList<>();
+        adapter = new SavedAdapter(getContext(), savedPosts);
+
+        rvSaved.setAdapter(adapter);
+        rvSaved.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        queryPosts();
     }
+
+    private void queryPosts() {
+        ParseQuery<PostActions> query = ParseQuery.getQuery(PostActions.class);
+        query.include(Post.KEY_USER);
+        query.include("post");
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.whereEqualTo("action", 2);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<PostActions>() {
+            @Override
+            public void done(List<PostActions> objects, ParseException e) {
+                if (e == null) {
+                    for (PostActions pa: objects) {
+                        savedPosts.add(pa.getPost());
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
 }

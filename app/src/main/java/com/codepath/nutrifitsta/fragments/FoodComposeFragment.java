@@ -101,7 +101,8 @@ public class FoodComposeFragment extends Fragment {
         ibCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchCamera();
+                photoFile = Methods.getPhotoFileUri(getContext(), photoFileName, TAG);
+                Methods.launchCamera(photoFile, getContext(), TAG, someActivityResultLauncher) ;
             }
         });
 
@@ -124,7 +125,6 @@ public class FoodComposeFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, hasPic);
-
             }
         });
         someActivityResultLauncher = registerForActivityResult(
@@ -141,19 +141,6 @@ public class FoodComposeFragment extends Fragment {
                         }
                     }
                 });
-    }
-
-    private void launchCamera() {
-        // create Intent to take a picture and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
-        photoFile = Methods.getPhotoFileUri(getContext(), photoFileName, TAG);
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.NUTRIFITSTA", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            // Start the image capture intent to take photo
-            someActivityResultLauncher.launch(intent);
-        }
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {

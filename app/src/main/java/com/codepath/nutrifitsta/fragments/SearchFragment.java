@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
-
     public static final String TAG = "SearchFragment";
 
     private RecyclerView rvUsers;

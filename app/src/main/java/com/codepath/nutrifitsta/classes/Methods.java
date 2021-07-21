@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
@@ -65,17 +66,17 @@ public class Methods {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    /*private void launchCamera(Context context, String TAG ) {
+    public static void launchCamera(File photoFile, Context context, String TAG,
+                              ActivityResultLauncher<Intent> someActivityResultLauncher) {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
-        photoFile = getPhotoFileUri(context,"photo.jpg", TAG);
+
         Uri fileProvider = FileProvider.getUriForFile(context, "com.codepath.fileprovider.NUTRIFITSTA", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
             // Start the image capture intent to take photo
             someActivityResultLauncher.launch(intent);
         }
-    }*/
+    }
 }

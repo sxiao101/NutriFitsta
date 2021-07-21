@@ -6,199 +6,207 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.DetailsFragment">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/tvType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:text="FOOD"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
-    <ImageView
-        android:id="@+id/ivProfile"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/tvType"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="0dp"
-        android:adjustViewBounds="true"
-        android:padding="8dp"
-        android:scaleType="centerInside"
-        tools:src="@tools:sample/avatars" />
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="FOOD"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/ivProfile"
-        android:layout_alignBottom="@id/ivProfile"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="0dp"
-        android:layout_toEndOf="@+id/ivProfile"
-        android:gravity="center_vertical"
-        android:text="shannonxiao101"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/tvType"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="0dp"
+                android:adjustViewBounds="true"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvUsername"
-        android:layout_marginTop="-5dp"
-        android:fontFamily="@font/allerta_stencil"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Lunch"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/ivProfile"
+                android:layout_alignBottom="@id/ivProfile"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toEndOf="@+id/ivProfile"
+                android:gravity="center_vertical"
+                android:text="shannonxiao101"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
-        android:layout_below="@+id/tvCategory"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:maxHeight="100dp"
-        android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageButton
-        android:id="@+id/ibLike"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@id/ivImage"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_toLeftOf="@id/tvMessage"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_baseline_offline_bolt_24" />
-
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/ibLike"
-        android:layout_alignBottom="@id/ibLike"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_vertical"
-        android:text="Keep It Up!"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/ivImage"
-        android:layout_marginTop="5dp"
-        android:background="#888888" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/ibLike"
-        android:layout_marginTop="5dp"
-        android:background="#888888" />
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvDetails"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:maxHeight="150dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvUsername"
+                android:layout_marginTop="-5dp"
+                android:fontFamily="@font/allerta_stencil"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Lunch"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
 
-    <ImageView
-        android:id="@+id/locPointer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/tvLocation"
-        android:layout_alignBottom="@id/locPointer"
-        android:layout_toLeftOf="@id/tvLocation"
-        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="300dp"
+                android:layout_height="250dp"
+                android:layout_below="@+id/tvCategory"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:maxHeight="100dp"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/tvLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ibLike"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="35dp"
-        android:layout_toStartOf="@+id/tvDetails"
-        android:gravity="center_vertical"
-        android:maxWidth="100dp"
-        android:text="Chipotle"
-        android:textSize="16sp" />
+            <ImageButton
+                android:id="@+id/ibLike"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/ivImage"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toLeftOf="@id/tvMessage"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_baseline_offline_bolt_24" />
 
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/ibLike"
+                android:layout_alignBottom="@id/ibLike"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
+                android:text="Keep It Up!"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tvDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ibLike"
-        android:layout_alignBottom="@id/tvVideo"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:gravity="center_horizontal"
-        android:text="450 cal"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/ivImage"
+                android:layout_marginTop="5dp"
+                android:background="#888888" />
 
-    <TextView
-        android:id="@+id/tvVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ibLike"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/tvDetails"
-        android:autoLink="all"
-        android:linksClickable="true"
-        android:minHeight="25dp"
-        android:text="youtube.com" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/ibLike"
+                android:layout_marginTop="5dp"
+                android:background="#888888" />
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvDescription"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:text="10 m ago"
-        android:textSize="14sp" />
-
-    <ImageButton
-        android:id="@+id/ibSave"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_baseline_favorite_border_24" />
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDetails"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:maxHeight="150dp"
+                android:text="TextView"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
 
+            <ImageView
+                android:id="@+id/locPointer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/tvLocation"
+                android:layout_alignBottom="@id/locPointer"
+                android:layout_toLeftOf="@id/tvLocation"
+                app:srcCompat="@drawable/ic_baseline_location_on_24" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ibLike"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="35dp"
+                android:layout_toStartOf="@+id/tvDetails"
+                android:gravity="center_vertical"
+                android:maxWidth="100dp"
+                android:text="Chipotle"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/tvDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ibLike"
+                android:layout_alignBottom="@id/tvVideo"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="450 cal"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ibLike"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/tvDetails"
+                android:autoLink="all"
+                android:linksClickable="true"
+                android:minHeight="25dp"
+                android:text="youtube.com" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDescription"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:text="10 m ago"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/ibSave"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_bookmark_border_black_24dp" />
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

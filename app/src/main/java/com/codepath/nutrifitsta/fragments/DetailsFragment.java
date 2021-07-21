@@ -50,6 +50,7 @@ public class DetailsFragment extends Fragment {
     private String postId;
     private PostActions like;
     private PostActions save;
+    private Post currPost;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -83,6 +84,7 @@ public class DetailsFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         postId = bundle.getString("postId");
+        getPost(postId);
         setButtons();
 
         String type = bundle.getString("type");
@@ -120,6 +122,7 @@ public class DetailsFragment extends Fragment {
                     p.setUser(ParseUser.getCurrentUser());
                     p.setPostId(postId);
                     p.setAction(1);
+                    p.setPost(currPost);
                     like = p;
                     p.saveInBackground(new SaveCallback() {
                         @Override
@@ -149,11 +152,12 @@ public class DetailsFragment extends Fragment {
                     p.setUser(ParseUser.getCurrentUser());
                     p.setPostId(postId);
                     p.setAction(2);
+                    p.setPost(currPost);
                     save = p;
                     p.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            ibSave.setImageResource(R.drawable.ic_baseline_favorite_24);
+                            ibSave.setImageResource(R.drawable.baseline_bookmark_black_24dp);
                             ibSave.setSelected(true);
                         }
                     });
@@ -162,10 +166,23 @@ public class DetailsFragment extends Fragment {
                         @Override
                         public void done(ParseException e) {
                             save = null;
-                            ibSave.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                            ibSave.setImageResource(R.drawable.baseline_bookmark_border_black_24dp);
                             ibSave.setSelected(false);
                         }
                     });
+                }
+            }
+        });
+    }
+
+    private void getPost(String postId) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.whereEqualTo("objectId", postId);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> objects, ParseException e) {
+                if (e == null) {
+                    currPost = objects.get(0);
                 }
             }
         });
@@ -180,7 +197,7 @@ public class DetailsFragment extends Fragment {
             @Override
             public void done(List<PostActions> objects, ParseException e) {
                 if (e != null) { // no actions on post
-                    ibSave.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                    ibSave.setImageResource(R.drawable.baseline_bookmark_border_black_24dp);
                     ibSave.setSelected(false);
                     ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
                     ibLike.setSelected(false);
@@ -192,7 +209,7 @@ public class DetailsFragment extends Fragment {
                             ibLike.setSelected(true);
                         } else if (pa.getAction() == 2) {
                             save = pa;
-                            ibSave.setImageResource(R.drawable.ic_baseline_favorite_24);
+                            ibSave.setImageResource(R.drawable.baseline_bookmark_black_24dp);
                             ibSave.setSelected(true);
                         }
                     }

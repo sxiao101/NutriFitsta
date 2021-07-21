@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostsFragment extends Fragment {
-
     public static final String TAG = "PostsFragment";
     public final int REQUEST_CODE = 20;
 

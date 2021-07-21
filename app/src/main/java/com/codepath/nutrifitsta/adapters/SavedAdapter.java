@@ -3,7 +3,6 @@ package com.codepath.nutrifitsta.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,39 +13,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.R;
 import com.codepath.nutrifitsta.classes.FitnessPost;
 import com.codepath.nutrifitsta.classes.FoodPost;
-import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
-import com.codepath.nutrifitsta.R;
 import com.codepath.nutrifitsta.fragments.DetailsFragment;
 import com.codepath.nutrifitsta.fragments.ProfileFragment;
-import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
-import java.util.Date;
 import java.util.List;
 
-public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
+public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
     private Context context;
     private List<Post> posts;
 
-    public PostsAdapter(Context context, List<Post> posts) {
+    public SavedAdapter(Context context, List<Post> posts) {
         this.context = context;
         this.posts = posts;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SavedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_timeline, parent, false);
-        return new ViewHolder(view);
+        return new SavedAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SavedAdapter.ViewHolder holder, int position) {
         Post post = posts.get(position);
         holder.bind(post);
     }
@@ -61,7 +57,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         posts.clear();
         notifyDataSetChanged();
     }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvType;
@@ -98,7 +93,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     int position = getAdapterPosition();
                     Post post = posts.get(position);
                     bundle.putString("type", post.getType());
-                    bundle.putString("postId", post.getObjectId());
+                    bundle.putString("postId", post.getString("objectId"));
                     bundle.putString("user", post.getUser().getUsername());
                     bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
                     bundle.putString("category", tvCategory.getText().toString());
@@ -115,6 +110,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     ((MainActivity)context).switchContent(R.id.flContainer, details);
                 }
             });
+
 
             tvUsername.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,8 +130,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
         public void bind(Post post) {
             String type = post.getType();
-            String id = post.getPostId();
             if (type.equals("food")) {
+                FoodPost fp = post.getFood();
                 bindFood(post.getFood());
             } else {
                 bindFitness(post.getFitness());

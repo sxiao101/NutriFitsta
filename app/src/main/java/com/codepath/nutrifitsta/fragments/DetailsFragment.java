@@ -1,18 +1,26 @@
 package com.codepath.nutrifitsta.fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,12 +53,16 @@ public class DetailsFragment extends Fragment {
     private TextView tvVideo;
     private TextView tvDescription;
     private TextView tvTime;
+    private TextView tvMessage;
     private ImageButton ibLike;
     private ImageButton ibSave;
+    private ImageView likeLogo;
     private String postId;
     private PostActions like;
     private PostActions save;
     private Post currPost;
+
+    AnimatedVectorDrawable avd;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -78,9 +90,33 @@ public class DetailsFragment extends Fragment {
         tvDetails = view.findViewById(R.id.tvDetails);
         tvVideo = view.findViewById(R.id.tvVideo);
         tvDescription = view.findViewById(R.id.tvDescription);
+        tvMessage = view.findViewById(R.id.tvMessage);
         tvTime = view.findViewById(R.id.tvTime);
         ibLike = view.findViewById(R.id.ibLike);
         ibSave = view.findViewById(R.id.ibSave);
+        likeLogo = view.findViewById(R.id.likeLogo);
+
+        // double tap gesture to like
+        final Drawable drawable = likeLogo.getDrawable();
+        ivImage.setOnTouchListener(new View.OnTouchListener() {
+            GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener(){
+                @Override
+                public boolean onDoubleTapEvent(MotionEvent e) {
+                    likeLogo.setAlpha(0.70f);
+                    avd = (AnimatedVectorDrawable) drawable;
+                    avd.start();
+                    if (!ibLike.isSelected()) {
+                        savePost();
+                    }
+                    return super.onDoubleTapEvent(e);
+                }
+            });
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
 
         Bundle bundle = this.getArguments();
         postId = bundle.getString("postId");
@@ -113,30 +149,19 @@ public class DetailsFragment extends Fragment {
                 .into(ivImage);
         tvTime.setText(bundle.getString("time"));
 
-
-        ibLike.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout likeBar = view.findViewById(R.id.likeBar);
+        likeBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ibLike.isSelected()) { //save it and make post
-                    PostActions p = new PostActions();
-                    p.setUser(ParseUser.getCurrentUser());
-                    p.setPostId(postId);
-                    p.setAction(1);
-                    p.setPost(currPost);
-                    like = p;
-                    p.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            ibLike.setImageResource(R.drawable.liked_bolt);
-                            ibLike.setSelected(true);
-                        }
-                    });
+                if (!ibLike.isSelected()) { //like it and update Parse database
+                    savePost();
                 } else {
                     like.deleteInBackground(new DeleteCallback() {
                         @Override
                         public void done(ParseException e) {
                             like = null;
                             ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
+                            tvMessage.setTypeface(null, Typeface.NORMAL);
                             ibLike.setSelected(false);
                         }
                     });
@@ -175,6 +200,23 @@ public class DetailsFragment extends Fragment {
         });
     }
 
+    private void savePost() {
+        PostActions p = new PostActions();
+        p.setUser(ParseUser.getCurrentUser());
+        p.setPostId(postId);
+        p.setAction(1);
+        p.setPost(currPost);
+        like = p;
+        p.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                ibLike.setImageResource(R.drawable.liked_bolt);
+                tvMessage.setTypeface(Typeface.DEFAULT_BOLD);
+                ibLike.setSelected(true);
+            }
+        });
+    }
+
     private void getPost(String postId) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.whereEqualTo("objectId", postId);
@@ -200,12 +242,14 @@ public class DetailsFragment extends Fragment {
                     ibSave.setImageResource(R.drawable.baseline_bookmark_border_black_24dp);
                     ibSave.setSelected(false);
                     ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
+                    tvMessage.setTypeface(null, Typeface.NORMAL);
                     ibLike.setSelected(false);
                 } else {
                     for (PostActions pa: objects) {
                         if (pa.getAction() == 1) {
                             like = pa;
                             ibLike.setImageResource(R.drawable.liked_bolt);
+                            tvMessage.setTypeface(Typeface.DEFAULT_BOLD);
                             ibLike.setSelected(true);
                         } else if (pa.getAction() == 2) {
                             save = pa;

@@ -77,32 +77,41 @@
                 android:layout_marginTop="5dp"
                 android:maxHeight="100dp"
                 android:scaleType="centerCrop"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@tools:sample/avatars"
+                android:clickable="true"/>
 
-            <ImageButton
-                android:id="@+id/ibLike"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@id/ivImage"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_toLeftOf="@id/tvMessage"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_baseline_offline_bolt_24" />
-
-            <TextView
-                android:id="@+id/tvMessage"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/likeBar"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/ibLike"
-                android:layout_alignBottom="@id/ibLike"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_vertical"
-                android:text="Keep It Up!"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:layout_below="@id/ivImage"
+                android:clickable="true" >
+
+                <ImageButton
+                    android:id="@+id/ibLike"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toLeftOf="@id/tvMessage"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_baseline_offline_bolt_24" />
+
+                <TextView
+                    android:id="@+id/tvMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ibLike"
+                    android:layout_alignBottom="@id/ibLike"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    android:text="Keep It Up!"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:focusable="false"/>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -114,9 +123,59 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_below="@+id/ibLike"
+                android:layout_below="@+id/likeBar"
                 android:layout_marginTop="5dp"
                 android:background="#888888" />
+
+            <ImageView
+                android:id="@+id/locPointer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/tvLocation"
+                android:layout_alignBottom="@id/locPointer"
+                android:layout_toLeftOf="@id/tvLocation"
+                app:srcCompat="@drawable/ic_baseline_location_on_24" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/likeBar"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="35dp"
+                android:layout_toStartOf="@+id/tvDetails"
+                android:gravity="center_vertical"
+                android:maxWidth="100dp"
+                android:text="Chipotle"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/tvDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/likeBar"
+                android:layout_alignBottom="@id/tvVideo"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="450 cal"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/likeBar"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/tvDetails"
+                android:autoLink="all"
+                android:linksClickable="true"
+                android:minHeight="25dp"
+                android:text="youtube.com" />
 
             <TextView
                 android:id="@+id/tvDescription"
@@ -132,57 +191,6 @@
                 android:text="TextView"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
-
-
-            <ImageView
-                android:id="@+id/locPointer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/tvLocation"
-                android:layout_alignBottom="@id/locPointer"
-                android:layout_toLeftOf="@id/tvLocation"
-                app:srcCompat="@drawable/ic_baseline_location_on_24" />
-
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ibLike"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="35dp"
-                android:layout_toStartOf="@+id/tvDetails"
-                android:gravity="center_vertical"
-                android:maxWidth="100dp"
-                android:text="Chipotle"
-                android:textSize="16sp" />
-
-
-            <TextView
-                android:id="@+id/tvDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ibLike"
-                android:layout_alignBottom="@id/tvVideo"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:gravity="center_horizontal"
-                android:text="450 cal"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tvVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ibLike"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/tvDetails"
-                android:autoLink="all"
-                android:linksClickable="true"
-                android:minHeight="25dp"
-                android:text="youtube.com" />
 
             <TextView
                 android:id="@+id/tvTime"
@@ -206,6 +214,18 @@
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/baseline_bookmark_border_black_24dp" />
+
+            <ImageView
+                android:id="@+id/likeLogo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignStart="@+id/ivImage"
+                android:layout_alignTop="@+id/ivImage"
+                android:layout_alignEnd="@+id/ivImage"
+                android:layout_alignBottom="@+id/ivImage"
+                android:layout_centerInParent="true"
+                android:alpha="0"
+                android:src="@drawable/avd_post_like" />
 
         </RelativeLayout>
     </ScrollView>

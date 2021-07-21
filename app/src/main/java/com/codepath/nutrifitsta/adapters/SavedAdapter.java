@@ -93,8 +93,12 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
                     int position = getAdapterPosition();
                     Post post = posts.get(position);
                     bundle.putString("type", post.getType());
-                    bundle.putString("postId", post.getString("objectId"));
-                    bundle.putString("user", post.getUser().getUsername());
+                    bundle.putString("postId", post.getObjectId());
+                    try {
+                        bundle.putString("user", post.getUser().fetchIfNeeded().getUsername());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
                     bundle.putString("category", tvCategory.getText().toString());
                     bundle.putString("details", tvDetails.getText().toString());
@@ -131,10 +135,17 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
         public void bind(Post post) {
             String type = post.getType();
             if (type.equals("food")) {
-                FoodPost fp = post.getFood();
-                bindFood(post.getFood());
+                try {
+                    bindFood(post.getFood().fetchIfNeeded());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             } else {
-                bindFitness(post.getFitness());
+                try {
+                    bindFitness(post.getFitness().fetchIfNeeded());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

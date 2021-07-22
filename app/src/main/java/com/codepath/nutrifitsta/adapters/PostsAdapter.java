@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.classes.FitnessPost;
 import com.codepath.nutrifitsta.classes.FoodPost;
 import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.IPost;
 import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.R;
@@ -32,6 +33,7 @@ import java.util.List;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     private Context context;
     private List<Post> posts;
+    private static final String TAG = "PostsAdapter";
 
     public PostsAdapter(Context context, List<Post> posts) {
         this.context = context;
@@ -136,15 +138,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             String type = post.getType();
             String id = post.getPostId();
             if (type.equals("food")) {
-                bindFood(post.getFood());
+                bindPost(post.getFood());
             } else {
-                bindFitness(post.getFitness());
+                bindPost(post.getFitness());
             }
         }
 
-        public void bindFood(FoodPost fp) {
-            tvType.setText("FOOD");
-            tvType.setTextColor(Color.parseColor("#8BC34A"));
+        public void bindPost(IPost fp) {
+            if (fp instanceof FoodPost) {
+                tvType.setText("FOOD");
+                tvType.setTextColor(Color.parseColor("#8BC34A"));
+                tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
+            }
+            if (fp instanceof FitnessPost) {
+                tvType.setText("FITNESS");
+                tvType.setTextColor(Color.parseColor("#3F51B5"));
+                tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
+            }
             try {
                 tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
             } catch (ParseException e) {
@@ -159,38 +169,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 tvLocation.setText("");
                 locPointer.setVisibility(View.GONE);
             }
-            tvDetails.setText(fp.getNutrition() + " cal");
-            if (fp.getVideo() != null) {
-                tvVideo.setText(fp.getVideo());
-            }
-            Glide.with(context)
-                    .load(fp.getUser().getParseFile("pfp").getUrl())
-                    .circleCrop()
-                    .into(ivProfile);
-            Glide.with(context)
-                    .load(fp.getImage().getUrl())
-                    .into(ivImage);
-            imageUrl = fp.getImage().getUrl();
-            time = Methods.calculateTimeAgo(fp.getCreatedAt());
-        }
-        public void bindFitness(FitnessPost fp) {
-            tvType.setText("FITNESS");
-            tvType.setTextColor(Color.parseColor("#3F51B5"));
-            try {
-                tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            tvDescription.setText(fp.getDescription());
-            tvCategory.setText(fp.getCategory());
-            if (fp.getLoc() != null) {
-                locPointer.setVisibility(View.VISIBLE);
-                tvLocation.setText(fp.getLoc());
-            } else {
-                tvLocation.setText("");
-                locPointer.setVisibility(View.GONE);
-            }
-            tvDetails.setText(fp.getDuration() + " min");
             if (fp.getVideo() != null) {
                 tvVideo.setText(fp.getVideo());
             }
@@ -205,4 +183,5 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             time = Methods.calculateTimeAgo(fp.getCreatedAt());
         }
     }
+
 }

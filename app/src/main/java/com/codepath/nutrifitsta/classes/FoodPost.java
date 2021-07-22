@@ -8,7 +8,7 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 
 @ParseClassName("FoodPost")
-public class FoodPost extends ParseObject {
+public class FoodPost extends ParseObject implements IPost{
 
     public static final String KEY_USER = "user";
     public static final String KEY_CATEGORY = "category";

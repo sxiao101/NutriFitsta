@@ -14,25 +14,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.RequestHeaders;
+import com.codepath.asynchttpclient.RequestParams;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.adapters.PostsAdapter;
 import com.codepath.nutrifitsta.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import okhttp3.Headers;
 
 public class PostsFragment extends Fragment {
+
+    public static String API_ENDPOINT = "https://trackapi.nutritionix.com/v2/natural/nutrients";
     public static final String TAG = "PostsFragment";
     public final int REQUEST_CODE = 20;
 
     private FloatingActionButton compose;
-
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
     private List<Post> allPosts;
@@ -66,6 +82,33 @@ public class PostsFragment extends Fragment {
 
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // testing api request
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestHeaders headers = new RequestHeaders();
+        headers.put("Content-Type", "application/json");
+        headers.put("x-app-id", getString(R.string.app_id));
+        headers.put("x-app-key", getString(R.string.app_key));
+        headers.put("x-remote-user-id", "0");
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("query", "1 cup of chicken soup");
+        Gson gson = new Gson();
+        client.post(API_ENDPOINT, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "success");
+                try {
+                    JSONArray results = json.jsonObject.getJSONArray("foods");
+                    Log.i(TAG, "results: " + results.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.d(TAG, "onFailure" + response, throwable);
+            }
+        });
 
         queryPosts();
     }

@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.classes.FitnessPost;
 import com.codepath.nutrifitsta.classes.FoodPost;
 import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.IPost;
 import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.R;
@@ -112,43 +113,31 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         public void bind(Post post) {
             String type = post.getType();
             if (type.equals("food")) {
-                bindFood(post.getFood());
+                bindPost(post.getFood());
             } else {
-                bindFitness(post.getFitness());
+                bindPost(post.getFitness());
             }
 
         }
 
-        public void bindFood(FoodPost fp) {
-            tvType.setText("FOOD");
-            tvType.setTextColor(Color.parseColor("#8BC34A"));
+        public void bindPost(IPost fp) {
+            if (fp instanceof FoodPost) {
+                tvType.setText("FOOD");
+                tvType.setTextColor(Color.parseColor("#8BC34A"));
+                tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
+            }
+            if (fp instanceof FitnessPost) {
+                tvType.setText("FITNESS");
+                tvType.setTextColor(Color.parseColor("#3F51B5"));
+                tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
+            }
             tvCategory.setText(fp.getCategory());
-            tvDetails.setText(fp.getNutrition() + " cal");
             tvTime.setText(Methods.calculateTimeAgo(fp.getCreatedAt()));
             if (fp.getImage() != null) {
                 ivImage.setVisibility(View.VISIBLE);
                 imageUrl = fp.getImage().getUrl();
                 Glide.with(context)
                         .load(imageUrl)
-                        .into(ivImage);
-            } else {
-                ivImage.setVisibility(View.GONE);
-            }
-            video = fp.getVideo();
-            description = fp.getDescription();
-            loc = fp.getLoc();
-        }
-        public void bindFitness(FitnessPost fp) {
-            tvType.setText("FITNESS");
-            tvType.setTextColor(Color.parseColor("#3F51B5"));
-            tvCategory.setText(fp.getCategory());
-            tvDetails.setText(fp.getDuration() + " min");
-            tvTime.setText(Methods.calculateTimeAgo(fp.getCreatedAt()));
-            if (fp.getImage() != null) {
-                ivImage.setVisibility(View.VISIBLE);
-                imageUrl = fp.getImage().getUrl();
-                Glide.with(context)
-                        .load(fp.getImage().getUrl())
                         .into(ivImage);
             } else {
                 ivImage.setVisibility(View.GONE);

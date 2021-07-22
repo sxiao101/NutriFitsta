@@ -17,6 +17,7 @@ import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.R;
 import com.codepath.nutrifitsta.classes.FitnessPost;
 import com.codepath.nutrifitsta.classes.FoodPost;
+import com.codepath.nutrifitsta.classes.IPost;
 import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.fragments.DetailsFragment;
@@ -136,22 +137,30 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
             String type = post.getType();
             if (type.equals("food")) {
                 try {
-                    bindFood(post.getFood().fetchIfNeeded());
+                    bindPost(post.getFood().fetchIfNeeded());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
-                    bindFitness(post.getFitness().fetchIfNeeded());
+                    bindPost(post.getFitness().fetchIfNeeded());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        public void bindFood(FoodPost fp) {
-            tvType.setText("FOOD");
-            tvType.setTextColor(Color.parseColor("#8BC34A"));
+        public void bindPost(IPost fp) {
+            if (fp instanceof FoodPost) {
+                tvType.setText("FOOD");
+                tvType.setTextColor(Color.parseColor("#8BC34A"));
+                tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
+            }
+            if (fp instanceof FitnessPost) {
+                tvType.setText("FITNESS");
+                tvType.setTextColor(Color.parseColor("#3F51B5"));
+                tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
+            }
             try {
                 tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
             } catch (ParseException e) {
@@ -166,38 +175,6 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
                 tvLocation.setText("");
                 locPointer.setVisibility(View.GONE);
             }
-            tvDetails.setText(fp.getNutrition() + " cal");
-            if (fp.getVideo() != null) {
-                tvVideo.setText(fp.getVideo());
-            }
-            Glide.with(context)
-                    .load(fp.getUser().getParseFile("pfp").getUrl())
-                    .circleCrop()
-                    .into(ivProfile);
-            Glide.with(context)
-                    .load(fp.getImage().getUrl())
-                    .into(ivImage);
-            imageUrl = fp.getImage().getUrl();
-            time = Methods.calculateTimeAgo(fp.getCreatedAt());
-        }
-        public void bindFitness(FitnessPost fp) {
-            tvType.setText("FITNESS");
-            tvType.setTextColor(Color.parseColor("#3F51B5"));
-            try {
-                tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            tvDescription.setText(fp.getDescription());
-            tvCategory.setText(fp.getCategory());
-            if (fp.getLoc() != null) {
-                locPointer.setVisibility(View.VISIBLE);
-                tvLocation.setText(fp.getLoc());
-            } else {
-                tvLocation.setText("");
-                locPointer.setVisibility(View.GONE);
-            }
-            tvDetails.setText(fp.getDuration() + " min");
             if (fp.getVideo() != null) {
                 tvVideo.setText(fp.getVideo());
             }

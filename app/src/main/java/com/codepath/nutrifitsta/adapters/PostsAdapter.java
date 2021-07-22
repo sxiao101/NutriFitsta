@@ -136,7 +136,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
         public void bind(Post post) {
             String type = post.getType();
-            String id = post.getPostId();
             if (type.equals("food")) {
                 bindPost(post.getFood());
             } else {

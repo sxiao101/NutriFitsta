@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.nutrifitsta.databinding.ActivityLoginBinding;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -21,27 +22,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
 
-    private TextView tvWelcome;
-    private EditText etUsername;
-    private EditText etPassword;
-    private Button btnLogin;
-    private TextView tvSignUp;
-    private TextView tvRegister;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        tvWelcome = findViewById(R.id.tvWelcome);
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        tvRegister = findViewById(R.id.tvRegisterMessage);
-        tvSignUp = findViewById(R.id.tvSignUp);
-        tvSignUp.setPaintFlags(tvSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        tvSignUp.setOnClickListener(new View.OnClickListener() {
+        binding.tvSignUp.setPaintFlags(binding.tvSignUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        binding.tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
@@ -49,12 +38,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "onCLick login button");
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
+                String username = binding.etUsername.getText().toString();
+                String password = binding.etPassword.getText().toString();
                 loginUser(username, password);
             }
         });

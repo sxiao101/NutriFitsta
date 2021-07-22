@@ -39,6 +39,8 @@ import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.R;
+import com.codepath.nutrifitsta.databinding.FragmentFitnessComposeBinding;
+import com.codepath.nutrifitsta.databinding.FragmentFoodComposeBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -51,28 +53,19 @@ import static android.app.Activity.RESULT_OK;
 public class FoodComposeFragment extends Fragment {
 
     public static final String TAG = "FoodCompose";
-    private TextView tvPicture;
-    private TextView tvCategory;
-    private EditText etLocation;
-    private EditText etNutrition;
-    private EditText etVideo;
-    private EditText etDescription;
-    private ImageButton ibCamera;
-    private Spinner spinner;
-    private Button btnPost;
-    private ImageView ivPostImage;
     private File photoFile;
     private String photoFileName= "photo.jpg";
     ActivityResultLauncher<Intent> someActivityResultLauncher;
+    FragmentFoodComposeBinding binding;
 
     public FoodComposeFragment() {
         // Required empty public constructor
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_food_compose, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentFoodComposeBinding.inflate(getLayoutInflater(), container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
@@ -82,23 +75,12 @@ public class FoodComposeFragment extends Fragment {
         ((ComposeActivity)getContext()).getSupportActionBar().setTitle("Add Food... ");
         ((ComposeActivity)getContext()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8BC34A")));
 
-        tvPicture = view.findViewById(R.id.tvPicture);
-        tvCategory = view.findViewById(R.id.tvCategory);
-        etDescription = view.findViewById(R.id.etDescription);
-        etLocation = view.findViewById(R.id.etLocation);
-        etNutrition = view.findViewById(R.id.etNutrition);
-        etVideo = view.findViewById(R.id.etVideo);
-        ibCamera = view.findViewById(R.id.ibCamera);
-        ivPostImage = view.findViewById(R.id.ivPostImage);
-        ivPostImage.setVisibility(View.GONE);
-        spinner = view.findViewById(R.id.spinner);
-
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.category));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(myAdapter);
+        binding.spinner.setAdapter(myAdapter);
 
-        ibCamera.setOnClickListener(new View.OnClickListener() {
+        binding.ibCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 photoFile = Methods.getPhotoFileUri(getContext(), photoFileName, TAG);
@@ -106,19 +88,18 @@ public class FoodComposeFragment extends Fragment {
             }
         });
 
-        btnPost = view.findViewById(R.id.btnPost);
-        btnPost.setOnClickListener(new View.OnClickListener() {
+        binding.btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String description = etDescription.getText().toString();
+                String description = binding.etDescription.getText().toString();
                 if (description.isEmpty()) {
                     Toast.makeText(getContext(), "Description cannot be empty", Toast.LENGTH_SHORT).show(); // doesn't work?
                     Log.i(TAG, "no description");
                     return;
                 }
                 boolean hasPic = true;
-                if(photoFile == null || ivPostImage.getDrawable() == null) {
+                if(photoFile == null || binding.ivPostImage.getDrawable() == null) {
 //                    Toast.makeText(getContext(), "There is no image!", Toast.LENGTH_SHORT).show();
 //                    return;
                     hasPic = false;
@@ -134,8 +115,8 @@ public class FoodComposeFragment extends Fragment {
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                            ivPostImage.setVisibility(View.VISIBLE);
-                            ivPostImage.setImageBitmap(takenImage);
+                            binding.ivPostImage.setVisibility(View.VISIBLE);
+                            binding.ivPostImage.setImageBitmap(takenImage);
                         } else { // Result was a failure
                             Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                         }
@@ -151,10 +132,10 @@ public class FoodComposeFragment extends Fragment {
         if (hasPic) {
             fp.setImage(new ParseFile(photoFile));
         }
-        fp.setCategory(spinner.getSelectedItem().toString());
-        fp.setNutrition(Integer.parseInt(etNutrition.getText().toString()));
-        fp.setVideo(etVideo.getText().toString());
-        fp.setLoc(etLocation.getText().toString());
+        fp.setCategory(binding.spinner.getSelectedItem().toString());
+        fp.setNutrition(Integer.parseInt(binding.etNutrition.getText().toString()));
+        fp.setVideo(binding.etVideo.getText().toString());
+        fp.setLoc(binding.etLocation.getText().toString());
         fp.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

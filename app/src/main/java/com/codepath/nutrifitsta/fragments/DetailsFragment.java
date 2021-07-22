@@ -29,6 +29,7 @@ import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.R;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.classes.PostActions;
+import com.codepath.nutrifitsta.databinding.FragmentDetailsBinding;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -42,27 +43,13 @@ import java.util.List;
 public class DetailsFragment extends Fragment {
     public static final String TAG = "DetailsCompose";
 
-    private TextView tvType;
-    private TextView tvUsername;
-    private ImageView ivProfile;
-    private ImageView ivImage;
-    private TextView tvCategory;
-    private ImageView locPointer;
-    private TextView tvLocation;
-    private TextView tvDetails;
-    private TextView tvVideo;
-    private TextView tvDescription;
-    private TextView tvTime;
-    private TextView tvMessage;
-    private ImageButton ibLike;
-    private ImageButton ibSave;
-    private ImageView likeLogo;
     private String postId;
     private PostActions like;
     private PostActions save;
     private Post currPost;
 
     AnimatedVectorDrawable avd;
+    FragmentDetailsBinding binding;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -70,42 +57,32 @@ public class DetailsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentDetailsBinding.inflate(getLayoutInflater(), container, false);
+        View view = binding.getRoot();
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvType = view.findViewById(R.id.tvType);
-        tvUsername = view.findViewById(R.id.tvUsername);
-        ivProfile = view.findViewById(R.id.ivProfile);
-        ivImage = view.findViewById(R.id.ivImage);
-        tvCategory = view.findViewById(R.id.tvCategory);
-        locPointer = view.findViewById(R.id.locPointer);
-        tvLocation = view.findViewById(R.id.tvLocation);
-        tvDetails = view.findViewById(R.id.tvDetails);
-        tvVideo = view.findViewById(R.id.tvVideo);
-        tvDescription = view.findViewById(R.id.tvDescription);
-        tvMessage = view.findViewById(R.id.tvMessage);
-        tvTime = view.findViewById(R.id.tvTime);
-        ibLike = view.findViewById(R.id.ibLike);
-        ibSave = view.findViewById(R.id.ibSave);
-        likeLogo = view.findViewById(R.id.likeLogo);
-
         // double tap gesture to like
-        final Drawable drawable = likeLogo.getDrawable();
-        ivImage.setOnTouchListener(new View.OnTouchListener() {
+        final Drawable drawable = binding.likeLogo.getDrawable();
+        binding.ivImage.setOnTouchListener(new View.OnTouchListener() {
             GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener(){
                 @Override
                 public boolean onDoubleTapEvent(MotionEvent e) {
-                    likeLogo.setAlpha(0.70f);
+                    binding.likeLogo.setAlpha(0.70f);
                     avd = (AnimatedVectorDrawable) drawable;
                     avd.start();
-                    if (!ibLike.isSelected()) {
+                    if (!binding.ibLike.isSelected()) {
                         savePost();
                     }
                     return super.onDoubleTapEvent(e);
@@ -125,54 +102,54 @@ public class DetailsFragment extends Fragment {
 
         String type = bundle.getString("type");
         if (type.equals("food")) {
-            tvType.setText("FOOD");
-            tvType.setTextColor(Color.parseColor("#8BC34A"));
+            binding.tvType.setText("FOOD");
+            binding.tvType.setTextColor(Color.parseColor("#8BC34A"));
         } else {
-            tvType.setText("FITNESS");
-            tvType.setTextColor(Color.parseColor("#3F51B5"));
+            binding.tvType.setText("FITNESS");
+            binding.tvType.setTextColor(Color.parseColor("#3F51B5"));
         }
-        tvCategory.setText(bundle.getString("category"));
-        tvUsername.setText(bundle.getString("user"));
-        tvDetails.setText(bundle.getString("details"));
-        tvDescription.setText(bundle.getString("description"));
-        tvTime.setText(bundle.getString("time"));
-        tvVideo.setText(bundle.getString("video"));
+        binding.tvCategory.setText(bundle.getString("category"));
+        binding.tvUsername.setText(bundle.getString("user"));
+        binding.tvDetails.setText(bundle.getString("details"));
+        binding.tvDescription.setText(bundle.getString("description"));
+        binding.tvTime.setText(bundle.getString("time"));
+        binding.tvVideo.setText(bundle.getString("video"));
         String loc = bundle.getString("loc");
-        tvLocation.setText(loc);
+        binding.tvLocation.setText(loc);
 
         Glide.with(getContext())
                 .load(bundle.getString("pfp"))
                 .circleCrop()
-                .into(ivProfile);
+                .into(binding.ivProfile);
         Glide.with(getContext())
                 .load(bundle.getString("image"))
-                .into(ivImage);
-        tvTime.setText(bundle.getString("time"));
+                .into(binding.ivImage);
+        binding.tvTime.setText(bundle.getString("time"));
 
         RelativeLayout likeBar = view.findViewById(R.id.likeBar);
         likeBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ibLike.isSelected()) { //like it and update Parse database
+                if (!binding.ibLike.isSelected()) { //like it and update Parse database
                     savePost();
                 } else {
                     like.deleteInBackground(new DeleteCallback() {
                         @Override
                         public void done(ParseException e) {
                             like = null;
-                            ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
-                            tvMessage.setTypeface(null, Typeface.NORMAL);
-                            ibLike.setSelected(false);
+                            binding.ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
+                            binding.tvMessage.setTypeface(null, Typeface.NORMAL);
+                            binding.ibLike.setSelected(false);
                         }
                     });
                 }
             }
         });
 
-        ibSave.setOnClickListener(new View.OnClickListener() {
+        binding.ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ibSave.isSelected()) { //save it and make post
+                if (!binding.ibSave.isSelected()) { //save it and make post
                     PostActions p = new PostActions();
                     p.setUser(ParseUser.getCurrentUser());
                     p.setPostId(postId);
@@ -182,8 +159,8 @@ public class DetailsFragment extends Fragment {
                     p.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            ibSave.setImageResource(R.drawable.baseline_bookmark_black_24dp);
-                            ibSave.setSelected(true);
+                            binding.ibSave.setImageResource(R.drawable.baseline_bookmark_black_24dp);
+                            binding.ibSave.setSelected(true);
                         }
                     });
                 } else {
@@ -191,8 +168,8 @@ public class DetailsFragment extends Fragment {
                         @Override
                         public void done(ParseException e) {
                             save = null;
-                            ibSave.setImageResource(R.drawable.baseline_bookmark_border_black_24dp);
-                            ibSave.setSelected(false);
+                            binding.ibSave.setImageResource(R.drawable.baseline_bookmark_border_black_24dp);
+                            binding.ibSave.setSelected(false);
                         }
                     });
                 }
@@ -210,9 +187,9 @@ public class DetailsFragment extends Fragment {
         p.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                ibLike.setImageResource(R.drawable.liked_bolt);
-                tvMessage.setTypeface(Typeface.DEFAULT_BOLD);
-                ibLike.setSelected(true);
+                binding.ibLike.setImageResource(R.drawable.liked_bolt);
+                binding.tvMessage.setTypeface(Typeface.DEFAULT_BOLD);
+                binding.ibLike.setSelected(true);
             }
         });
     }
@@ -239,22 +216,22 @@ public class DetailsFragment extends Fragment {
             @Override
             public void done(List<PostActions> objects, ParseException e) {
                 if (e != null) { // no actions on post
-                    ibSave.setImageResource(R.drawable.baseline_bookmark_border_black_24dp);
-                    ibSave.setSelected(false);
-                    ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
-                    tvMessage.setTypeface(null, Typeface.NORMAL);
-                    ibLike.setSelected(false);
+                    binding.ibSave.setImageResource(R.drawable.baseline_bookmark_border_black_24dp);
+                    binding.ibSave.setSelected(false);
+                    binding.ibLike.setImageResource(R.drawable.ic_baseline_offline_bolt_24);
+                    binding.tvMessage.setTypeface(null, Typeface.NORMAL);
+                    binding.ibLike.setSelected(false);
                 } else {
                     for (PostActions pa: objects) {
                         if (pa.getAction() == 1) {
                             like = pa;
-                            ibLike.setImageResource(R.drawable.liked_bolt);
-                            tvMessage.setTypeface(Typeface.DEFAULT_BOLD);
-                            ibLike.setSelected(true);
+                            binding.ibLike.setImageResource(R.drawable.liked_bolt);
+                            binding.tvMessage.setTypeface(Typeface.DEFAULT_BOLD);
+                            binding.ibLike.setSelected(true);
                         } else if (pa.getAction() == 2) {
                             save = pa;
-                            ibSave.setImageResource(R.drawable.baseline_bookmark_black_24dp);
-                            ibSave.setSelected(true);
+                            binding.ibSave.setImageResource(R.drawable.baseline_bookmark_black_24dp);
+                            binding.ibSave.setSelected(true);
                         }
                     }
                 }

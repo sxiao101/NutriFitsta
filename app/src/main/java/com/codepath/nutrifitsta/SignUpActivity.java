@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.nutrifitsta.databinding.ActivityLoginBinding;
+import com.codepath.nutrifitsta.databinding.ActivitySignUpBinding;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -22,35 +24,25 @@ public class SignUpActivity extends AppCompatActivity {
 
     public static final String TAG = "SignUpActivity";
 
-    private TextView tvCreate;
-    private EditText etUsername;
-    private EditText etPassword;
-    private EditText etPassword2;
-    private Button btnRegister;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        ActivitySignUpBinding binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) binding.toolbar;
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Create Account");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tvCreate = findViewById(R.id.tvCreate);
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        etPassword2 = findViewById(R.id.etPassword2);
-        btnRegister = findViewById(R.id.btnRegister);
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "onCLick signup button");
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                String password2 = etPassword2.getText().toString();
+                String username = binding.etUsername.getText().toString();
+                String password = binding.etPassword.getText().toString();
+                String password2 = binding.etPassword2.getText().toString();
 
                 if (!(password.equals(password2))) {
                     Toast.makeText(SignUpActivity.this, "Passwords do not match!", Toast.LENGTH_LONG).show();

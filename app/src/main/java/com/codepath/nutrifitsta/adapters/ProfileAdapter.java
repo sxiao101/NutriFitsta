@@ -30,6 +30,8 @@ import com.parse.ParseQuery;
 import java.util.Date;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder>{
 
     private Context context;
@@ -123,12 +125,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         public void bindPost(IPost fp) {
             if (fp instanceof FoodPost) {
                 tvType.setText("FOOD");
-                tvType.setTextColor(Color.parseColor("#8BC34A"));
+                tvType.setTextColor(Color.parseColor("#F4B18C"));
                 tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
             }
             if (fp instanceof FitnessPost) {
                 tvType.setText("FITNESS");
-                tvType.setTextColor(Color.parseColor("#3F51B5"));
+                tvType.setTextColor(Color.parseColor("#3B9778"));
                 tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
             }
             tvCategory.setText(fp.getCategory());
@@ -138,6 +140,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                 imageUrl = fp.getImage().getUrl();
                 Glide.with(context)
                         .load(imageUrl)
+                        .fitCenter() // scale image to fill the entire ImageView
+                        .transform(new RoundedCornersTransformation(30, 10))
                         .into(ivImage);
             } else {
                 ivImage.setVisibility(View.GONE);

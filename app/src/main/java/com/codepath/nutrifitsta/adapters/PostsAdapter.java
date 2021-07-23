@@ -30,6 +30,8 @@ import com.parse.ParseQuery;
 import java.util.Date;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     private Context context;
     private List<Post> posts;
@@ -137,21 +139,29 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         public void bind(Post post) {
             String type = post.getType();
             if (type.equals("food")) {
-                bindPost(post.getFood());
+                try {
+                    bindPost(post.getFood().fetchIfNeeded());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             } else {
-                bindPost(post.getFitness());
+                try {
+                    bindPost(post.getFitness().fetchIfNeeded());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         public void bindPost(IPost fp) {
             if (fp instanceof FoodPost) {
                 tvType.setText("FOOD");
-                tvType.setTextColor(Color.parseColor("#8BC34A"));
+                tvType.setTextColor(Color.parseColor("#F4B18C"));
                 tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
             }
             if (fp instanceof FitnessPost) {
                 tvType.setText("FITNESS");
-                tvType.setTextColor(Color.parseColor("#3F51B5"));
+                tvType.setTextColor(Color.parseColor("#3B9778"));
                 tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
             }
             try {
@@ -175,8 +185,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     .load(fp.getUser().getParseFile("pfp").getUrl())
                     .circleCrop()
                     .into(ivProfile);
+            // for rounded corners
+            int radius = 30;
+            int margin = 10;
             Glide.with(context)
                     .load(fp.getImage().getUrl())
+                    .fitCenter() // scale image to fill the entire ImageView
+                    .transform(new RoundedCornersTransformation(radius, margin))
                     .into(ivImage);
             imageUrl = fp.getImage().getUrl();
             time = Methods.calculateTimeAgo(fp.getCreatedAt());

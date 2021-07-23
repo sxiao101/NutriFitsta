@@ -44,7 +44,8 @@ import okhttp3.Headers;
 
 public class PostsFragment extends Fragment {
 
-    public static String API_ENDPOINT = "https://trackapi.nutritionix.com/v2/natural/nutrients";
+    public static String API_ENDPOINT_FOOD = "https://trackapi.nutritionix.com/v2/natural/nutrients";
+    public static String API_ENDPOINT_FIT = "https://trackapi.nutritionix.com/v2/natural/exercise";
     public static final String TAG = "PostsFragment";
     public final int REQUEST_CODE = 20;
 
@@ -93,7 +94,7 @@ public class PostsFragment extends Fragment {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("query", "1 cup of chicken soup");
         Gson gson = new Gson();
-        client.post(API_ENDPOINT, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
+        client.post(API_ENDPOINT_FOOD, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "success");
@@ -109,6 +110,29 @@ public class PostsFragment extends Fragment {
                 Log.d(TAG, "onFailure" + response, throwable);
             }
         });
+        body = new HashMap<String, String>();
+        body.put("query", "ran 3 miles");
+        body.put("gender", "female");
+        body.put("weight_kg", "72.5");
+        body.put("height_cm", "167.64");
+        body.put("age", "30");
+        client.post(API_ENDPOINT_FIT, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "success");
+                try {
+                    JSONArray results = json.jsonObject.getJSONArray("exercises");
+                    Log.i(TAG, "results: " + results.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.d(TAG, "onFailure" + response, throwable);
+            }
+        });
+
 
         queryPosts();
     }

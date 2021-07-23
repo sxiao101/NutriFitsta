@@ -91,7 +91,7 @@ public class ProfileFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            ((MainActivity)getContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); //not working
+           // ((MainActivity)getContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); //not working
             btnEditProfile.setVisibility(View.GONE);
 
             String userId = bundle.getString("user");

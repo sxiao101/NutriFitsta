@@ -73,13 +73,14 @@ public class FoodComposeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ((ComposeActivity)getContext()).getSupportActionBar().setTitle("Add Food... ");
-        ((ComposeActivity)getContext()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8BC34A")));
+        ((ComposeActivity)getContext()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F4B18C")));
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.category));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(myAdapter);
 
+        binding.ivPostImage.setVisibility(View.GONE);
         binding.ibCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +149,7 @@ public class FoodComposeFragment extends Fragment {
                 post.setType("food");
                 post.setPostId(fp.getObjectId());
                 post.setUser(currentUser);
+                post.setFood(fp);
                 post.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

@@ -5,155 +5,160 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="5dp"
+    android:background="#EBEEF1">
 
-
-    <TextView
-        android:id="@+id/tvType"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="5dp"
-        android:text="FOOD"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/ivProfile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/tvType"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:adjustViewBounds="true"
-        android:padding="8dp"
-        android:scaleType="centerInside"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/tvUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/ivProfile"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/ivProfile"
-        android:text="shannonxiao101"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/ivProfile"
-        android:layout_alignBottom="@id/ivProfile"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:fontFamily="@font/allerta_stencil"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Lunch"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="175dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvCategory"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:id="@+id/locPointer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/tvLocation"
-                android:layout_alignBottom="@id/tvLocation"
-                android:layout_marginStart="0dp"
-                app:srcCompat="@drawable/ic_baseline_location_on_24" />
-
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/locPointer"
-                android:text="Chipotle"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="5dp">
 
         <TextView
-            android:id="@+id/tvDetails"
+            android:id="@+id/tvType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/locPointer"
-            android:layout_alignEnd="@id/tvLocation"
-            android:layout_alignParentStart="false"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:text="450 cal"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="5dp"
+            android:text="FOOD"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/tvType"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:adjustViewBounds="true"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/tvVideo"
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ivProfile"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:text="shannonxiao101"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ivProfile"
+            android:layout_alignBottom="@id/ivProfile"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:fontFamily="@font/allerta_stencil"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Lunch"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvCategory"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/locPointer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/tvLocation"
+                    android:layout_alignBottom="@id/tvLocation"
+                    android:layout_marginStart="0dp"
+                    app:srcCompat="@drawable/ic_baseline_location_on_24" />
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/locPointer"
+                    android:text="Chipotle"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/locPointer"
+                android:layout_alignEnd="@id/tvLocation"
+                android:layout_alignParentStart="false"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="450 cal"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:autoLink="all"
+                android:gravity="center_horizontal"
+                android:linksClickable="true"
+                android:text="youtube.com" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_below="@+id/tvCategory"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="2dp"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:maxHeight="100dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:autoLink="all"
-            android:gravity="center_horizontal"
-            android:linksClickable="true"
-            android:text="youtube.com" />
+            android:layout_below="@+id/ivImage"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:maxHeight="150dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_below="@+id/tvCategory"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/linearLayout"
-        android:maxHeight="100dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivImage"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:maxHeight="150dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/tvDescription"
-        android:layout_marginTop="10dp"
-        android:background="#888888" />
+    </RelativeLayout>
 
 </RelativeLayout>

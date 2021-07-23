@@ -40,6 +40,8 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class DetailsFragment extends Fragment {
     public static final String TAG = "DetailsCompose";
 
@@ -123,6 +125,8 @@ public class DetailsFragment extends Fragment {
                 .into(binding.ivProfile);
         Glide.with(getContext())
                 .load(bundle.getString("image"))
+                .fitCenter() // scale image to fill the entire ImageView
+                .transform(new RoundedCornersTransformation(30, 10))
                 .into(binding.ivImage);
         binding.tvTime.setText(bundle.getString("time"));
 

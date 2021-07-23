@@ -26,6 +26,8 @@ import com.parse.ParseException;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
     private Context context;
     private List<Post> posts;
@@ -153,12 +155,12 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
         public void bindPost(IPost fp) {
             if (fp instanceof FoodPost) {
                 tvType.setText("FOOD");
-                tvType.setTextColor(Color.parseColor("#8BC34A"));
+                tvType.setTextColor(Color.parseColor("#F4B18C"));
                 tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
             }
             if (fp instanceof FitnessPost) {
                 tvType.setText("FITNESS");
-                tvType.setTextColor(Color.parseColor("#3F51B5"));
+                tvType.setTextColor(Color.parseColor("#3B9778"));
                 tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
             }
             try {
@@ -184,6 +186,8 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
                     .into(ivProfile);
             Glide.with(context)
                     .load(fp.getImage().getUrl())
+                    .fitCenter() // scale image to fill the entire ImageView
+                    .transform(new RoundedCornersTransformation(30, 10))
                     .into(ivImage);
             imageUrl = fp.getImage().getUrl();
             time = Methods.calculateTimeAgo(fp.getCreatedAt());

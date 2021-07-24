@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -50,7 +51,7 @@ import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FoodComposeFragment extends Fragment {
+public class FoodComposeFragment extends Fragment implements ComposeListDialog.ComposeDialogListener {
 
     public static final String TAG = "FoodCompose";
     private File photoFile;
@@ -123,6 +124,27 @@ public class FoodComposeFragment extends Fragment {
                         }
                     }
                 });
+        binding.btnRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+    }
+
+    // Call this method to launch the edit dialog
+    private void openDialog() {
+        ComposeListDialog dialog = ComposeListDialog.newInstance("Some Title");;
+        dialog.setTargetFragment(FoodComposeFragment.this, 1);
+        dialog.show(getFragmentManager(), "ComposeListDialog");
+    }
+
+    // This is called when the dialog is completed and the results have been passed
+    @Override
+    public void sendInput(String input) {
+        Log.d(TAG, "sendInput: found incoming input: " + input);
+
+        Toast.makeText(getContext(), "Entered: " + input, Toast.LENGTH_SHORT).show();
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {

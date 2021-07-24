@@ -62,7 +62,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/roundedbutton"
-            android:backgroundTint="#3F51B5"
+            android:backgroundTint="#93E9BE"
             android:text="log in"
             android:textColor="#FFFFFF" />
 

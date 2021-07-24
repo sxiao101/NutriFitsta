@@ -94,7 +94,7 @@
 
             <EditText
                 android:id="@+id/etVideo"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/etNutrition"
                 android:layout_alignParentStart="true"
@@ -125,9 +125,19 @@
                 android:layout_below="@+id/etDescription"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="33dp"
-                android:backgroundTint="@color/purple_500"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#93E9BE"
                 android:text="post"
                 android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnRecipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/etVideo"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/etVideo"
+                android:text="enter recipe" />
         </RelativeLayout>
     </ScrollView>
 

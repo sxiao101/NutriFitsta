@@ -86,7 +86,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/roundedbutton"
-        android:backgroundTint="#009688"
+        android:backgroundTint="#93E9BE"
         android:text="register"
         android:textColor="#FFFFFF" />
 

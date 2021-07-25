@@ -142,8 +142,8 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
     // This is called when the dialog is completed and the results have been passed
     @Override
     public void sendInput(String input) {
-        Log.d(TAG, "sendInput: found incoming input: " + input);
 
+        Log.d(TAG, "sendInput: found incoming input: " + input);
         Toast.makeText(getContext(), "Entered: " + input, Toast.LENGTH_SHORT).show();
     }
 

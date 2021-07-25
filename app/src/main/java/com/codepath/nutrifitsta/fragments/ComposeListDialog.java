@@ -1,15 +1,18 @@
 package com.codepath.nutrifitsta.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,8 +21,11 @@ import com.codepath.nutrifitsta.R;
 public class ComposeListDialog extends DialogFragment {
     public static final String TAG = "ComposeListDialog";
 
-    private EditText mInput;
-    private TextView mActionOk, mActionCancel;
+    private TextView tvTitle, mActionOk, mActionCancel;
+    private EditText etItem;
+    private Button btnAdd;
+    private RecyclerView rvItems;
+
 
     // Defines the listener interface
     public interface ComposeDialogListener {
@@ -50,8 +56,11 @@ public class ComposeListDialog extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Get field from view
-        mInput = (EditText) view.findViewById(R.id.input);
+
+        tvTitle = view.findViewById(R.id.tvTitle);
+        etItem = view.findViewById(R.id.etItem);
+        btnAdd = view.findViewById(R.id.btnAdd);
+        rvItems = view.findViewById(R.id.rvItems);
         mActionOk = view.findViewById(R.id.action_ok);
         mActionCancel = view.findViewById(R.id.action_cancel);
 
@@ -67,14 +76,14 @@ public class ComposeListDialog extends DialogFragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: capturing input");
 
-                String input = mInput.getText().toString();
+                String input = etItem.getText().toString();
                 if(!input.equals("")){
 //
 //                    //Easiest way: just set the value.
 //                    MainFragment fragment = (MainFragment) getActivity().getFragmentManager().findFragmentByTag("MainFragment");
 //                    fragment.mInputDisplay.setText(input);
 
-                    dialogListener.sendInput(input);
+                    dialogListener.sendInput(input); //check why its exiting the compose acitvity
                 }
 
                 getDialog().dismiss();
@@ -84,17 +93,20 @@ public class ComposeListDialog extends DialogFragment {
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
+
         // Show soft keyboard automatically and request focus to field
-        mInput.requestFocus();
+        etItem.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
-    /*// Call this method to send the data back to the parent fragment
-    public void sendBackResult() {
-        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        ComposeDialogListener listener = (ComposeDialogListener) getTargetFragment();
-        listener.onFinishEditDialog(mEditText.getText().toString());
-        dismiss();
-    }*/
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            dialogListener = (ComposeDialogListener) getTargetFragment();
+        }catch (ClassCastException e){
+            Log.e(TAG, "onAttach: ClassCastException : " + e.getMessage() );
+        }
+    }
 }

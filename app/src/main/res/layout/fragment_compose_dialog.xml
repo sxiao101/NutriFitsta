@@ -3,29 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ComposeListDialog">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ToolbarTheme">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Title"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/tvCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter Ingredients (hold down to delete):"
-            android:textSize="18sp"
+            android:text="Calorie Count: 0"
             android:textColor="#000"
-            android:id="@+id/tvTitle"/>
+            android:textSize="18sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvItems"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_below="@+id/tvTitle"
+            android:layout_below="@+id/tvCount"
             android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="0dp" />
+            android:layout_marginBottom="0dp"
+            android:scrollbars="vertical" />
 
         <Button
             android:id="@+id/btnAdd"
@@ -52,28 +75,28 @@
 
 
         <TextView
+            android:id="@+id/action_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DONE"
             android:layout_below="@id/etItem"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:textSize="18sp"
+            android:layout_marginRight="20dp"
+            android:text="DONE"
             android:textColor="#33bbff"
-            android:id="@+id/action_ok"/>
+            android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/action_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CANCEL"
             android:layout_below="@id/etItem"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:textSize="18sp"
+            android:layout_marginRight="20dp"
+            android:text="CANCEL"
             android:textColor="#33bbff"
-            android:id="@+id/action_cancel"/>
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

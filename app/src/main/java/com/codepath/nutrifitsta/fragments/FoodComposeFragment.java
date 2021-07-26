@@ -134,7 +134,7 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
 
     // Call this method to launch the edit dialog
     private void openDialog() {
-        ComposeListDialog dialog = ComposeListDialog.newInstance("Some Title");;
+        ComposeListDialog dialog = ComposeListDialog.newInstance("food");
         dialog.setTargetFragment(FoodComposeFragment.this, 1);
         dialog.show(getFragmentManager(), "ComposeListDialog");
     }

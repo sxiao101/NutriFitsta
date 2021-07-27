@@ -38,12 +38,23 @@
             android:scrollbars="vertical" />
 
         <TextView
+            android:id="@+id/tvCal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rvItems"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:text="Total Calories: "
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/action_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rvItems"
+            android:layout_below="@id/tvCal"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="EXIT"
             android:textColor="#33bbff"
             android:textSize="18sp" />

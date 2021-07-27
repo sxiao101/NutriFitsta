@@ -29,7 +29,8 @@ import java.util.List;
 public class ViewDetailsDialog extends DialogFragment {
     public static final String TAG = "DetailsDialog";
     private static List<String> items;
-    private TextView mActionExit;
+    private static int cal;
+    private TextView tvCal, mActionExit;
     private RecyclerView rvItems;
     ItemsAdapter itemsAdapter;
 
@@ -37,9 +38,10 @@ public class ViewDetailsDialog extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static ViewDetailsDialog newInstance(List<String> list) {
+    public static ViewDetailsDialog newInstance(List<String> list, Integer totalCal) {
         items = new ArrayList<>();
         items.addAll(list);
+        cal = totalCal;
         return new ViewDetailsDialog();
     }
 
@@ -58,8 +60,6 @@ public class ViewDetailsDialog extends DialogFragment {
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         title.setText("Ingredients");
         mActionExit = view.findViewById(R.id.action_exit);
-        rvItems = view.findViewById(R.id.rvItems);
-
         mActionExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,11 +67,16 @@ public class ViewDetailsDialog extends DialogFragment {
             }
         });
 
+        rvItems = view.findViewById(R.id.rvItems);
         ItemsAdapter.OnLongClickListener onLongClickListener = new ItemsAdapter.OnLongClickListener() {@Override public void onItemLongClicked(int position){}};
         itemsAdapter = new ItemsAdapter(items, onLongClickListener);
         rvItems.setAdapter(itemsAdapter);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvItems.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
+
+
+        tvCal = view.findViewById(R.id.tvCal);
+        tvCal.setText("Total Calories: " + cal);
     }
 }

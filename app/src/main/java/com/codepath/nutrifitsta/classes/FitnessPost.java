@@ -96,4 +96,12 @@ public class FitnessPost extends ParseObject implements IPost{
     public void setCategory(String type) {
         put("type", type);
     }
+
+    public int getCal() {
+        return getInt("calories");
+    }
+
+    public void setCal(int cal) {
+        put("calories", cal);
+    }
 }

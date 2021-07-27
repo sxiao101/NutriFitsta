@@ -54,6 +54,7 @@ public class DetailsFragment extends Fragment {
     public static final String TAG = "DetailsCompose";
     private static View v;
     private List<String> items;
+    private int totalCal;
 
     private String postId;
     private PostActions like;
@@ -178,7 +179,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void openDialog(List<String> items) {
-        ViewDetailsDialog dialog = ViewDetailsDialog.newInstance(items);
+        ViewDetailsDialog dialog = ViewDetailsDialog.newInstance(items, totalCal);
         dialog.setTargetFragment(DetailsFragment.this, 1);
         dialog.show(getFragmentManager(), "ViewDetailsDialog");
     }
@@ -238,12 +239,14 @@ public class DetailsFragment extends Fragment {
             binding.tvType.setTextColor(Color.parseColor("#8BC34A"));
             binding.btnList.setText("Get Ingredients");
             binding.tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
+            totalCal = ((FoodPost)fp).getNutrition();
         }
         if (fp instanceof FitnessPost) {
             binding.tvType.setText("FITNESS");
             binding.tvType.setTextColor(Color.parseColor("#3F51B5"));
             binding.btnList.setText("Get Workout");
             binding.tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
+            totalCal = ((FitnessPost)fp).getCal();
         }
         try {
             binding.tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());

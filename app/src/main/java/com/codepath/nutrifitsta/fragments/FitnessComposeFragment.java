@@ -62,6 +62,7 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
     ActivityResultLauncher<Intent> someActivityResultLauncher;
     FragmentFitnessComposeBinding binding;
     private List<String> workout;
+    private int cal;
 
     public FitnessComposeFragment() {
         // Required empty public constructor
@@ -151,7 +152,7 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
     // This is called when the dialog is completed and the results have been passed
     @Override
     public void sendInput(List<String> items, int totalCal) {
-        //binding.etNutrition.setText("" + totalCal);
+        cal = totalCal;
         workout.addAll(items);
         Toast.makeText(getContext(), "Exercises added!", Toast.LENGTH_SHORT).show();
         binding.btnList.setText("Exercises Added");
@@ -159,7 +160,6 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {
-
         //pb.setVisibility(ProgressBar.VISIBLE);
         FitnessPost fp = new FitnessPost();
         fp.setUser(currentUser);
@@ -177,6 +177,7 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
         if (!workout.isEmpty()) {
             fp.setList(new JSONArray(workout));
         }
+        fp.setCal(cal);
         fp.setDuration(Integer.parseInt(binding.etDuration.getText().toString()));
         fp.saveInBackground(new SaveCallback() {
             @Override

@@ -238,13 +238,6 @@ public class DetailsFragment extends Fragment {
             binding.tvType.setTextColor(Color.parseColor("#8BC34A"));
             binding.btnList.setText("Get Ingredients");
             binding.tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
-            try {
-                if(((FoodPost)fp).getRecipe() != null) {
-                    items.addAll(((FoodPost)fp).getRecipe());
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
         if (fp instanceof FitnessPost) {
             binding.tvType.setText("FITNESS");
@@ -255,6 +248,13 @@ public class DetailsFragment extends Fragment {
         try {
             binding.tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
         } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            if(fp.getList() != null) {
+                items.addAll(fp.getList());
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         binding.tvDescription.setText(fp.getDescription());

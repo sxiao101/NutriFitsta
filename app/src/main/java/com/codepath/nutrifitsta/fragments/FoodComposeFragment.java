@@ -172,7 +172,7 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
             fp.setLoc(binding.etLocation.getText().toString());
         }
         if (!recipe.isEmpty()) {
-            fp.setRecipe(new JSONArray(recipe));
+            fp.setList(new JSONArray(recipe));
         }
         fp.saveInBackground(new SaveCallback() {
             @Override

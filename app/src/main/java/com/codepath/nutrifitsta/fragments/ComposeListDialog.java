@@ -41,6 +41,7 @@ import okhttp3.Headers;
 public class ComposeListDialog extends DialogFragment {
     public static final String TAG = "ComposeListDialog";
     public static String API_ENDPOINT_FOOD = "https://trackapi.nutritionix.com/v2/natural/nutrients";
+    public static String API_ENDPOINT_FIT = "https://trackapi.nutritionix.com/v2/natural/exercise";
     public static String COUNT = "Calorie Count: ";
     private static String type;
 
@@ -84,6 +85,8 @@ public class ComposeListDialog extends DialogFragment {
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
         if (type.equals("food")) {
             title.setText("Enter Ingredients");
+        } else {
+            title.setText("Enter Exercises");
         }
         tvCount = view.findViewById(R.id.tvCount);
         etItem = view.findViewById(R.id.etItem);
@@ -164,14 +167,16 @@ public class ComposeListDialog extends DialogFragment {
         headers.put("x-remote-user-id", "0");
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("query", item);
+        String api = (type.equals("food")) ? API_ENDPOINT_FOOD : API_ENDPOINT_FIT;
         Gson gson = new Gson();
-        client.post(API_ENDPOINT_FOOD, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
+        client.post(api, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "success");
                 JSONObject jsonObject = json.jsonObject;
                 try {
-                    JSONArray results = jsonObject.getJSONArray("foods");
+                    String name = (type.equals("food")) ? "foods" : "exercises";
+                    JSONArray results = jsonObject.getJSONArray(name);
                     Integer cal = results.getJSONObject(0).getInt("nf_calories");
                     Toast.makeText(getContext(), String.format("%s calories were added", cal), Toast.LENGTH_SHORT).show();
                     itemsCal.add(cal);

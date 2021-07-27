@@ -42,7 +42,7 @@ public class FoodPost extends ParseObject implements IPost{
         put("nutrition", cal);
     }
 
-    public ArrayList<String> getRecipe() throws JSONException {
+    public ArrayList<String> getList() throws JSONException {
         JSONArray jsonArray = getJSONArray("recipe");
         if (jsonArray == null) {
             return null;
@@ -54,7 +54,7 @@ public class FoodPost extends ParseObject implements IPost{
         return list;
     }
 
-    public void setRecipe(JSONArray arr) {
+    public void setList(JSONArray arr) {
         put("recipe", arr);
     }
 

@@ -6,6 +6,9 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 @ParseClassName("FitnessPost")
 public class FitnessPost extends ParseObject implements IPost{
@@ -30,9 +33,21 @@ public class FitnessPost extends ParseObject implements IPost{
         put("duration", time);
     }
 
-    public JSONArray getWorkout() { return getJSONArray("workout"); }
+    public ArrayList<String> getList() throws JSONException {
+        JSONArray jsonArray = getJSONArray("workout");
+        if (jsonArray == null) {
+            return null;
+        }
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i=0; i<jsonArray.length(); i++) {
+            list.add( jsonArray.getString(i) );
+        }
+        return list;
+    }
 
-    //add or remove something from recipe array
+    public void setList(JSONArray arr) {
+        put("workout", arr);
+    }
 
     public JSONArray getLikers() { return getJSONArray("likers"); }
 

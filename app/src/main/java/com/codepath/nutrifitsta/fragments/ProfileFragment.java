@@ -106,9 +106,9 @@ public class ProfileFragment extends Fragment {
                 }
             });
         } else {
-            btnEditProfile.setVisibility(View.VISIBLE);
             load(ParseUser.getCurrentUser());
-            ivProfile.setOnClickListener(new View.OnClickListener() {
+            btnEditProfile.setVisibility(View.VISIBLE);
+            btnEditProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     launchCamera();

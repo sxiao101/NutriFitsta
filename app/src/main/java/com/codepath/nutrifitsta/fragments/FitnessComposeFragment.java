@@ -47,16 +47,21 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONArray;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class FitnessComposeFragment extends Fragment {
+public class FitnessComposeFragment extends Fragment implements ComposeListDialog.ComposeDialogListener {
     public static final String TAG = "FitnessCompose";
     private File photoFile;
     private String photoFileName= "photo.jpg";
     ActivityResultLauncher<Intent> someActivityResultLauncher;
     FragmentFitnessComposeBinding binding;
+    private List<String> workout;
 
     public FitnessComposeFragment() {
         // Required empty public constructor
@@ -81,6 +86,7 @@ public class FitnessComposeFragment extends Fragment {
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(myAdapter);
 
+        workout = new ArrayList<>();
         binding.ivPostImage.setVisibility(View.GONE);
         binding.ibCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +132,30 @@ public class FitnessComposeFragment extends Fragment {
                         }
                     }
                 });
+
+        binding.btnList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+    }
+
+    // launch the edit dialog
+    private void openDialog() {
+        ComposeListDialog dialog = ComposeListDialog.newInstance("fitness");
+        dialog.setTargetFragment(FitnessComposeFragment.this, 1);
+        dialog.show(getFragmentManager(), "ComposeListDialog");
+    }
+
+    // This is called when the dialog is completed and the results have been passed
+    @Override
+    public void sendInput(List<String> items, int totalCal) {
+        //binding.etNutrition.setText("" + totalCal);
+        workout.addAll(items);
+        Toast.makeText(getContext(), "Exercises added!", Toast.LENGTH_SHORT).show();
+        binding.btnList.setText("Exercises Added");
+        binding.btnList.setClickable(false);
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {
@@ -138,9 +168,16 @@ public class FitnessComposeFragment extends Fragment {
             fp.setImage(new ParseFile(photoFile));
         }
         fp.setCategory(binding.spinner.getSelectedItem().toString());
+        if (!binding.etVideo.getText().toString().isEmpty()) {
+            fp.setLoc(binding.etVideo.getText().toString());
+        }
+        if (!binding.etLocation.getText().toString().isEmpty()) {
+            fp.setLoc(binding.etLocation.getText().toString());
+        }
+        if (!workout.isEmpty()) {
+            fp.setList(new JSONArray(workout));
+        }
         fp.setDuration(Integer.parseInt(binding.etDuration.getText().toString()));
-        fp.setVideo(binding.etVideo.getText().toString());
-        fp.setLoc(binding.etLocation.getText().toString());
         fp.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

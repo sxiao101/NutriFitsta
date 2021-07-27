@@ -4,7 +4,9 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface IPost {
@@ -25,4 +27,6 @@ public interface IPost {
     String getLoc();
     void setLoc(String loc);
     Date getCreatedAt();
+    ArrayList<String> getList() throws JSONException;
+    void setList(JSONArray arr);
 }

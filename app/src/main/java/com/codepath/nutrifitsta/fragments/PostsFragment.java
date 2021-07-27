@@ -85,38 +85,6 @@ public class PostsFragment extends Fragment {
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // testing api request
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestHeaders headers = new RequestHeaders();
-        headers.put("Content-Type", "application/json");
-        headers.put("x-app-id", getString(R.string.app_id));
-        headers.put("x-app-key", getString(R.string.app_key));
-        headers.put("x-remote-user-id", "0");
-        HashMap<String, String> body = new HashMap<String, String>();
-        Gson gson = new Gson();
-        body.put("query", "ran 3 miles");
-        body.put("gender", "female");
-        body.put("weight_kg", "72.5");
-        body.put("height_cm", "167.64");
-        body.put("age", "30");
-        client.post(API_ENDPOINT_FIT, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "success");
-                try {
-                    JSONArray results = json.jsonObject.getJSONArray("exercises");
-                    Log.i(TAG, "results: " + results.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d(TAG, "onFailure" + response, throwable);
-            }
-        });
-
-
         queryPosts();
     }
 

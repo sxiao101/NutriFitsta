@@ -131,6 +131,15 @@
                 android:text="post"
                 android:textColor="#FFFFFF" />
 
+            <Button
+                android:id="@+id/btnList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/etVideo"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/etVideo"
+                android:text="Add exercises" />
+
         </RelativeLayout>
     </ScrollView>
 

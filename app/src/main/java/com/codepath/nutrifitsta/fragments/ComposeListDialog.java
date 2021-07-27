@@ -82,7 +82,9 @@ public class ComposeListDialog extends DialogFragment {
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("Enter Ingredients");
+        if (type.equals("food")) {
+            title.setText("Enter Ingredients");
+        }
         tvCount = view.findViewById(R.id.tvCount);
         etItem = view.findViewById(R.id.etItem);
         btnAdd = view.findViewById(R.id.btnAdd);
@@ -132,10 +134,7 @@ public class ComposeListDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String item = etItem.getText().toString();
-                findCalories(item);
-                items.add(item);
-                itemsAdapter.notifyItemInserted(items.size() - 1);
-                rvItems.smoothScrollToPosition(items.size() - 1);
+                addItem(item);
                 etItem.setText("");
             }
         });
@@ -156,7 +155,7 @@ public class ComposeListDialog extends DialogFragment {
         }
     }
 
-    private void findCalories(String item) {
+    private void addItem(String item) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestHeaders headers = new RequestHeaders();
         headers.put("Content-Type", "application/json");
@@ -177,6 +176,9 @@ public class ComposeListDialog extends DialogFragment {
                     Toast.makeText(getContext(), String.format("%s calories were added", cal), Toast.LENGTH_SHORT).show();
                     itemsCal.add(cal);
                     total_cal += cal;
+                    items.add(item);
+                    itemsAdapter.notifyItemInserted(items.size() - 1);
+                    rvItems.smoothScrollToPosition(items.size() - 1);
                     tvCount.setText(COUNT + total_cal);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -185,6 +187,7 @@ public class ComposeListDialog extends DialogFragment {
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.d(TAG, "onFailure" + response, throwable);
+                Toast.makeText(getContext(), "Cannot find entry in database, plz try again!", Toast.LENGTH_SHORT).show();
             }
         });
     }

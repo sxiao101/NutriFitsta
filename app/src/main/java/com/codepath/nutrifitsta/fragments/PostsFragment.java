@@ -93,28 +93,7 @@ public class PostsFragment extends Fragment {
         headers.put("x-app-key", getString(R.string.app_key));
         headers.put("x-remote-user-id", "0");
         HashMap<String, String> body = new HashMap<String, String>();
-        body.put("query", "1 cup of celery");
         Gson gson = new Gson();
-        client.post(API_ENDPOINT_FOOD, headers, new RequestParams(), gson.toJson(body), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "success");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("foods");
-                    Integer cal = results.getJSONObject(0).getInt("nf_calories");
-                    Log.i(TAG, "calories: " + cal);
-                    Log.i(TAG, "results: " + results.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d(TAG, "onFailure" + response, throwable);
-            }
-        });
-        body = new HashMap<String, String>();
         body.put("query", "ran 3 miles");
         body.put("gender", "female");
         body.put("weight_kg", "72.5");

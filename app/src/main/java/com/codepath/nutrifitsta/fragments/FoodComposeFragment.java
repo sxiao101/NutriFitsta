@@ -130,7 +130,7 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
                         }
                     }
                 });
-        binding.btnRecipe.setOnClickListener(new View.OnClickListener() {
+        binding.btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialog();
@@ -151,8 +151,8 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
         binding.etNutrition.setText("" + totalCal);
         recipe.addAll(items);
         Toast.makeText(getContext(), "Recipe added!", Toast.LENGTH_SHORT).show();
-        binding.btnRecipe.setText("Recipe Added");
-        binding.btnRecipe.setClickable(false);
+        binding.btnList.setText("Recipe Added");
+        binding.btnList.setClickable(false);
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {
@@ -199,10 +199,8 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
                         goMainActivity();
                     }
                 });
-
             }
         });
-
     }
 
     private void goMainActivity() {

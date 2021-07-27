@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,20 +28,25 @@ import com.codepath.nutrifitsta.fragments.ProfileFragment;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
+public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> implements Filterable {
     private Context context;
     private List<Post> posts;
+    private List<Post> postsAll;
     private static final String TAG = "PostsAdapter";
 
-    public PostsAdapter(Context context, List<Post> posts) {
+    public PostsAdapter(Context context, List<Post> posts, List<Post> postsAll) {
         this.context = context;
         this.posts = posts;
+        this.postsAll = postsAll;
     }
 
     @NonNull
@@ -66,6 +73,40 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         notifyDataSetChanged();
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        // runs on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            String filt = constraint.toString();
+            List<Post> filteredPosts = new ArrayList<>();
+            if (filt.isEmpty()) {
+                filteredPosts.addAll(postsAll);
+            } else {
+                for (Post post : postsAll) {
+                    if (post.getType().equals(filt)) {
+                        filteredPosts.add(post);
+                    }
+                }
+                Log.i("Posts", ("" + filteredPosts.size()));
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredPosts;
+            return filterResults;
+        }
+        // runs on a ui thread
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            posts.clear();
+            posts.addAll((Collection<? extends Post>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvType, tvDescription, tvUsername, tvCategory, tvDetails, tvLocation, tvVideo, tvTime;

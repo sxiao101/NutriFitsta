@@ -13,6 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestHeaders;
@@ -28,6 +31,7 @@ import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -53,7 +57,9 @@ public class PostsFragment extends Fragment {
     private FloatingActionButton compose;
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
+    private List<Post> posts;
     private List<Post> allPosts;
+    private Spinner mySpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,14 +84,37 @@ public class PostsFragment extends Fragment {
             }
         });
 
+        mySpinner = view.findViewById(R.id.mySpinner);
+        mySpinner.setAdapter(new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.filters)));
+
         rvPosts = view.findViewById(R.id.rvPosts);
+        posts = new ArrayList<>();
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new PostsAdapter(getContext(), posts, allPosts);
 
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         queryPosts();
+
+        //spinner selection events
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long itemID) {
+                String input = "";
+                if (position == 1) {
+                    input = "food";
+                } else if (position == 2) {
+                    input = "fitness";
+                }
+                adapter.getFilter().filter(input);
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     private void queryPosts() {
@@ -99,18 +128,19 @@ public class PostsFragment extends Fragment {
         // order posts by creation date (newest first)
         query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Post>() {
-            public void done(List<Post> posts, ParseException e) {
+            public void done(List<Post> objects, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                for (Post post : posts){
+                for (Post post : objects){
                     Log.i(TAG, "Post: " + post.getPostId());
                 }
 //                if (refresh) {
 //                    adapter.clear();
 //                }
-                allPosts.addAll(posts);
+                posts.addAll(objects);
+                allPosts.addAll(objects);
                 adapter.notifyDataSetChanged();
 //                if (refresh) {
 //                    // Now we call setRefreshing(false) to signal refresh has finished

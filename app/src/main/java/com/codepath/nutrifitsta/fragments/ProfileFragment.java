@@ -156,7 +156,6 @@ public class ProfileFragment extends Fragment {
 
     private void load(ParseUser user) {
         tvUser.setText(user.getUsername());
-
         ParseFile pf = user.getParseFile("pfp");
         Glide.with(getContext())
                 .load(pf.getUrl())

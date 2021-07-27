@@ -68,19 +68,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvType;
-        private ImageView ivImage;
-        private TextView tvDescription;
-        private TextView tvUsername;
-        private TextView tvCategory;
-        private TextView tvDetails;
-        private TextView tvLocation;
-        private TextView tvVideo;
-        private ImageView ivProfile;
-        private ImageView locPointer;
-        private String loc;
-        private String time;
-        private String imageUrl;
+        private TextView tvType, tvDescription, tvUsername, tvCategory, tvDetails, tvLocation, tvVideo, tvTime;
+        private ImageView ivImage, ivProfile, locPointer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +81,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             tvDetails = itemView.findViewById(R.id.tvDetails);
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvVideo = itemView.findViewById(R.id.tvVideo);
+            tvTime = itemView.findViewById(R.id.tvTime);
             locPointer = itemView.findViewById(R.id.locPointer);
             ivProfile = itemView.findViewById(R.id.ivProfile);
 
@@ -101,18 +91,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     Bundle bundle = new Bundle();
                     int position = getAdapterPosition();
                     Post post = posts.get(position);
-                    bundle.putString("type", post.getType());
                     bundle.putString("postId", post.getObjectId());
-                    bundle.putString("user", post.getUser().getUsername());
-                    bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
-                    bundle.putString("category", tvCategory.getText().toString());
-                    bundle.putString("details", tvDetails.getText().toString());
-                    bundle.putString("description", tvDescription.getText().toString());
-                    bundle.putString("video", tvVideo.getText().toString());
-                    bundle.putString("loc", tvLocation.getText().toString());
-                    bundle.putString("time", time);
-                    bundle.putString("image", imageUrl);
-                    bundle.putString("userId", post.getUser().getObjectId());
                     DetailsFragment details = new DetailsFragment();
                     details.setArguments(bundle);
 
@@ -171,6 +150,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             }
             tvDescription.setText(fp.getDescription());
             tvCategory.setText(fp.getCategory());
+            tvTime.setText(Methods.calculateTimeAgo(fp.getCreatedAt()));
             if (fp.getLoc() != null) {
                 locPointer.setVisibility(View.VISIBLE);
                 tvLocation.setText(fp.getLoc());
@@ -193,8 +173,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     .fitCenter() // scale image to fill the entire ImageView
                     .transform(new RoundedCornersTransformation(radius, margin))
                     .into(ivImage);
-            imageUrl = fp.getImage().getUrl();
-            time = Methods.calculateTimeAgo(fp.getCreatedAt());
         }
     }
 

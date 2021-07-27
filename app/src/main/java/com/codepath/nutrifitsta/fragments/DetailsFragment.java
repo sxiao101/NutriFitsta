@@ -22,11 +22,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.R;
+import com.codepath.nutrifitsta.classes.FitnessPost;
+import com.codepath.nutrifitsta.classes.FoodPost;
+import com.codepath.nutrifitsta.classes.IPost;
+import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.classes.PostActions;
 import com.codepath.nutrifitsta.databinding.FragmentDetailsBinding;
@@ -38,12 +43,17 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class DetailsFragment extends Fragment {
     public static final String TAG = "DetailsCompose";
+    private static View v;
+    private List<String> items;
 
     private String postId;
     private PostActions like;
@@ -74,6 +84,9 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.setVisibility(View.GONE);
+        v = view;
+        items = new ArrayList<>();
 
         // double tap gesture to like
         final Drawable drawable = binding.likeLogo.getDrawable();
@@ -99,36 +112,8 @@ public class DetailsFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         postId = bundle.getString("postId");
-        getPost(postId);
-        setButtons();
-
-        String type = bundle.getString("type");
-        if (type.equals("food")) {
-            binding.tvType.setText("FOOD");
-            binding.tvType.setTextColor(Color.parseColor("#8BC34A"));
-        } else {
-            binding.tvType.setText("FITNESS");
-            binding.tvType.setTextColor(Color.parseColor("#3F51B5"));
-        }
-        binding.tvCategory.setText(bundle.getString("category"));
-        binding.tvUsername.setText(bundle.getString("user"));
-        binding.tvDetails.setText(bundle.getString("details"));
-        binding.tvDescription.setText(bundle.getString("description"));
-        binding.tvTime.setText(bundle.getString("time"));
-        binding.tvVideo.setText(bundle.getString("video"));
-        String loc = bundle.getString("loc");
-        binding.tvLocation.setText(loc);
-
-        Glide.with(getContext())
-                .load(bundle.getString("pfp"))
-                .circleCrop()
-                .into(binding.ivProfile);
-        Glide.with(getContext())
-                .load(bundle.getString("image"))
-                .fitCenter() // scale image to fill the entire ImageView
-                .transform(new RoundedCornersTransformation(30, 10))
-                .into(binding.ivImage);
-        binding.tvTime.setText(bundle.getString("time"));
+        getPost(postId); // sets up the view
+        setButtons(); // shows correct status of like/save
 
         RelativeLayout likeBar = view.findViewById(R.id.likeBar);
         likeBar.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +164,23 @@ public class DetailsFragment extends Fragment {
                 }
             }
         });
+
+        binding.btnList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!items.isEmpty()) {
+                    openDialog(items);
+                } else {
+                    Toast.makeText(getContext(), "No List Available!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void openDialog(List<String> items) {
+        ViewDetailsDialog dialog = ViewDetailsDialog.newInstance(items);
+        dialog.setTargetFragment(DetailsFragment.this, 1);
+        dialog.show(getFragmentManager(), "ViewDetailsDialog");
     }
 
     private void savePost() {
@@ -200,15 +202,86 @@ public class DetailsFragment extends Fragment {
 
     private void getPost(String postId) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.include(Post.KEY_FOOD);
+        query.include(Post.KEY_FIT);
         query.whereEqualTo("objectId", postId);
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
                     currPost = objects.get(0);
+                    loadPost(currPost.getType());
                 }
             }
         });
+    }
+    private void loadPost(String type) {
+        if (type.equals("food")) {
+            try {
+                loadPostDetails(currPost.getFood().fetchIfNeeded());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                loadPostDetails(currPost.getFitness().fetchIfNeeded());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadPostDetails(IPost fp) {
+        if (fp instanceof FoodPost) {
+            binding.tvType.setText("FOOD");
+            binding.tvType.setTextColor(Color.parseColor("#8BC34A"));
+            binding.btnList.setText("Get Ingredients");
+            binding.tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
+            try {
+                if(((FoodPost)fp).getRecipe() != null) {
+                    items.addAll(((FoodPost)fp).getRecipe());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (fp instanceof FitnessPost) {
+            binding.tvType.setText("FITNESS");
+            binding.tvType.setTextColor(Color.parseColor("#3F51B5"));
+            binding.btnList.setText("Get Workout");
+            binding.tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
+        }
+        try {
+            binding.tvUsername.setText(fp.getUser().fetchIfNeeded().getUsername());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        binding.tvDescription.setText(fp.getDescription());
+        binding.tvCategory.setText(fp.getCategory());
+        binding.tvTime.setText(Methods.calculateTimeAgo(fp.getCreatedAt()));
+        if (fp.getLoc() != null) {
+            binding.locPointer.setVisibility(View.VISIBLE);
+            binding.tvLocation.setText(fp.getLoc());
+        } else {
+            binding.tvLocation.setText("");
+            binding.locPointer.setVisibility(View.GONE);
+        }
+        if (fp.getVideo() != null) {
+            binding.tvVideo.setText(fp.getVideo());
+        }
+        Glide.with(getContext())
+                .load(fp.getUser().getParseFile("pfp").getUrl())
+                .circleCrop()
+                .into(binding.ivProfile);
+        Glide.with(getContext())
+                .load(fp.getImage().getUrl())
+                .fitCenter()
+                .transform(new RoundedCornersTransformation(30, 10))
+                .into(binding.ivImage);
+
+
+        v.setVisibility(View.VISIBLE);
     }
 
     private void setButtons() {

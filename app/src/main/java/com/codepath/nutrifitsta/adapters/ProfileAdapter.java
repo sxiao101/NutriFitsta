@@ -68,9 +68,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         private TextView tvTime;
         private ImageView ivImage;
         private String imageUrl;
-        private String video;
-        private String description;
-        private String loc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,28 +83,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
                     Bundle bundle = new Bundle();
                     int position = getAdapterPosition();
                     Post post = posts.get(position);
-                    bundle.putString("type", post.getType());
-                    bundle.putString("postId", post.getPostId());
-                    try {
-                        bundle.putString("user", post.getUser().fetchIfNeeded().getUsername());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    bundle.putString("category", tvCategory.getText().toString());
-                    bundle.putString("details", tvDetails.getText().toString());
-                    bundle.putString("time", tvTime.getText().toString());
-                    bundle.putString("image", imageUrl);
-                    bundle.putString("video", video);
-                    bundle.putString("description", description);
-                    bundle.putString("loc", loc);
-                    bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
-                    bundle.putString("userId", post.getUser().getObjectId());
-
+                    bundle.putString("postId", post.getObjectId());
+                    bundle.putString("user", post.getUser().getUsername());
                     DetailsFragment details = new DetailsFragment();
                     details.setArguments(bundle);
-
                     ((MainActivity)context).switchContent(R.id.flContainer, details);
-
                 }
             });
         }
@@ -115,11 +95,18 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         public void bind(Post post) {
             String type = post.getType();
             if (type.equals("food")) {
-                bindPost(post.getFood());
+                try {
+                    bindPost(post.getFood().fetchIfNeeded());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             } else {
-                bindPost(post.getFitness());
+                try {
+                    bindPost(post.getFitness().fetchIfNeeded());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
-
         }
 
         public void bindPost(IPost fp) {
@@ -146,9 +133,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
             } else {
                 ivImage.setVisibility(View.GONE);
             }
-            video = fp.getVideo();
-            description = fp.getDescription();
-            loc = fp.getLoc();
         }
     }
 }

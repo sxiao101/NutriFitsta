@@ -47,7 +47,11 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONArray;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,6 +62,7 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
     private String photoFileName= "photo.jpg";
     ActivityResultLauncher<Intent> someActivityResultLauncher;
     FragmentFoodComposeBinding binding;
+    private List<String> recipe;
 
     public FoodComposeFragment() {
         // Required empty public constructor
@@ -81,6 +86,7 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(myAdapter);
 
+        recipe = new ArrayList<>();
         binding.ivPostImage.setVisibility(View.GONE);
         binding.ibCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +138,7 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
         });
     }
 
-    // Call this method to launch the edit dialog
+    // launch the edit dialog
     private void openDialog() {
         ComposeListDialog dialog = ComposeListDialog.newInstance("food");
         dialog.setTargetFragment(FoodComposeFragment.this, 1);
@@ -141,10 +147,12 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
 
     // This is called when the dialog is completed and the results have been passed
     @Override
-    public void sendInput(String input) {
-
-        Log.d(TAG, "sendInput: found incoming input: " + input);
-        Toast.makeText(getContext(), "Entered: " + input, Toast.LENGTH_SHORT).show();
+    public void sendInput(List<String> items, int totalCal) {
+        binding.etNutrition.setText("" + totalCal);
+        recipe.addAll(items);
+        Toast.makeText(getContext(), "Recipe added!", Toast.LENGTH_SHORT).show();
+        binding.btnRecipe.setText("Recipe Added");
+        binding.btnRecipe.setClickable(false);
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {
@@ -157,8 +165,15 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
         }
         fp.setCategory(binding.spinner.getSelectedItem().toString());
         fp.setNutrition(Integer.parseInt(binding.etNutrition.getText().toString()));
-        fp.setVideo(binding.etVideo.getText().toString());
-        fp.setLoc(binding.etLocation.getText().toString());
+        if (!binding.etVideo.getText().toString().isEmpty()) {
+            fp.setLoc(binding.etVideo.getText().toString());
+        }
+        if (!binding.etLocation.getText().toString().isEmpty()) {
+            fp.setLoc(binding.etLocation.getText().toString());
+        }
+        if (!recipe.isEmpty()) {
+            fp.setRecipe(new JSONArray(recipe));
+        }
         fp.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -181,8 +196,6 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
                             Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
                         }
                         Log.i(TAG, "Outer Post save was successful!");
-                        //etDescription.setText("");
-                        //ivPostImage.setImageResource(0);
                         goMainActivity();
                     }
                 });

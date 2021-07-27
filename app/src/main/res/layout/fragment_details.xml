@@ -22,9 +22,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:text="FOOD"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="FOOD" />
 
             <ImageView
                 android:id="@+id/ivProfile"
@@ -49,10 +49,10 @@
                 android:layout_marginBottom="0dp"
                 android:layout_toEndOf="@+id/ivProfile"
                 android:gravity="center_vertical"
-                android:text="shannonxiao101"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="shannonxiao101" />
 
             <TextView
                 android:id="@+id/tvCategory"
@@ -62,10 +62,10 @@
                 android:layout_marginTop="-5dp"
                 android:fontFamily="@font/allerta_stencil"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="Lunch"
                 android:textColor="@color/black"
                 android:textSize="30dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="Lunch" />
 
 
             <ImageView
@@ -127,6 +127,15 @@
                 android:layout_marginTop="5dp"
                 android:background="#888888" />
 
+            <Button
+                android:id="@+id/btnList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/likeBar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                tools:text="recipe" />
+
             <ImageView
                 android:id="@+id/locPointer"
                 android:layout_width="wrap_content"
@@ -140,42 +149,42 @@
                 android:id="@+id/tvLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/likeBar"
+                android:layout_below="@id/btnList"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="35dp"
                 android:layout_toStartOf="@+id/tvDetails"
                 android:gravity="center_vertical"
                 android:maxWidth="100dp"
-                android:text="Chipotle"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="Chipotle" />
 
 
             <TextView
                 android:id="@+id/tvDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/likeBar"
+                android:layout_below="@id/btnList"
                 android:layout_alignBottom="@id/tvVideo"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
-                android:text="450 cal"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:text="450 cal" />
 
             <TextView
                 android:id="@+id/tvVideo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/likeBar"
+                android:layout_below="@+id/btnList"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/tvDetails"
                 android:autoLink="all"
                 android:linksClickable="true"
                 android:minHeight="25dp"
-                android:text="youtube.com" />
+                tools:text="youtube.com" />
 
             <TextView
                 android:id="@+id/tvDescription"
@@ -185,12 +194,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="15dp"
                 android:maxHeight="150dp"
-                android:text="TextView"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="Description" />
 
             <TextView
                 android:id="@+id/tvTime"
@@ -199,8 +208,9 @@
                 android:layout_below="@id/tvDescription"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
-                android:text="10 m ago"
-                android:textSize="14sp" />
+                android:layout_marginBottom="10dp"
+                android:textSize="14sp"
+                tools:text="10 m ago" />
 
             <ImageButton
                 android:id="@+id/ibSave"

@@ -55,7 +55,7 @@ public class ComposeListDialog extends DialogFragment {
 
     // Defines the listener interface
     public interface ComposeDialogListener {
-        void sendInput(String inputText);
+        void sendInput(List<String> items, int totalCal);
     }
 
     public ComposeDialogListener dialogListener;
@@ -100,10 +100,8 @@ public class ComposeListDialog extends DialogFragment {
         mActionOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: capturing input");
-                String input = etItem.getText().toString();
-                if(!input.equals("")){
-                    dialogListener.sendInput(input);
+                if(items.size() > 0){
+                    dialogListener.sendInput(items, total_cal);
                 }
                 getDialog().dismiss();
             }

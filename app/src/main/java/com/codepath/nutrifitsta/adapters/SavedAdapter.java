@@ -72,9 +72,6 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
         private TextView tvVideo;
         private ImageView ivProfile;
         private ImageView locPointer;
-        private String loc;
-        private String time;
-        private String imageUrl;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,25 +92,9 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
                     Bundle bundle = new Bundle();
                     int position = getAdapterPosition();
                     Post post = posts.get(position);
-                    bundle.putString("type", post.getType());
                     bundle.putString("postId", post.getObjectId());
-                    try {
-                        bundle.putString("user", post.getUser().fetchIfNeeded().getUsername());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    bundle.putString("pfp", post.getUser().getParseFile("pfp").getUrl());
-                    bundle.putString("category", tvCategory.getText().toString());
-                    bundle.putString("details", tvDetails.getText().toString());
-                    bundle.putString("description", tvDescription.getText().toString());
-                    bundle.putString("video", tvVideo.getText().toString());
-                    bundle.putString("loc", tvLocation.getText().toString());
-                    bundle.putString("time", time);
-                    bundle.putString("image", imageUrl);
-                    bundle.putString("userId", post.getUser().getObjectId());
                     DetailsFragment details = new DetailsFragment();
                     details.setArguments(bundle);
-
                     ((MainActivity)context).switchContent(R.id.flContainer, details);
                 }
             });
@@ -189,8 +170,6 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
                     .fitCenter() // scale image to fill the entire ImageView
                     .transform(new RoundedCornersTransformation(30, 10))
                     .into(ivImage);
-            imageUrl = fp.getImage().getUrl();
-            time = Methods.calculateTimeAgo(fp.getCreatedAt());
         }
     }
 }

@@ -137,7 +137,7 @@
                 android:layout_alignBottom="@id/etVideo"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/etVideo"
-                android:text="enter recipe" />
+                android:text="enter ingred." />
         </RelativeLayout>
     </ScrollView>
 

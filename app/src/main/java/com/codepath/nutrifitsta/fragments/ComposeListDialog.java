@@ -50,13 +50,13 @@ public class ComposeListDialog extends DialogFragment {
     private Button btnAdd;
     private RecyclerView rvItems;
     ItemsAdapter itemsAdapter;
-    List<String> items;
-    List<Integer> itemsCal;
-    Integer total_cal;
+    private static List<String> items;
+    private static List<Integer> itemsCal;
+    private static Integer total_cal;
 
     // Defines the listener interface
     public interface ComposeDialogListener {
-        void sendInput(List<String> items, int totalCal);
+        void sendInput(List<String> items, List<Integer> itemsCal, int totalCal);
     }
 
     public ComposeDialogListener dialogListener;
@@ -65,8 +65,13 @@ public class ComposeListDialog extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static ComposeListDialog newInstance(String input) {
+    public static ComposeListDialog newInstance(String input, List<String> list, List<Integer> listCal, int i) {
         type = input;
+        items = new ArrayList<>();
+        items.addAll(list);
+        itemsCal = new ArrayList<>();
+        itemsCal.addAll(listCal);
+        total_cal = i;
         return new ComposeListDialog();
     }
 
@@ -89,6 +94,7 @@ public class ComposeListDialog extends DialogFragment {
             title.setText("Enter Exercises");
         }
         tvCount = view.findViewById(R.id.tvCount);
+        tvCount.setText(COUNT + total_cal);
         etItem = view.findViewById(R.id.etItem);
         btnAdd = view.findViewById(R.id.btnAdd);
         rvItems = view.findViewById(R.id.rvItems);
@@ -106,7 +112,7 @@ public class ComposeListDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if(items.size() > 0){
-                    dialogListener.sendInput(items, total_cal);
+                    dialogListener.sendInput(items, itemsCal, total_cal);
                 }
                 getDialog().dismiss();
             }
@@ -124,9 +130,6 @@ public class ComposeListDialog extends DialogFragment {
                 Toast.makeText(getContext(), "Item was removed", Toast.LENGTH_SHORT).show();
             }
         };
-        items = new ArrayList<>();
-        itemsCal = new ArrayList<>();
-        total_cal = 0;
         itemsAdapter = new ItemsAdapter(items, onLongClickListener);
         rvItems.setAdapter(itemsAdapter);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));

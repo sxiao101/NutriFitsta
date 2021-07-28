@@ -63,6 +63,8 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
     ActivityResultLauncher<Intent> someActivityResultLauncher;
     FragmentFoodComposeBinding binding;
     private List<String> recipe;
+    private List<Integer> recipeCal;
+    private int cal;
 
     public FoodComposeFragment() {
         // Required empty public constructor
@@ -86,7 +88,9 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinner.setAdapter(myAdapter);
 
+        cal = 0;
         recipe = new ArrayList<>();
+        recipeCal = new ArrayList<>();
         binding.ivPostImage.setVisibility(View.GONE);
         binding.ibCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,19 +144,21 @@ public class FoodComposeFragment extends Fragment implements ComposeListDialog.C
 
     // launch the edit dialog
     private void openDialog() {
-        ComposeListDialog dialog = ComposeListDialog.newInstance("food");
+        ComposeListDialog dialog = ComposeListDialog.newInstance("food", recipe, recipeCal, cal);
         dialog.setTargetFragment(FoodComposeFragment.this, 1);
         dialog.show(getFragmentManager(), "ComposeListDialog");
     }
 
     // This is called when the dialog is completed and the results have been passed
     @Override
-    public void sendInput(List<String> items, int totalCal) {
+    public void sendInput(List<String> items, List<Integer> itemsCal, int totalCal) {
         binding.etNutrition.setText("" + totalCal);
+        cal = totalCal;
+        recipe.clear();
         recipe.addAll(items);
+        recipeCal.clear();
+        recipeCal.addAll(itemsCal);
         Toast.makeText(getContext(), "Recipe added!", Toast.LENGTH_SHORT).show();
-        binding.btnList.setText("Recipe Added");
-        binding.btnList.setClickable(false);
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {

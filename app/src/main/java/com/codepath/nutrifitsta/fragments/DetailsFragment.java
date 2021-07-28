@@ -179,7 +179,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void openDialog(List<String> items) {
-        ViewDetailsDialog dialog = ViewDetailsDialog.newInstance(items, totalCal);
+        ViewDetailsDialog dialog = ViewDetailsDialog.newInstance(items, totalCal, currPost.getType());
         dialog.setTargetFragment(DetailsFragment.this, 1);
         dialog.show(getFragmentManager(), "ViewDetailsDialog");
     }

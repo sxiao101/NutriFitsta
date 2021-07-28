@@ -30,6 +30,7 @@ public class ViewDetailsDialog extends DialogFragment {
     public static final String TAG = "DetailsDialog";
     private static List<String> items;
     private static int cal;
+    private static String type;
     private TextView tvCal, mActionExit;
     private RecyclerView rvItems;
     ItemsAdapter itemsAdapter;
@@ -38,10 +39,11 @@ public class ViewDetailsDialog extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static ViewDetailsDialog newInstance(List<String> list, Integer totalCal) {
+    public static ViewDetailsDialog newInstance(List<String> list, Integer totalCal, String t) {
         items = new ArrayList<>();
         items.addAll(list);
         cal = totalCal;
+        type = t;
         return new ViewDetailsDialog();
     }
 
@@ -58,7 +60,11 @@ public class ViewDetailsDialog extends DialogFragment {
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         TextView title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("Ingredients");
+        if (type.equals("food")) {
+            title.setText("Ingredients");
+        } else {
+            title.setText("Exercises");
+        }
         mActionExit = view.findViewById(R.id.action_exit);
         mActionExit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -62,6 +62,7 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
     ActivityResultLauncher<Intent> someActivityResultLauncher;
     FragmentFitnessComposeBinding binding;
     private List<String> workout;
+    private List<Integer> workoutCal;
     private int cal;
 
     public FitnessComposeFragment() {
@@ -88,6 +89,8 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
         binding.spinner.setAdapter(myAdapter);
 
         workout = new ArrayList<>();
+        workoutCal = new ArrayList<>();
+        cal = 0;
         binding.ivPostImage.setVisibility(View.GONE);
         binding.ibCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,19 +147,20 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
 
     // launch the edit dialog
     private void openDialog() {
-        ComposeListDialog dialog = ComposeListDialog.newInstance("fitness");
+        ComposeListDialog dialog = ComposeListDialog.newInstance("fitness", workout, workoutCal, cal);
         dialog.setTargetFragment(FitnessComposeFragment.this, 1);
         dialog.show(getFragmentManager(), "ComposeListDialog");
     }
 
     // This is called when the dialog is completed and the results have been passed
     @Override
-    public void sendInput(List<String> items, int totalCal) {
+    public void sendInput(List<String> items, List<Integer> itemsCal, int totalCal) {
         cal = totalCal;
+        workout.clear();
         workout.addAll(items);
+        workoutCal.clear();
+        workoutCal.addAll(itemsCal);
         Toast.makeText(getContext(), "Exercises added!", Toast.LENGTH_SHORT).show();
-        binding.btnList.setText("Exercises Added");
-        binding.btnList.setClickable(false);
     }
 
     private void savePost(String description, ParseUser currentUser, boolean hasPic) {

@@ -29,14 +29,14 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 * Users can log activities to their profile
 * Users can upload/take 1 picture of their activities for their log
 * Users can add a youtube link for recipe/workout
-* Users can search for other users and see their profiles
+* Users can view their own profile
 * Users can see other users' post on a timeline feed
 * Users can like a post
-* Users can view their own profile
+* * Users can save posts and see all of their saved posts in a screen
 
 **Optional Nice-to-have Stories**
 * Users can filter their timeline (i.e. only exercise posts, only food posts, only exercise posts under 10 minutes, etc.)
-* Users can save posts and see all of their saved posts in a screen
+* Users can search for other users and see their profiles
 * Users can easily search up nutritional information when adding details for each post (3rd party API)
 * Users can set goals for themselves and recieve notifications/reports on their progress
 * Users can receive notifications of others interacting with their profile

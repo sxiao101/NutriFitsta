@@ -122,10 +122,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivImage"
-            android:layout_alignBottom="@id/tvVideo"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center_horizontal"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -136,14 +136,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivImage"
+            android:layout_alignBottom="@id/tvDetails"
             android:layout_marginStart="35dp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
             android:layout_toEndOf="@+id/tvDetails"
             android:autoLink="all"
+            android:clickable="true"
+            android:cursorVisible="true"
+            android:gravity="center_vertical"
             android:linksClickable="true"
-            android:minHeight="25dp"
-            tools:text="youtube.com" />
+            android:text="Link"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvTime"

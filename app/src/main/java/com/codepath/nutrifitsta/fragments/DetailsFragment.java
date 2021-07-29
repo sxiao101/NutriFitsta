@@ -1,10 +1,13 @@
 package com.codepath.nutrifitsta.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -99,7 +102,7 @@ public class DetailsFragment extends Fragment {
                     avd = (AnimatedVectorDrawable) drawable;
                     avd.start();
                     if (!binding.ibLike.isSelected()) {
-                        savePost();
+                        likePost();
                     }
                     return super.onDoubleTapEvent(e);
                 }
@@ -121,7 +124,7 @@ public class DetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!binding.ibLike.isSelected()) { //like it and update Parse database
-                    savePost();
+                    likePost();
                 } else {
                     like.deleteInBackground(new DeleteCallback() {
                         @Override
@@ -184,7 +187,7 @@ public class DetailsFragment extends Fragment {
         dialog.show(getFragmentManager(), "ViewDetailsDialog");
     }
 
-    private void savePost() {
+    private void likePost() {
         PostActions p = new PostActions();
         p.setUser(ParseUser.getCurrentUser());
         p.setPostId(postId);
@@ -271,7 +274,18 @@ public class DetailsFragment extends Fragment {
             binding.locPointer.setVisibility(View.GONE);
         }
         if (fp.getVideo() != null) {
-            binding.tvVideo.setText(fp.getVideo());
+            binding.tvVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Uri uriUrl = Uri.parse(fp.getVideo());
+                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                    getContext().startActivity(launchBrowser);
+                }
+            });
+            binding.tvVideo.setPaintFlags(binding.tvVideo.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            binding.tvVideo.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvVideo.setVisibility(View.GONE);
         }
         Glide.with(getContext())
                 .load(fp.getUser().getParseFile("pfp").getUrl())

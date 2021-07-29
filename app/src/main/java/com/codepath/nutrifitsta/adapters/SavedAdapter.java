@@ -1,7 +1,10 @@
 package com.codepath.nutrifitsta.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -159,7 +162,18 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
                 locPointer.setVisibility(View.GONE);
             }
             if (fp.getVideo() != null) {
-                tvVideo.setText(fp.getVideo());
+                tvVideo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uriUrl = Uri.parse(fp.getVideo());
+                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                        context.startActivity(launchBrowser);
+                    }
+                });
+                tvVideo.setPaintFlags(tvVideo.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                tvVideo.setVisibility(View.VISIBLE);
+            } else {
+                tvVideo.setVisibility(View.GONE);
             }
             Glide.with(context)
                     .load(fp.getUser().getParseFile("pfp").getUrl())

@@ -111,7 +111,8 @@ public class ProfileFragment extends Fragment {
             btnEditProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    launchCamera();
+                    photoFile = Methods.getPhotoFileUri(getContext(), photoFileName, TAG);
+                    Methods.launchCamera(photoFile, getContext(), TAG, someActivityResultLauncher) ;
                 }
             });
         }
@@ -138,20 +139,6 @@ public class ProfileFragment extends Fragment {
                         }
                     }
                 });
-    }
-
-
-    private void launchCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference for future access
-        photoFile = Methods.getPhotoFileUri(getContext(), photoFileName, TAG);
-        // wrap File object into a content provider
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.NUTRIFITSTA", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            // Start the image capture intent to take photo
-            someActivityResultLauncher.launch(intent);
-        }
     }
 
     private void load(ParseUser user) {

@@ -29,20 +29,19 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 * Users can log activities to their profile
 * Users can upload/take 1 picture of their activities for their log
 * Users can add a youtube link for recipe/workout
-* Users can search for other users and see their profiles
+* Users can view their own profile
 * Users can see other users' post on a timeline feed
 * Users can like a post
-* Users can view their own profile
+* * Users can save posts and see all of their saved posts in a screen
 
 **Optional Nice-to-have Stories**
-* Users can filter their timeline (i.e. only exercise posts, only food posts, only exercise posts under 10 minutes, vegetarian meals, etc.)
-* Users can save posts and see all of their saved posts in a screen
-* Users can search up and add nutritional information about their meals
+* Users can filter their timeline (i.e. only exercise posts, only food posts, only exercise posts under 10 minutes, etc.)
+* Users can search for other users and see their profiles
+* Users can easily search up nutritional information when adding details for each post (3rd party API)
 * Users can set goals for themselves and recieve notifications/reports on their progress
 * Users can receive notifications of others interacting with their profile
 * Users can comment on a post
 * Users can upload multiple images/videos
-* Users can change the privacy setting of their profile or individual posts
 * Users will have an explore page of other user profiles with similar goals
 
 ### 2. Screen Archetypes
@@ -193,5 +192,5 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 * Creation Screen
     * (Create/POST) Create a new post object
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
-
+* https://trackapi.nutritionix.com/docs/#/default/put_v2_log_
 * https://spoonacular.com/food-api

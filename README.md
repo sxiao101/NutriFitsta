@@ -192,5 +192,5 @@ NutriFitsta is an app that give anyone interested in health & fitness a platform
 * Creation Screen
     * (Create/POST) Create a new post object
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
-
+* https://trackapi.nutritionix.com/docs/#/default/put_v2_log_
 * https://spoonacular.com/food-api

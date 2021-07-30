@@ -95,6 +95,7 @@ public class ProfileFragment extends Fragment {
         if (bundle != null) {
            // ((MainActivity)getContext()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); //not working
             btnEditProfile.setVisibility(View.GONE);
+            btnChart.setVisibility(View.GONE);
 
             String userId = bundle.getString("user");
             Log.i("ProfileFragment", userId);
@@ -117,6 +118,7 @@ public class ProfileFragment extends Fragment {
                     Methods.launchCamera(photoFile, getContext(), TAG, someActivityResultLauncher) ;
                 }
             });
+            btnChart.setVisibility(View.VISIBLE);
             btnChart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

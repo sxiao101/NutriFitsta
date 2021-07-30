@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="5dp"
     android:background="#EBEEF1">
 
     <RelativeLayout
         android:id="@+id/border"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/dialog_holo_light_frame">
-
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="5dp">
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -85,6 +87,5 @@
             android:background="#888888" />
 
     </RelativeLayout>
-
 </RelativeLayout>
 

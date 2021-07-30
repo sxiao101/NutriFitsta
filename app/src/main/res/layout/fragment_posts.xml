@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.PostsFragment">
+    tools:context=".fragments.PostsFragment"
+    android:background="#EBEEF1">
 
     <Spinner
         android:id="@+id/mySpinner"
@@ -18,7 +19,8 @@
         android:id="@+id/rvPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/mySpinner"/>
+        android:layout_below="@id/mySpinner"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/compose"

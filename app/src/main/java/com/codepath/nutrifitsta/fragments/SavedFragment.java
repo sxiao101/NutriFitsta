@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.MainActivity;
@@ -31,10 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SavedFragment extends Fragment {
-    public static final String TAG = "PostsFragment";
+    public static final String TAG = "SavedFragment";
     private RecyclerView rvSaved;
     private SavedAdapter adapter;
     private List<Post> savedPosts;
+    private TextView message;
 
     public SavedFragment() {
         // Required empty public constructor
@@ -52,6 +54,8 @@ public class SavedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)getContext()).getSupportActionBar().setTitle("Saved");
+        message = view.findViewById(R.id.message);
+        message.setVisibility(View.GONE);
 
         rvSaved = view.findViewById(R.id.rvSaved);
         savedPosts = new ArrayList<>();
@@ -74,8 +78,13 @@ public class SavedFragment extends Fragment {
             @Override
             public void done(List<PostActions> objects, ParseException e) {
                 if (e == null) {
-                    for (PostActions pa: objects) {
-                        savedPosts.add(pa.getPost());
+                    if (objects.isEmpty()) {
+                        message.setVisibility(View.VISIBLE);
+                    } else {
+                        message.setVisibility(View.GONE);
+                        for (PostActions pa : objects) {
+                            savedPosts.add(pa.getPost());
+                        }
                     }
                     adapter.notifyDataSetChanged();
                 }

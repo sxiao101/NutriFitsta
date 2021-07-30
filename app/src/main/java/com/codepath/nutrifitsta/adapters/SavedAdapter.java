@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -43,7 +45,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
     @NonNull
     @Override
     public SavedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_timeline, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_saved, parent, false);
         return new SavedAdapter.ViewHolder(view);
     }
 
@@ -65,29 +67,21 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvType;
         private ImageView ivImage;
-        private TextView tvDescription;
         private TextView tvUsername;
         private TextView tvCategory;
         private TextView tvDetails;
-        private TextView tvLocation;
-        private TextView tvVideo;
         private ImageView ivProfile;
-        private ImageView locPointer;
+        private RelativeLayout border;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvType = itemView.findViewById(R.id.tvType);
             ivImage = itemView.findViewById(R.id.ivImage);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvDetails = itemView.findViewById(R.id.tvDetails);
-            tvLocation = itemView.findViewById(R.id.tvLocation);
-            tvVideo = itemView.findViewById(R.id.tvVideo);
-            locPointer = itemView.findViewById(R.id.locPointer);
             ivProfile = itemView.findViewById(R.id.ivProfile);
+            border = itemView.findViewById(R.id.border);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,7 +106,6 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
                     bundle.putString("user", post.getUser().getObjectId());
                     ProfileFragment profile = new ProfileFragment();
                     profile.setArguments(bundle);
-
                     ((MainActivity)context).switchContent(R.id.flContainer, profile);
 
                 }
@@ -138,13 +131,11 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
 
         public void bindPost(IPost fp) {
             if (fp instanceof FoodPost) {
-                tvType.setText("FOOD");
-                tvType.setTextColor(Color.parseColor("#F4B18C"));
+                border.setBackground(ContextCompat.getDrawable(context, R.drawable.card_edge));
                 tvDetails.setText(((FoodPost)fp).getNutrition() + " cal");
             }
             if (fp instanceof FitnessPost) {
-                tvType.setText("FITNESS");
-                tvType.setTextColor(Color.parseColor("#3B9778"));
+                border.setBackground(ContextCompat.getDrawable(context, R.drawable.card_edge2));
                 tvDetails.setText(((FitnessPost)fp).getDuration() + " min");
             }
             try {
@@ -152,29 +143,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder>{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            tvDescription.setText(fp.getDescription());
             tvCategory.setText(fp.getCategory());
-            if (fp.getLoc() != null) {
-                locPointer.setVisibility(View.VISIBLE);
-                tvLocation.setText(fp.getLoc());
-            } else {
-                tvLocation.setText("");
-                locPointer.setVisibility(View.GONE);
-            }
-            if (fp.getVideo() != null) {
-                tvVideo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Uri uriUrl = Uri.parse(fp.getVideo());
-                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                        context.startActivity(launchBrowser);
-                    }
-                });
-                tvVideo.setPaintFlags(tvVideo.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                tvVideo.setVisibility(View.VISIBLE);
-            } else {
-                tvVideo.setVisibility(View.GONE);
-            }
             Glide.with(context)
                     .load(fp.getUser().getParseFile("pfp").getUrl())
                     .circleCrop()

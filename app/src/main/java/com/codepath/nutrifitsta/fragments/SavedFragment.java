@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,7 +58,7 @@ public class SavedFragment extends Fragment {
         adapter = new SavedAdapter(getContext(), savedPosts);
 
         rvSaved.setAdapter(adapter);
-        rvSaved.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvSaved.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         queryPosts();
     }

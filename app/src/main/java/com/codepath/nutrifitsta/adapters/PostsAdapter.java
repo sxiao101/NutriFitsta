@@ -114,6 +114,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvType, tvDescription, tvUsername, tvCategory, tvDetails, tvLocation, tvVideo, tvTime;
         private ImageView ivImage, ivProfile, locPointer;
+        private View v1, v2;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,6 +129,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvTime = itemView.findViewById(R.id.tvTime);
             locPointer = itemView.findViewById(R.id.locPointer);
             ivProfile = itemView.findViewById(R.id.ivProfile);
+            v1 = itemView.findViewById(R.id.v1);
+            v2 = itemView.findViewById(R.id.v2);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -197,10 +200,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvTime.setText(Methods.calculateTimeAgo(fp.getCreatedAt()));
             if (fp.getLoc() != null) {
                 locPointer.setVisibility(View.VISIBLE);
+                tvLocation.setVisibility(View.VISIBLE);
                 tvLocation.setText(fp.getLoc());
+                v1.setVisibility(View.VISIBLE);
+                v2.setVisibility(View.VISIBLE);
             } else {
-                tvLocation.setText("");
+                tvLocation.setVisibility(View.GONE);
                 locPointer.setVisibility(View.GONE);
+                v1.setVisibility(View.GONE);
+                v2.setVisibility(View.GONE);
             }
             if (fp.getVideo() != null) {
                 tvVideo.setOnClickListener(new View.OnClickListener() {

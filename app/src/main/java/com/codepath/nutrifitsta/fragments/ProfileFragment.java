@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.MainActivity;
 import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
@@ -60,7 +61,7 @@ public class ProfileFragment extends Fragment {
     private List<Post> allPosts;
     private ImageView ivProfile;
     private TextView tvUser;
-    private Button btnEditProfile;
+    private Button btnEditProfile, btnChart;
     private File photoFile;
     private String photoFileName= "photo.jpg";
     ActivityResultLauncher<Intent> someActivityResultLauncher;
@@ -82,6 +83,7 @@ public class ProfileFragment extends Fragment {
         ivProfile = view.findViewById(R.id.ivProfile);
         tvUser = view.findViewById(R.id.tvUser);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
+        btnChart = view.findViewById(R.id.btnChart);
         rvPics = view.findViewById(R.id.rvPics);
         allPosts = new ArrayList<>();
         adapter = new ProfileAdapter(getContext(), allPosts);
@@ -115,6 +117,13 @@ public class ProfileFragment extends Fragment {
                     Methods.launchCamera(photoFile, getContext(), TAG, someActivityResultLauncher) ;
                 }
             });
+            btnChart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity)getContext()).switchContent(R.id.flContainer, new UserActivityFragment());
+                }
+            });
+
         }
 
         getView().setVisibility(View.VISIBLE);

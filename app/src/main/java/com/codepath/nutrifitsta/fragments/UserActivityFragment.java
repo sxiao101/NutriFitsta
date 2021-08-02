@@ -10,7 +10,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.codepath.nutrifitsta.MainActivity;
@@ -38,10 +41,12 @@ import java.util.Map;
 
 public class UserActivityFragment extends Fragment {
     public static final String TAG = "UserActivityFragment";
-
     private static List<Post> posts;
-    private Map<Integer, Integer> daysCount;
-    private LineChart lineChart;
+    private Map<Integer, Integer> count;
+    private static LineChart lineChart;
+    private LimitLine avg_limit;
+    private ArrayList<Entry> val;
+    private Spinner spinner;
 
     public UserActivityFragment() {
         // Required empty public constructor
@@ -62,47 +67,74 @@ public class UserActivityFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Date currentTime = Calendar.getInstance().getTime();
-        Post lastPost = posts.get(posts.size()-1);
-        int maxDays = Methods.calculateDaysAgo(lastPost.getCreatedAt());
-        daysCount = new HashMap<Integer, Integer>();
-
-        for (int d = 0; d <= (maxDays + 1); d++) { // initialize dictionary for the chart dataset
-            daysCount.put(d, 0);
-        }
-
-        for (Post p : posts) {
-            int tempDay = Methods.calculateDaysAgo(p.getCreatedAt());
-            int currentCount = daysCount.get(tempDay);
-            daysCount.put(tempDay, currentCount + 1);
-        }
+        spinner = view.findViewById(R.id.spinner);
+        spinner.setAdapter(new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.timeUnits)));
+        spinner.setSelection(0);
 
         lineChart = view.findViewById(R.id.lineChart);
+        count = new HashMap<Integer, Integer>();
+        val = new ArrayList<>();
+        avg_limit = null;
 
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(false);
         lineChart.getDescription().setEnabled(false);
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        lineChart.animateXY(3000, 3000);
+        createGraph("day");
 
-        ArrayList<Entry> val = new ArrayList<>();
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long itemID) {
+                if (position == 0) {
+                    createGraph("day");
+                } else if (position == 1) {
+                    createGraph("week");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
-        for (Integer key : daysCount.keySet()) {
+    }
 
-            Entry e = new Entry(key, daysCount.get(key));
+    private void createGraph(String time) {
+        String label = (time.equals("day")) ? "Days" : "Weeks";
+        Post lastPost = posts.get(posts.size()-1);
+        int maxTime = Methods.getRelativeTime(lastPost.getCreatedAt(), time);
+
+        int max = (maxTime >= 4) ? maxTime : 4;
+
+        count.clear();
+        for (int d = 0; d <= (max + 1); d++) { // initialize dictionary for the chart dataset
+            count.put(d, 0);
+        }
+
+        for (Post p : posts) {
+            int temp = Methods.getRelativeTime(p.getCreatedAt(), time);
+            int currentCount = count.get(temp);
+            count.put(temp, currentCount + 1);
+        }
+
+        val.clear();
+        for (Integer key : count.keySet()) {
+            Entry e = new Entry(key, count.get(key));
             val.add(e);
         }
 
-        float avg = ((float)posts.size()) / (daysCount.keySet().size());
-        LimitLine avg_limit = new LimitLine(avg, "Average Activity");
+        float avg = ((float)posts.size()) / (maxTime);
+        if(avg_limit != null) {
+            lineChart.getAxisLeft().removeLimitLine(avg_limit);
+        }
+        avg_limit = new LimitLine(avg, "Average Activity");
         avg_limit.setLineWidth(4f);
         avg_limit.enableDashedLine(10f, 10f, 10f);
         avg_limit.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
         avg_limit.setTextSize(15f);
         lineChart.getAxisLeft().addLimitLine(avg_limit);
 
-
-        LineDataSet s1 = new LineDataSet(val, "Post Activity based on Days Ago Created");
+        LineDataSet s1 = new LineDataSet(val, String.format("Post Activity based on %s Ago Created", label));
         s1.setFillAlpha(110);
         s1.setLineWidth(3f);
         s1.setValueTextSize(10f);
@@ -112,5 +144,11 @@ public class UserActivityFragment extends Fragment {
 
         LineData data = new LineData(dataSets);
         lineChart.setData(data);
+
+        lineChart.notifyDataSetChanged();
+        lineChart.animateXY(1500, 1500);
     }
+
+
+
 }

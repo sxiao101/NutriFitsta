@@ -50,13 +50,14 @@ public class Methods {
         return "";
     }
 
-    public static int calculateDaysAgo(Date createdAt) {
+    public static int getRelativeTime(Date createdAt, String s) {
 
         int SECOND_MILLIS = 1000;
         int MINUTE_MILLIS = 60 * SECOND_MILLIS;
         int HOUR_MILLIS = 60 * MINUTE_MILLIS;
         int DAY_MILLIS = 24 * HOUR_MILLIS;
         int WEEK_MILLIS = 7 * DAY_MILLIS;
+        int input = (s.equals("day")) ? DAY_MILLIS : WEEK_MILLIS;
 
         try {
             createdAt.getTime();
@@ -64,7 +65,7 @@ public class Methods {
             long now = System.currentTimeMillis();
 
             final long diff = now - time;
-            return (int) (diff / DAY_MILLIS);
+            return (int) (diff / input);
         } catch (Exception e) {
             Log.i("Error:", "getRelativeDaysAgo failed", e);
             e.printStackTrace();

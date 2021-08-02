@@ -5,9 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".fragments.UserActivityFragment">
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:drawable/editbox_dropdown_light_frame" />
+
     <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lineChart">
-    </com.github.mikephil.charting.charts.LineChart>
+        android:layout_below="@id/spinner"
+        android:layout_marginBottom="10dp"></com.github.mikephil.charting.charts.LineChart>
 </RelativeLayout>

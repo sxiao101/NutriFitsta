@@ -50,6 +50,28 @@ public class Methods {
         return "";
     }
 
+    public static int calculateDaysAgo(Date createdAt) {
+
+        int SECOND_MILLIS = 1000;
+        int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+        int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+        int DAY_MILLIS = 24 * HOUR_MILLIS;
+        int WEEK_MILLIS = 7 * DAY_MILLIS;
+
+        try {
+            createdAt.getTime();
+            long time = createdAt.getTime();
+            long now = System.currentTimeMillis();
+
+            final long diff = now - time;
+            return (int) (diff / DAY_MILLIS);
+        } catch (Exception e) {
+            Log.i("Error:", "getRelativeDaysAgo failed", e);
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     // Returns the File for a photo stored on disk given the fileName
     public static File getPhotoFileUri(Context context, String fileName, String TAG) {
         // Get safe storage directory for photos

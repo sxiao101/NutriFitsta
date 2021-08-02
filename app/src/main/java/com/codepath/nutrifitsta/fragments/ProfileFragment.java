@@ -66,6 +66,10 @@ public class ProfileFragment extends Fragment {
     private String photoFileName= "photo.jpg";
     ActivityResultLauncher<Intent> someActivityResultLauncher;
 
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -122,7 +126,8 @@ public class ProfileFragment extends Fragment {
             btnChart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((MainActivity)getContext()).switchContent(R.id.flContainer, new UserActivityFragment());
+                    UserActivityFragment userActivity = UserActivityFragment.newInstance(allPosts);
+                    ((MainActivity)getContext()).switchContent(R.id.flContainer, userActivity);
                 }
             });
 
@@ -164,13 +169,10 @@ public class ProfileFragment extends Fragment {
     }
 
     private void queryPosts(ParseUser user) {
-        // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.include(Post.KEY_FOOD);
         query.include(Post.KEY_FIT);
-        // limit query to latest 20 items
-        query.setLimit(20);
         query.whereEqualTo(Post.KEY_USER, user);
         query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Post>() {

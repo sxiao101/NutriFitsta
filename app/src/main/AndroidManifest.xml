@@ -14,9 +14,9 @@
     <application
         android:name=".NutriFitstaApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo_size"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_size"
         android:supportsRtl="true"
         android:theme="@style/Theme.NutriFitsta"
         android:screenOrientation="portrait">

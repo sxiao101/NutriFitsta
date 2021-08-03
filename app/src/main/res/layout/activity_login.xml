@@ -6,27 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="300dp"
+        <RelativeLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="false"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="101dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_horizontal"
-            android:text="Welcome Back!"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="60sp" />
+            android:background="@color/mint">
+
+                <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="false"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="125dp"
+                    android:layout_marginBottom="75dp"
+                    android:fontFamily="@font/cabin_sketch"
+                    android:gravity="center_horizontal"
+                    android:text="WELCOME BACK!"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/white"
+                    android:textSize="55dp" />
+
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/etUsername"
             android:layout_width="350dp"
             android:layout_height="40dp"
-            android:layout_below="@id/tvWelcome"
+            android:layout_below="@id/top"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:ems="10"
@@ -35,7 +44,8 @@
             android:paddingStart="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="43dp" />
+            tools:layout_editor_absoluteY="43dp"
+            android:background="@drawable/roundedtextbox"/>
 
         <EditText
             android:id="@+id/etPassword"
@@ -50,7 +60,8 @@
             android:paddingStart="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="43dp" />
+            tools:layout_editor_absoluteY="43dp"
+            android:background="@drawable/roundedtextbox"/>
 
         <Button
             android:id="@+id/btnLogin"
@@ -60,7 +71,7 @@
             android:layout_alignParentStart="false"
             android:layout_alignParentEnd="false"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/roundedbutton"
             android:backgroundTint="#93E9BE"
             android:text="log in"

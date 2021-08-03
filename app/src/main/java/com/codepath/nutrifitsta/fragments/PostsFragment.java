@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,8 +46,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import okhttp3.Headers;
-
 public class PostsFragment extends Fragment {
 
     public static String API_ENDPOINT_FOOD = "https://trackapi.nutritionix.com/v2/natural/nutrients";
@@ -60,6 +59,7 @@ public class PostsFragment extends Fragment {
     private List<Post> posts;
     private List<Post> allPosts;
     private Spinner mySpinner;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +73,18 @@ public class PostsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ((MainActivity)getContext()).getSupportActionBar().setTitle("NutriFitsta");
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryPosts(true);
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         compose = view.findViewById(R.id.compose);
         compose.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +108,7 @@ public class PostsFragment extends Fragment {
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        queryPosts();
+        queryPosts(false);
 
         //spinner selection events
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -115,9 +127,10 @@ public class PostsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
     }
 
-    private void queryPosts() {
+    private void queryPosts(boolean refresh) {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
@@ -136,16 +149,16 @@ public class PostsFragment extends Fragment {
                 for (Post post : objects){
                     Log.i(TAG, "Post: " + post.getPostId());
                 }
-//                if (refresh) {
-//                    adapter.clear();
-//                }
+                if (refresh) {
+                    adapter.clear();
+                }
                 posts.addAll(objects);
                 allPosts.addAll(objects);
                 adapter.notifyDataSetChanged();
-//                if (refresh) {
-//                    // Now we call setRefreshing(false) to signal refresh has finished
-//                    swipeContainer.setRefreshing(false);
-//                }
+                if (refresh) {
+                    //signal refresh has finished
+                    swipeContainer.setRefreshing(false);
+                }
             }
         });
 

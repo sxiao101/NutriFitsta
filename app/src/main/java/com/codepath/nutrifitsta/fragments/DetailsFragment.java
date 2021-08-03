@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import jp.wasabeef.glide.transformations.internal.Utils;
 
 public class DetailsFragment extends Fragment {
     public static final String TAG = "DetailsCompose";
@@ -70,7 +71,6 @@ public class DetailsFragment extends Fragment {
     public DetailsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

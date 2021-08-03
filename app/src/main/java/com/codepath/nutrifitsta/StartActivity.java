@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
 
+import at.markushi.ui.CircleButton;
+
 public class StartActivity extends AppCompatActivity {
-    private TextView tvAppName;
-    private Button btEnter;
+    private ImageView ivLogo;
+    private CircleButton btEnter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,7 @@ public class StartActivity extends AppCompatActivity {
             goMainActivity();
         }
 
-        tvAppName = findViewById(R.id.tvAppName);
+        ivLogo = findViewById(R.id.ivLogo);
         btEnter = findViewById(R.id.btEnter);
         btEnter.setOnClickListener(new View.OnClickListener() {
             @Override

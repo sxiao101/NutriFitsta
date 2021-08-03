@@ -123,7 +123,7 @@ public class UserActivityFragment extends Fragment {
             val.add(e);
         }
 
-        float avg = ((float)posts.size()) / (maxTime);
+        float avg = ((float)posts.size()) / (max);
         if(avg_limit != null) {
             lineChart.getAxisLeft().removeLimitLine(avg_limit);
         }

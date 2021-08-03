@@ -20,10 +20,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NutriFitsta"
         android:screenOrientation="portrait">
-        <activity android:name=".ComposeActivity"></activity>
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".StartActivity">
+        <activity android:name=".ComposeActivity"
+            android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".SignUpActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".LoginActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".StartActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan">
         </activity>
 

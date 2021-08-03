@@ -173,7 +173,7 @@ public class FitnessComposeFragment extends Fragment implements ComposeListDialo
         }
         fp.setCategory(binding.spinner.getSelectedItem().toString());
         if (!binding.etVideo.getText().toString().isEmpty()) {
-            fp.setLoc(binding.etVideo.getText().toString());
+            fp.setVideo(binding.etVideo.getText().toString());
         }
         if (!binding.etLocation.getText().toString().isEmpty()) {
             fp.setLoc(binding.etLocation.getText().toString());

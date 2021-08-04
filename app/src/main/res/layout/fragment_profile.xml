@@ -40,33 +40,100 @@
             android:textStyle="bold"
             tools:text="shannonxiao101" />
 
-        <Button
-            android:id="@+id/btnEditProfile"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivProfile"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/roundedbutton"
-            android:text="Edit Profile" />
+            android:id="@+id/stats"
+            android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/btnChart"
+            <RelativeLayout
+                android:id="@+id/avgFood"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvAvgFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="200"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvUnitFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvAvgFood"
+                    android:layout_centerHorizontal="true"
+                    android:text="Avg cal/meal"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/avgFood"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvAvgFit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="40"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvUnitFit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvAvgFit"
+                    android:layout_centerHorizontal="true"
+                    android:text="Avg min/workout"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnEditProfile"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="21dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/roundedbutton"
-            android:text="User Activity Log" />
+            android:id="@+id/buttons"
+            android:layout_below="@id/stats"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="false"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/roundedbutton"
+                android:text="Edit Profile" />
+
+            <Button
+                android:id="@+id/btnChart"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="false"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@id/btnEditProfile"
+                android:background="@drawable/roundedbutton"
+                android:text="Activity Log" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

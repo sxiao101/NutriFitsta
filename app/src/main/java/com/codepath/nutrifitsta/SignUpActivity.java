@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,15 +20,17 @@ import com.codepath.nutrifitsta.databinding.ActivitySignUpBinding;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.royrodriguez.transitionbutton.TransitionButton;
 
 public class SignUpActivity extends AppCompatActivity {
 
     public static final String TAG = "SignUpActivity";
+    private static ActivitySignUpBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivitySignUpBinding binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -39,19 +42,35 @@ public class SignUpActivity extends AppCompatActivity {
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Start the loading animation when the user tap the button
                 Log.i(TAG, "onCLick signup button");
-                String username = binding.etUsername.getText().toString();
-                String password = binding.etPassword.getText().toString();
-                String password2 = binding.etPassword2.getText().toString();
-
-                if (!(password.equals(password2))) {
-                    Toast.makeText(SignUpActivity.this, "Passwords do not match!", Toast.LENGTH_LONG).show();
-                } else {
-                    signUpUser(username, password);
-                }
+                binding.btnRegister.startAnimation();
+                // Do your networking task or background work here.
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean isSuccessful = true;
+                        // Choose a stop animation if your call was succesful or not
+                        if (isSuccessful) {
+                            String username = binding.etUsername.getText().toString();
+                            String password = binding.etPassword.getText().toString();
+                            String password2 = binding.etPassword2.getText().toString();
+                            if (!(password.equals(password2))) {
+                                binding.btnRegister.stopAnimation(TransitionButton.StopAnimationStyle.SHAKE, null);
+                                Toast.makeText(SignUpActivity.this, "Passwords do not match!", Toast.LENGTH_LONG).show();
+                            } else {
+                                signUpUser(username, password);
+                            }
+                        } else {
+                            binding.btnRegister.stopAnimation(TransitionButton.StopAnimationStyle.SHAKE, null);
+                        }
+                    }
+                }, 2000);
             }
         });
     }
+
 
     private void signUpUser(String username, String password) {
         Log.i(TAG, "Attempting to sign up user" + username);
@@ -64,17 +83,24 @@ public class SignUpActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e != null) {
+                    binding.btnRegister.stopAnimation(TransitionButton.StopAnimationStyle.SHAKE, null);
                     Log.e(TAG, "Issue with sign up", e);
                     Toast.makeText(SignUpActivity.this, "Issue with Sign Up!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                startMainActivity();
+                binding.btnRegister.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, new TransitionButton.OnAnimationStopEndListener() {
+                    @Override
+                    public void onAnimationStopEnd() {
+                        startMainActivity();
+                    }
+                });
             }
         });
     }
 
     private void startMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
         finish();
     }

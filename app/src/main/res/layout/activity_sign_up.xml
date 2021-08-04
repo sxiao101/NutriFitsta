@@ -89,19 +89,18 @@
         tools:layout_editor_absoluteY="43dp"
         android:background="@drawable/roundedtextbox"/>
 
-    <Button
+    <com.royrodriguez.transitionbutton.TransitionButton
         android:id="@+id/btnRegister"
+        android:layout_below="@id/etPassword2"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etPassword2"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentEnd="false"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/roundedbutton"
-        android:backgroundTint="#93E9BE"
         android:text="register"
-        android:textColor="#FFFFFF" />
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/roundedbutton"
+        app:defaultColor="@color/mint"
+        app:loaderColor="@android:color/white"
+        android:textColor="@android:color/white" />
 
 
 </RelativeLayout>

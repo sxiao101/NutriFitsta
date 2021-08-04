@@ -63,19 +63,18 @@
             tools:layout_editor_absoluteY="43dp"
             android:background="@drawable/roundedtextbox"/>
 
-        <Button
+        <com.royrodriguez.transitionbutton.TransitionButton
             android:id="@+id/btnLogin"
+            android:layout_below="@id/etPassword"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/etPassword"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentEnd="false"
-            android:layout_centerHorizontal="true"
+            android:text="Login"
             android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/roundedbutton"
-            android:backgroundTint="#93E9BE"
-            android:text="log in"
-            android:textColor="#FFFFFF" />
+            app:defaultColor="@color/mint"
+            app:loaderColor="@android:color/white"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/tvSignUp"

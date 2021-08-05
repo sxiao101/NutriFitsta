@@ -146,9 +146,6 @@ public class PostsFragment extends Fragment {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                for (Post post : objects){
-                    Log.i(TAG, "Post: " + post.getPostId());
-                }
                 if (refresh) {
                     adapter.clear();
                 }

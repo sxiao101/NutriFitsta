@@ -179,6 +179,18 @@ public class DetailsFragment extends Fragment {
                 }
             }
         });
+
+        binding.tvUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user", currPost.getUser().getObjectId());
+                ProfileFragment profile = new ProfileFragment();
+                profile.setArguments(bundle);
+                ((MainActivity)getContext()).switchContent(R.id.flContainer, profile);
+
+            }
+        });
     }
 
     private void openDialog(List<String> items) {

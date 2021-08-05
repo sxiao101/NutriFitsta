@@ -41,10 +41,11 @@
             tools:text="shannonxiao101" />
 
         <RelativeLayout
+            android:id="@+id/stats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivProfile"
-            android:id="@+id/stats"
+            android:layout_marginBottom="2dp"
             android:gravity="center_horizontal">
 
             <RelativeLayout
@@ -58,13 +59,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="200"
+                    android:text="--"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvUnitFood"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvAvgFood"
@@ -86,13 +86,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="40"
+                    android:text="--"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvUnitFit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvAvgFit"
@@ -104,9 +103,9 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/buttons"
             android:layout_below="@id/stats"
             android:gravity="center_horizontal">
 

@@ -33,6 +33,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.nutrifitsta.ComposeActivity;
 import com.codepath.nutrifitsta.MainActivity;
+import com.codepath.nutrifitsta.classes.FitnessPost;
+import com.codepath.nutrifitsta.classes.FoodPost;
 import com.codepath.nutrifitsta.classes.Methods;
 import com.codepath.nutrifitsta.classes.Post;
 import com.codepath.nutrifitsta.adapters.ProfileAdapter;
@@ -60,11 +62,12 @@ public class ProfileFragment extends Fragment {
     private ProfileAdapter adapter;
     private List<Post> allPosts;
     private ImageView ivProfile;
-    private TextView tvUser;
+    private TextView tvUser, tvAvgFood, tvAvgFit;
     private Button btnEditProfile, btnChart;
     private File photoFile;
     private String photoFileName= "photo.jpg";
     ActivityResultLauncher<Intent> someActivityResultLauncher;
+    private int totalCal, foodCount, totalDur, fitCount;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -86,11 +89,17 @@ public class ProfileFragment extends Fragment {
 
         ivProfile = view.findViewById(R.id.ivProfile);
         tvUser = view.findViewById(R.id.tvUser);
+        tvAvgFood = view.findViewById(R.id.tvAvgFood);
+        tvAvgFit = view.findViewById(R.id.tvAvgFit);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnChart = view.findViewById(R.id.btnChart);
         rvPics = view.findViewById(R.id.rvPics);
         allPosts = new ArrayList<>();
         adapter = new ProfileAdapter(getContext(), allPosts);
+        totalCal = 0;
+        foodCount = 0;
+        totalDur = 0;
+        fitCount = 0;
 
         rvPics.setAdapter(adapter);
         rvPics.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -164,7 +173,6 @@ public class ProfileFragment extends Fragment {
                 .load(pf.getUrl())
                 .circleCrop()
                 .into(ivProfile);
-
        queryPosts(user);
     }
 
@@ -182,7 +190,28 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
                 for (Post post : posts){
-                    Log.i(TAG, "Post: " + post.getPostId());
+                    String type = post.getType();
+                    if (type.equals("food")) {
+                        foodCount++;
+                        try {
+                            totalCal += ((FoodPost)post.getFood().fetchIfNeeded()).getNutrition();
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
+                    } else {
+                        fitCount++;
+                        try {
+                            totalDur += ((FitnessPost)post.getFitness().fetchIfNeeded()).getDuration();
+                        } catch (ParseException parseException) {
+                            parseException.printStackTrace();
+                        }
+                    }
+                }
+                if (foodCount > 0) {
+                    tvAvgFood.setText("" + (totalCal/foodCount));
+                }
+                if (fitCount > 0) {
+                    tvAvgFit.setText("" + (totalDur/fitCount));
                 }
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
